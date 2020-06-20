@@ -1,5 +1,5 @@
 /* Definitions for Address Resolution Protocol.
-   Copyright (C) 1997-2017 Free Software Foundation, Inc.
+   Copyright (C) 1997-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
    Contributed by Ulrich Drepper <drepper@cygnus.com>, 1997.
 
@@ -101,6 +101,7 @@ struct arphdr
 #define ARPHRD_LAPB	516		/* LAPB.  */
 #define ARPHRD_DDCMP	517		/* Digital's DDCMP.  */
 #define	ARPHRD_RAWHDLC	518		/* Raw HDLC.  */
+#define ARPHRD_RAWIP	519		/* Raw IP.  */
 
 #define ARPHRD_TUNNEL	768		/* IPIP tunnel.  */
 #define ARPHRD_TUNNEL6	769		/* IPIP6 tunnel.  */

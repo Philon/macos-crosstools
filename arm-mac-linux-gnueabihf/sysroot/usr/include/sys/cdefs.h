@@ -1,4 +1,4 @@
-/* Copyright (C) 1992-2017 Free Software Foundation, Inc.
+/* Copyright (C) 1992-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -55,21 +55,29 @@
 #  define __THROW	__attribute__ ((__nothrow__ __LEAF))
 #  define __THROWNL	__attribute__ ((__nothrow__))
 #  define __NTH(fct)	__attribute__ ((__nothrow__ __LEAF)) fct
+#  define __NTHNL(fct)  __attribute__ ((__nothrow__)) fct
 # else
 #  if defined __cplusplus && __GNUC_PREREQ (2,8)
 #   define __THROW	throw ()
 #   define __THROWNL	throw ()
 #   define __NTH(fct)	__LEAF_ATTR fct throw ()
+#   define __NTHNL(fct) fct throw ()
 #  else
 #   define __THROW
 #   define __THROWNL
 #   define __NTH(fct)	fct
+#   define __NTHNL(fct) fct
 #  endif
 # endif
 
 #else	/* Not GCC.  */
 
-# define __inline		/* No inline functions.  */
+# if (defined __cplusplus						\
+      || (defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L))
+#  define __inline	inline
+# else
+#  define __inline		/* No inline functions.  */
+# endif
 
 # define __THROW
 # define __THROWNL
@@ -99,7 +107,6 @@
 
 /* This is not a typedef so `const __ptr_t' does the right thing.  */
 #define __ptr_t void *
-#define __long_double_t  long double
 
 
 /* C++ needs to know that types and declarations are C, not C++.  */
@@ -109,31 +116,6 @@
 #else
 # define __BEGIN_DECLS
 # define __END_DECLS
-#endif
-
-
-/* The standard library needs the functions from the ISO C90 standard
-   in the std namespace.  At the same time we want to be safe for
-   future changes and we include the ISO C99 code in the non-standard
-   namespace __c99.  The C++ wrapper header take case of adding the
-   definitions to the global namespace.  */
-#if defined __cplusplus && defined _GLIBCPP_USE_NAMESPACES
-# define __BEGIN_NAMESPACE_STD	namespace std {
-# define __END_NAMESPACE_STD	}
-# define __USING_NAMESPACE_STD(name) using std::name;
-# define __BEGIN_NAMESPACE_C99	namespace __c99 {
-# define __END_NAMESPACE_C99	}
-# define __USING_NAMESPACE_C99(name) using __c99::name;
-#else
-/* For compatibility we do not add the declarations into any
-   namespace.  They will end up in the global namespace which is what
-   old code expects.  */
-# define __BEGIN_NAMESPACE_STD
-# define __END_NAMESPACE_STD
-# define __USING_NAMESPACE_STD(name)
-# define __BEGIN_NAMESPACE_C99
-# define __END_NAMESPACE_C99
-# define __USING_NAMESPACE_C99(name)
 #endif
 
 
@@ -355,7 +337,7 @@
    semantics.
 
    clang++ identifies itself as gcc-4.2, but has support for GNU inlining
-   semantics, that can be checked fot by using the __GNUC_STDC_INLINE_ and
+   semantics, that can be checked for by using the __GNUC_STDC_INLINE_ and
    __GNUC_GNU_INLINE__ macro definitions.  */
 #if (!defined __cplusplus || __GNUC_PREREQ (4,3) \
      || (defined __clang__ && (defined __GNUC_STDC_INLINE__ \
@@ -391,7 +373,11 @@
 
 /* __restrict is known in EGCS 1.2 and above. */
 #if !__GNUC_PREREQ (2,92)
-# define __restrict	/* Ignore */
+# if defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
+#  define __restrict	restrict
+# else
+#  define __restrict	/* Ignore */
+# endif
 #endif
 
 /* ISO C99 also allows to declare arrays as non-overlapping.  The syntax is
@@ -420,6 +406,12 @@
 # define __glibc_likely(cond)	(cond)
 #endif
 
+#ifdef __has_attribute
+# define __glibc_has_attribute(attr)	__has_attribute (attr)
+#else
+# define __glibc_has_attribute(attr)	0
+#endif
+
 #if (!defined _Noreturn \
      && (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0) < 201112 \
      &&  !__GNUC_PREREQ (4,7))
@@ -428,6 +420,25 @@
 # else
 #  define _Noreturn
 # endif
+#endif
+
+#if __GNUC_PREREQ (8, 0)
+/* Describes a char array whose address can safely be passed as the first
+   argument to strncpy and strncat, as the char array is not necessarily
+   a NUL-terminated string.  */
+# define __attribute_nonstring__ __attribute__ ((__nonstring__))
+#else
+# define __attribute_nonstring__
+#endif
+
+/* Undefine (also defined in libc-symbols.h).  */
+#undef __attribute_copy__
+#if __GNUC_PREREQ (9, 0)
+/* Copies attributes from the declaration or type referenced by
+   the argument.  */
+# define __attribute_copy__(arg) __attribute__ ((__copy__ (arg)))
+#else
+# define __attribute_copy__(arg)
 #endif
 
 #if (!defined _Static_assert && !defined __cplusplus \
@@ -484,6 +495,23 @@
   __glibc_macro_warning1 (GCC warning message)
 #else
 # define __glibc_macro_warning(msg)
+#endif
+
+/* Generic selection (ISO C11) is a C-only feature, available in GCC
+   since version 4.9.  Previous versions do not provide generic
+   selection, even though they might set __STDC_VERSION__ to 201112L,
+   when in -std=c11 mode.  Thus, we must check for !defined __GNUC__
+   when testing __STDC_VERSION__ for generic selection support.
+   On the other hand, Clang also defines __GNUC__, so a clang-specific
+   check is required to enable the use of generic selection.  */
+#if !defined __cplusplus \
+    && (__GNUC_PREREQ (4, 9) \
+	|| __glibc_clang_has_extension (c_generic_selections) \
+	|| (!defined __GNUC__ && defined __STDC_VERSION__ \
+	    && __STDC_VERSION__ >= 201112L))
+# define __HAVE_GENERIC_SELECTION 1
+#else
+# define __HAVE_GENERIC_SELECTION 0
 #endif
 
 #endif	 /* sys/cdefs.h */

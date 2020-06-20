@@ -1,5 +1,5 @@
 /* Handle feature test macros at the start of a header.
-   Copyright (C) 2016-2017 Free Software Foundation, Inc.
+   Copyright (C) 2016-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -58,4 +58,13 @@
 # define __GLIBC_USE_IEC_60559_FUNCS_EXT 1
 #else
 # define __GLIBC_USE_IEC_60559_FUNCS_EXT 0
+#endif
+
+/* ISO/IEC TS 18661-3:2015 defines the
+   __STDC_WANT_IEC_60559_TYPES_EXT__ macro.  */
+#undef __GLIBC_USE_IEC_60559_TYPES_EXT
+#if defined __USE_GNU || defined __STDC_WANT_IEC_60559_TYPES_EXT__
+# define __GLIBC_USE_IEC_60559_TYPES_EXT 1
+#else
+# define __GLIBC_USE_IEC_60559_TYPES_EXT 0
 #endif

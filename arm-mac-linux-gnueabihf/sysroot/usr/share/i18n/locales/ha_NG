@@ -17,7 +17,6 @@ escape_char /
 % Revision: 0.2
 % Date: 2006-02-01
 % Users: general
-% Charset: UTF-8
 
 LC_IDENTIFICATION
 title      "Hausa locale for Nigeria"
@@ -60,96 +59,91 @@ LC_COLLATE
 % order: a, b, b+, c, d, d+, e, f, g, h, i, j, k, k+, l, m, n, o, p
 % q, r, r~, s, sh, t, ts, u, [v], w, [x], 'y, y, z
 
+% CLDR collation rules for Hausa:
+% (see: https://unicode.org/cldr/trac/browser/trunk/common/collation/ha.xml)
+%
+% <collation type="standard" references="Paul Newman: Hausa-English Dictionary ISBN 978-0-300-12246-6">
+%   <cr><![CDATA[
+%     &B<ɓ<<<Ɓ
+%     &D<ɗ<<<Ɗ
+%     &K<ƙ<<<Ƙ
+%     &S<sh<<<Sh<<<SH
+%     &T<ts<<<Ts<<<TS
+%     &Y<ƴ<<<ʼy<<<''y<<<Ƴ<<<ʼY<<<''Y
+%   ]]></cr>
+% </collation>
+%
+% And CLDR also lists the following
+% index characters:
+% (see: https://unicode.org/cldr/trac/browser/trunk/common/main/ha.xml)
+%
+% <exemplarCharacters type="index" draft="contributed">[A B Ɓ C D Ɗ E F G H I J K Ƙ L M N O P Q R S T U V W X Y {ʼY} Z]</exemplarCharacters>
+%
+% The following rules implement the same order for glibc.
+%
+% The original order as described above also had r-tilde (r̃) but
+% as CLDR doesn’t have it, I omit it.
+
 copy "iso14651_t1"
 
-collating-symbol  <s-h-ha>
-collating-element <S-H> from "<U0053><U0048>"
-collating-element <s-h> from "<U0073><U0068>"
-collating-element <S-h> from "<U0053><U0068>"
-collating-element <s-H> from "<U0073><U0048>"
-collating-symbol  <t-s-ha>
-collating-element <T-S> from "<U0054><U0053>"
-collating-element <t-s> from "<U0074><U0073>"
-collating-element <T-s> from "<U0054><U0073>"
-collating-element <t-S> from "<U0074><U0053>"
+collating-symbol  <b-hook>
+collating-symbol  <d-hook>
+collating-symbol  <k-hook>
+collating-symbol  <sh-digraph>
+collating-symbol  <ts-digraph>
 collating-symbol  <'-y-ha>
-collating-element <'1y> from "<U0027><U0079>"
-collating-element <'1Y> from "<U0027><U0059>"
-collating-element <'2y> from "<U2019><U0079>"
-collating-element <'2Y> from "<U2019><U0059>"
-collating-symbol  <rtilde>
-collating-element <r?>  from "<U0072><U0303>"
-collating-element <R?>  from "<U0052><U0303>"
-collating-symbol  <bcurl>
-collating-symbol  <dcurl>
-collating-symbol  <kcurl>
 
-collating-symbol <CAP-MIN>
-collating-symbol <MIN-CAP>
+collating-element <sh> from "sh"
+collating-element <sH> from "sH"
+collating-element <Sh> from "Sh"
+collating-element <SH> from "SH"
+collating-element <ts> from "ts"
+collating-element <tS> from "tS"
+collating-element <Ts> from "Ts"
+collating-element <TS> from "TS"
+collating-element <modifier-letter-apostrophe-y> from "<U02BC>y"
+collating-element <modifier-letter-apostrophe-Y> from "<U02BC>Y"
+collating-element <right-single-quotation-mark-y> from "<U2019>y"
+collating-element <right-single-quotation-mark-Y> from "<U2019>Y"
+collating-element <double-apostrophe-y> from "''y"
+collating-element <double-apostrophe-Y> from "''Y"
 
-reorder-after <MIN>
-<MIN-CAP>
-
-reorder-after <CAP>
-<CAP-MIN>
-
-reorder-after <b>
-<bcurl>
-reorder-after <d>
-<dcurl>
-reorder-after <k>
-<kcurl>
-reorder-after <r>
-<rtilde>
-<s>
-<s-h-ha>
-<t>
-<t-s-ha>
-reorder-after <x>
+reorder-after <AFTER-B>
+<b-hook>
+reorder-after <AFTER-D>
+<d-hook>
+reorder-after <AFTER-K>
+<k-hook>
+reorder-after <AFTER-S>
+<sh-digraph>
+reorder-after <AFTER-T>
+<ts-digraph>
+reorder-after <AFTER-Y>
 <'-y-ha>
 
-reorder-after <U0062>
-<U0253> <bcurl>;<BAS>;<MIN>;IGNORE
-reorder-after <U0042>
-<U0181> <bcurl>;<BAS>;<CAP>;IGNORE
+<U0253>     <b-hook>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ɓ
+<U0181>     <b-hook>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ɓ
+<U0257>     <d-hook>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ɗ
+<U018A>     <d-hook>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ɗ
+<U0199>     <k-hook>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ƙ
+<U0198>     <k-hook>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ƙ
+<sh>    <sh-digraph>;"<BASE><BASE>";"<MIN><MIN>";IGNORE
+<sH>    <sh-digraph>;"<BASE><BASE>";"<MIN><CAP>";IGNORE
+<SH>    <sh-digraph>;"<BASE><BASE>";"<CAP><CAP>";IGNORE
+<Sh>    <sh-digraph>;"<BASE><BASE>";"<CAP><MIN>";IGNORE
+<ts>    <ts-digraph>;"<BASE><BASE>";"<MIN><MIN>";IGNORE
+<tS>    <ts-digraph>;"<BASE><BASE>";"<MIN><CAP>";IGNORE
+<TS>    <ts-digraph>;"<BASE><BASE>";"<CAP><CAP>";IGNORE
+<Ts>    <ts-digraph>;"<BASE><BASE>";"<CAP><MIN>";IGNORE
 
-reorder-after <U0064>
-<U0257> <dcurl>;<BAS>;<MIN>;IGNORE
-reorder-after <U0044>
-<U018A> <dcurl>;<BAS>;<CAP>;IGNORE
-
-reorder-after <U006B>
-<U0199> <kcurl>;<BAS>;<MIN>;IGNORE
-reorder-after <U004B>
-<U0198> <kcurl>;<BAS>;<CAP>;IGNORE
-
-reorder-after <U0072>
-<r?>    <rtilde>;<ACA>;<MIN>;IGNORE
-reorder-after <U0052>
-<R?>    <rtilde>;<ACA>;<CAP>;IGNORE
-
-reorder-after <U0073>
-<s-h>   <s-h-ha>;<PCL>;<MIN>;IGNORE
-<s-H>   <s-h-ha>;<PCL>;<MIN-CAP>;IGNORE
-reorder-after <U0053>
-<S-H>   <s-h-ha>;<PCL>;<CAP>;IGNORE
-<S-h>   <s-h-ha>;<PCL>;<CAP-MIN>;IGNORE
-
-reorder-after <U0074>
-<t-s>   <t-s-ha>;<PCL>;<MIN>;IGNORE
-<t-S>   <t-s-ha>;<PCL>;<MIN-CAP>;IGNORE
-reorder-after <U0054>
-<T-S>   <t-s-ha>;<PCL>;<CAP>;IGNORE
-<T-s>   <t-s-ha>;<PCL>;<CAP-MIN>;IGNORE
-
-reorder-after <U0078>
-<'1y>   <'-y-ha>;<PCL>;<MIN>;IGNORE
-<'2y>   <'-y-ha>;<PCL>;<MIN>;IGNORE
-<U01B4> <'-y-ha>;<PCL>;<MIN>;IGNORE
-reorder-after <U0058>
-<'1Y>   <'-y-ha>;<PCL>;<CAP>;IGNORE
-<'2Y>   <'-y-ha>;<PCL>;<CAP>;IGNORE
-<U01B3> <'-y-ha>;<PCL>;<CAP>;IGNORE
+<U01B4>                         <'-y-ha>;"<BASE><BASE>";"<MIN><VRNT1>";IGNORE % ƴ
+<modifier-letter-apostrophe-y>  <'-y-ha>;"<BASE><BASE>";"<MIN><VRNT2>";IGNORE
+<right-single-quotation-mark-y> <'-y-ha>;"<BASE><BASE>";"<MIN><VRNT3>";IGNORE
+<double-apostrophe-y>           <'-y-ha>;"<BASE><BASE>";"<MIN><VRNT4>";IGNORE
+<U01B3>                         <'-y-ha>;"<BASE><BASE>";"<CAP><VRNT1>";IGNORE % Ƴ
+<modifier-letter-apostrophe-Y>  <'-y-ha>;"<BASE><BASE>";"<CAP><VRNT2>";IGNORE
+<right-single-quotation-mark-Y> <'-y-ha>;"<BASE><BASE>";"<CAP><VRNT3>";IGNORE
+<double-apostrophe-Y>           <'-y-ha>;"<BASE><BASE>";"<CAP><VRNT4>";IGNORE
 
 reorder-end
 
@@ -172,56 +166,50 @@ copy "en_NG"
 END LC_TELEPHONE
 
 LC_TIME
-% Lah, Lit, Tal, Lar, Alh, Jum, Asa
 % maybe "Lhd" "Lrb" => "Lh"/"Lb" on 2letter tables?
-abday       "<U004C><U0061><U0068>";"<U004C><U0069><U0074>";/
-            "<U0054><U0061><U006C>";"<U004C><U0061><U0072>";/
-            "<U0041><U006C><U0068>";"<U004A><U0075><U006D>";/
-            "<U0041><U0073><U0061>"
-% Lahadi, Litini, Talata, Laraba, Alhamis, Juma'a, Asabar
-day         "<U004C><U0061><U0068><U0061><U0064><U0069>";/
-            "<U004C><U0069><U0074><U0069><U006E><U0069>";/
-            "<U0054><U0061><U006C><U0061><U0074><U0061>";/
-            "<U004C><U0061><U0072><U0061><U0062><U0061>";/
-            "<U0041><U006C><U0068><U0061><U006D><U0069><U0073>";/
-            "<U004A><U0075><U006D><U0061><U0027><U0061>";/
-            "<U0041><U0073><U0061><U0062><U0061><U0072>"
-% Jan, Fab, Mar, Afr, May, Yun, Yul, Agu, Sat, Okt, Nuw, Dis
-abmon       "<U004A><U0061><U006E>";"<U0046><U0061><U0062>";/
-            "<U004D><U0061><U0072>";"<U0041><U0066><U0072>";/
-            "<U004D><U0061><U0079>";"<U0059><U0075><U006E>";/
-            "<U0059><U0075><U006C>";"<U0041><U0067><U0075>";/
-            "<U0053><U0061><U0074>";"<U004F><U006B><U0074>";/
-            "<U004E><U0075><U0077>";"<U0044><U0069><U0073>"
-% Janairu, Fabrairu, Maris, Afrilu, Mayu, Yuni,
-% Yuli, Agusta, Satumba, Oktoba, Nuwamba, Disamba
-mon         "<U004A><U0061><U006E><U0061><U0069><U0072><U0075>";/
-            "<U0046><U0061><U0062><U0072><U0061><U0069><U0072><U0075>";/
-            "<U004D><U0061><U0072><U0069><U0073>";/
-            "<U0041><U0066><U0072><U0069><U006C><U0075>";/
-            "<U004D><U0061><U0079><U0075>";/
-            "<U0059><U0075><U006E><U0069>";/
-            "<U0059><U0075><U006C><U0069>";/
-            "<U0041><U0067><U0075><U0073><U0074><U0061>";/
-            "<U0053><U0061><U0074><U0075><U006D><U0062><U0061>";/
-            "<U004F><U006B><U0074><U006F><U0062><U0061>";/
-            "<U004E><U0075><U0077><U0061><U006D><U0062><U0061>";/
-            "<U0044><U0069><U0073><U0061><U006D><U0062><U0061>"
-% ranar %A, %d ga %B cikin %Y %r %Z
-d_t_fmt     "<U0072><U0061><U006E><U0061><U0072><U0020><U0025><U0041><U002C><U0020><U0025><U0064><U0020><U0067><U0061><U0020><U0025><U0042><U0020><U0063><U0069><U006B><U0069><U006E><U0020><U0025><U0072><U0020><U0025><U005A>"
-d_fmt       "<U0025><U0064><U002F><U0025><U006D><U002F><U0025><U0079>"
-t_fmt       "<U0025><U0072>"
-am_pm       "<U0041><U004D>";"<U0050><U004D>"
-t_fmt_ampm  "<U0025><U0049><U003A><U0025><U004D><U003A><U0025><U0053><U0020><U0025><U0070>"
+abday       "Lah";"Lit";/
+            "Tal";"Lar";/
+            "Alh";"Jum";/
+            "Asa"
+day         "Lahadi";/
+            "Litini";/
+            "Talata";/
+            "Laraba";/
+            "Alhamis";/
+            "Juma'a";/
+            "Asabar"
+abmon       "Jan";"Fab";/
+            "Mar";"Afi";/
+            "May";"Yun";/
+            "Yul";"Agu";/
+            "Sat";"Okt";/
+            "Nuw";"Dis"
+mon         "Janairu";/
+            "Faburairu";/
+            "Maris";/
+            "Afirilu";/
+            "Mayu";/
+            "Yuni";/
+            "Yuli";/
+            "Agusta";/
+            "Satumba";/
+            "Oktoba";/
+            "Nuwamba";/
+            "Disamba"
+d_t_fmt     "ranar %A, %d ga %B cikin %r %Z"
+d_fmt       "%d//%m//%y"
+t_fmt       "%r"
+am_pm       "AM";"PM"
+t_fmt_ampm  "%I:%M:%S %p"
 week 7;19971130;1
 first_weekday 2
 END LC_TIME
 
 LC_MESSAGES
-yesexpr "<U005E><U005B><U002B><U0031><U0054><U0074><U0069><U0049><U0059><U0079><U005D>"
-noexpr  "<U005E><U005B><U002D><U0030><U0062><U0042><U0061><U0041><U006E><U004E><U005D>"
-yesstr  "<U0054><U006F><U0068>"
-nostr   "<U0042><U0061><U0062><U0075>"
+yesexpr "^[+1TtiIYy]"
+noexpr  "^[-0bBaAnN]"
+yesstr  "i"
+nostr   "a<U02BC>a"
 END LC_MESSAGES
 
 LC_PAPER
@@ -264,26 +252,21 @@ LC_ADDRESS
 % "end of line",
 % "country designation for the <country_post> keyword",
 % "end of line
-postal_fmt    "<U0025><U0066><U0025><U004E><U0025><U0061><U0025><U004E>/
-<U0025><U0064><U0025><U004E><U0025><U0062><U0025><U004E><U0025><U0073>/
-<U0020><U0025><U0068><U0020><U0025><U0065><U0020><U0025><U0072><U0025>/
-<U004E><U0025><U007A><U0020><U0025><U0054><U0025>/
-<U004E><U0025><U0063><U0025><U004E>"
+postal_fmt    "%f%N%a%N%d%N%b%N%s %h %e %r%N%z %T%N%c%N"
 
-country_name "<U004E><U0061><U006A><U0065><U0072><U0069><U0079><U0061>"
+country_name "Najeriya"
 
-% Language name in Hausa - "Hausa"
-lang_name     "<U0048><U0061><U0075><U0073><U0061>"
+% Language name in Hausa
+lang_name     "Hausa"
 
 % CEPT MAILCODES are suggested
 % Alternatively use the code found on your countries postal item tracking number
 % "NG"?
-%country_post   "<U004E><U0047>"
+%country_post   "NG"
 
 % UN Geneve 1949:68 Distinguishing signs of vehicles in international traffic
 % http://www.unece.org/trans/conventn/Distsigns_Sept2003.pdf
-% "WAN"
-country_car   "<U0057><U0041><U004E>"
+country_car   "WAN"
 
 % ISO 2108
 % http://www.isbn-international.org/
@@ -292,16 +275,14 @@ country_isbn  978
 % ISO 639 language abbreviations:
 % 639-1 2 letter, 639-2 3 letter terminology
 % http://www.loc.gov/standards/iso639-2/englagn.html
-% "ha", "hau"
-lang_ab       "<U0068><U0061>"
-lang_term     "<U0068><U0061><U0075>"
-lang_lib      "<U0068><U0061><U0075>"
+lang_ab       "ha"
+lang_term     "hau"
+lang_lib      "hau"
 
 % ISO 3166 country number and 2 and 3 letter abreviations
 % http://www.unicode.org/onlinedat/countries.html
-% "NG", "NGA"
-country_ab2   "<U004E><U0047>"
-country_ab3   "<U004E><U0047><U0041>"
+country_ab2   "NG"
+country_ab3   "NGA"
 country_num   566
 
 END LC_ADDRESS

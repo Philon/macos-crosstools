@@ -1,4 +1,4 @@
-/* Copyright (C) 1991-2017 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -139,7 +139,7 @@ typedef __pid_t pid_t;
 # define SEEK_END	2	/* Seek from end of file.  */
 #endif	/* XPG */
 
-/* The constants AT_REMOVEDIR and AT_EACCESS have the same value.  AT_EASSESS
+/* The constants AT_REMOVEDIR and AT_EACCESS have the same value.  AT_EACCESS
    is meaningful only to faccessat, while AT_REMOVEDIR is meaningful only to
    unlinkat.  The two functions do completely different things and therefore,
    the flags can be allowed to overlap.  For example, passing AT_REMOVEDIR to
@@ -157,6 +157,10 @@ typedef __pid_t pid_t;
 #  define AT_NO_AUTOMOUNT	0x800	/* Suppress terminal automount
 					   traversal.  */
 #  define AT_EMPTY_PATH		0x1000	/* Allow empty relative pathname.  */
+#  define AT_STATX_SYNC_TYPE	0x6000
+#  define AT_STATX_SYNC_AS_STAT	0x0000
+#  define AT_STATX_FORCE_SYNC	0x2000
+#  define AT_STATX_DONT_SYNC	0x4000
 # endif
 # define AT_EACCESS		0x200	/* Test access permitted for
 					   effective IDs, not real IDs.  */
@@ -167,7 +171,18 @@ typedef __pid_t pid_t;
 
    This function is a cancellation point and therefore not marked with
    __THROW.  */
+#ifndef __USE_FILE_OFFSET64
 extern int fcntl (int __fd, int __cmd, ...);
+#else
+# ifdef __REDIRECT
+extern int __REDIRECT (fcntl, (int __fd, int __cmd, ...), fcntl64);
+# else
+#  define fcntl fcntl64
+# endif
+#endif
+#ifdef __USE_LARGEFILE64
+extern int fcntl64 (int __fd, int __cmd, ...);
+#endif
 
 /* Open FILE and return a new file descriptor for it, or -1 on error.
    OFLAG determines the type of access used.  If O_CREAT or O_TMPFILE is set

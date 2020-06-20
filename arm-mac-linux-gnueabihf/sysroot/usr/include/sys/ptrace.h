@@ -1,5 +1,6 @@
-/* `ptrace' debugger support interface.  Linux version.
-   Copyright (C) 1996-2017 Free Software Foundation, Inc.
+/* `ptrace' debugger support interface.  Linux/ARM version.
+   Copyright (C) 1996-2019 Free Software Foundation, Inc.
+
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -14,7 +15,7 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
+   <https://www.gnu.org/licenses/>.  */
 
 #ifndef _SYS_PTRACE_H
 #define _SYS_PTRACE_H	1
@@ -65,29 +66,24 @@ enum __ptrace_request
   PTRACE_KILL = 8,
 #define PT_KILL PTRACE_KILL
 
-  /* Single step the process.
-     This is not supported on all machines.  */
+  /* Single step the process.  */
   PTRACE_SINGLESTEP = 9,
 #define PT_STEP PTRACE_SINGLESTEP
 
-  /* Get all general purpose registers used by a processes.
-     This is not supported on all machines.  */
-   PTRACE_GETREGS = 12,
+  /* Get all general purpose registers used by a process.  */
+  PTRACE_GETREGS = 12,
 #define PT_GETREGS PTRACE_GETREGS
 
-  /* Set all general purpose registers used by a processes.
-     This is not supported on all machines.  */
-   PTRACE_SETREGS = 13,
+  /* Set all general purpose registers used by a process.  */
+  PTRACE_SETREGS = 13,
 #define PT_SETREGS PTRACE_SETREGS
 
-  /* Get all floating point registers used by a processes.
-     This is not supported on all machines.  */
-   PTRACE_GETFPREGS = 14,
+  /* Get all floating point registers used by a process.  */
+  PTRACE_GETFPREGS = 14,
 #define PT_GETFPREGS PTRACE_GETFPREGS
 
-  /* Set all floating point registers used by a processes.
-     This is not supported on all machines.  */
-   PTRACE_SETFPREGS = 15,
+  /* Set all floating point registers used by a process.  */
+  PTRACE_SETFPREGS = 15,
 #define PT_SETFPREGS PTRACE_SETFPREGS
 
   /* Attach to a process that is already running. */
@@ -98,19 +94,53 @@ enum __ptrace_request
   PTRACE_DETACH = 17,
 #define PT_DETACH PTRACE_DETACH
 
-  /* Get all extended floating point registers used by a processes.
-     This is not supported on all machines.  */
-   PTRACE_GETFPXREGS = 18,
-#define PT_GETFPXREGS PTRACE_GETFPXREGS
+  /* Get the iWMMXt state of a process.  */
+  PTRACE_GETWMMXREGS = 18,
+#define PT_GETWMMXREGS PTRACE_GETWMMXREGS
 
-  /* Set all extended floating point registers used by a processes.
-     This is not supported on all machines.  */
-   PTRACE_SETFPXREGS = 19,
-#define PT_SETFPXREGS PTRACE_SETFPXREGS
+  /* Set the iWMMXt state of a process.  */
+  PTRACE_SETWMMXREGS = 19,
+#define PT_SETWMMXREGS PTRACE_SETWMMXREGS
 
-  /* Continue and stop at the next (return from) syscall.  */
+  /* Get the thread pointer of a process.  */
+  PTRACE_GET_THREAD_AREA = 22,
+#define PT_GET_THREAD_AREA PTRACE_GET_THREAD_AREA
+
+  /* Change the syscall number of a process.  */
+  PTRACE_SET_SYSCALL = 23,
+#define PT_SET_SYSCALL PTRACE_SET_SYSCALL
+
+  /* Continue and stop at the next entry to or return from syscall.  */
   PTRACE_SYSCALL = 24,
 #define PT_SYSCALL PTRACE_SYSCALL
+
+  /* Get the Crunch state of a process.  */
+  PTRACE_GETCRUNCHREGS = 25,
+#define PT_GETCRUNCHREGS PTRACE_GETCRUNCHREGS
+
+  /* Set the Crunch state of a process.  */
+  PTRACE_SETCRUNCHREGS = 26,
+#define PT_SETCRUNCHREGS PTRACE_SETCRUNCHREGS
+
+  /* Get all VFP registers used by a process.  */
+  PTRACE_GETVFPREGS = 27,
+#define PT_GETVFPREGS PTRACE_GETVFPREGS
+
+  /* Set all VFP registers used by a process.  */
+  PTRACE_SETVFPREGS = 28,
+#define PT_SETVFPREGS PTRACE_SETVFPREGS
+
+  /* Get all hardware breakpoint registers.  */
+  PTRACE_GETHBPREGS = 29,
+#define PT_GETHBPREGS PTRACE_GETHBPREGS
+
+  /* Set all hardware breakpoint registers.  */
+  PTRACE_SETHBPREGS = 30,
+#define PT_SETHBPREGS PTRACE_SETHBPREGS
+
+  /* Get the ELF fdpic loadmap address.  */
+  PTRACE_GETFDPIC = 31,
+#define PT_GETFDPIC PTRACE_GETFDPIC
 
   /* Set ptrace filter options.  */
   PTRACE_SETOPTIONS = 0x4200,
@@ -149,78 +179,29 @@ enum __ptrace_request
   PTRACE_LISTEN = 0x4208,
 #define PTRACE_LISTEN PTRACE_LISTEN
 
+  /* Retrieve siginfo_t structures without removing signals from a queue.  */
   PTRACE_PEEKSIGINFO = 0x4209,
 #define PTRACE_PEEKSIGINFO PTRACE_PEEKSIGINFO
 
+  /* Get the mask of blocked signals.  */
   PTRACE_GETSIGMASK = 0x420a,
 #define PTRACE_GETSIGMASK PTRACE_GETSIGMASK
 
+  /* Change the mask of blocked signals.  */
   PTRACE_SETSIGMASK = 0x420b,
 #define PTRACE_SETSIGMASK PTRACE_SETSIGMASK
 
-  PTRACE_SECCOMP_GET_FILTER = 0x420c
+  /* Get seccomp BPF filters.  */
+  PTRACE_SECCOMP_GET_FILTER = 0x420c,
 #define PTRACE_SECCOMP_GET_FILTER PTRACE_SECCOMP_GET_FILTER
+
+  /* Get seccomp BPF filter metadata.  */
+  PTRACE_SECCOMP_GET_METADATA = 0x420d
+#define PTRACE_SECCOMP_GET_METADATA PTRACE_SECCOMP_GET_METADATA
 };
 
 
-/* Flag for PTRACE_LISTEN.  */
-enum __ptrace_flags
-{
-  PTRACE_SEIZE_DEVEL = 0x80000000
-};
-
-/* Options set using PTRACE_SETOPTIONS.  */
-enum __ptrace_setoptions
-{
-  PTRACE_O_TRACESYSGOOD	= 0x00000001,
-  PTRACE_O_TRACEFORK	= 0x00000002,
-  PTRACE_O_TRACEVFORK   = 0x00000004,
-  PTRACE_O_TRACECLONE	= 0x00000008,
-  PTRACE_O_TRACEEXEC	= 0x00000010,
-  PTRACE_O_TRACEVFORKDONE = 0x00000020,
-  PTRACE_O_TRACEEXIT	= 0x00000040,
-  PTRACE_O_TRACESECCOMP = 0x00000080,
-  PTRACE_O_EXITKILL	= 0x00100000,
-  PTRACE_O_SUSPEND_SECCOMP	= 0x00200000,
-  PTRACE_O_MASK		= 0x003000ff
-};
-
-/* Wait extended result codes for the above trace options.  */
-enum __ptrace_eventcodes
-{
-  PTRACE_EVENT_FORK	= 1,
-  PTRACE_EVENT_VFORK	= 2,
-  PTRACE_EVENT_CLONE	= 3,
-  PTRACE_EVENT_EXEC	= 4,
-  PTRACE_EVENT_VFORK_DONE = 5,
-  PTRACE_EVENT_EXIT	= 6,
-  PTRACE_EVENT_SECCOMP  = 7
-};
-
-/* Arguments for PTRACE_PEEKSIGINFO.  */
-struct __ptrace_peeksiginfo_args
-{
-  __uint64_t off;	/* From which siginfo to start.  */
-  __uint32_t flags;	/* Flags for peeksiginfo.  */
-  __int32_t nr;		/* How many siginfos to take.  */
-};
-
-enum __ptrace_peeksiginfo_flags
-{
-  /* Read signals from a shared (process wide) queue.  */
-  PTRACE_PEEKSIGINFO_SHARED = (1 << 0)
-};
-
-/* Perform process tracing functions.  REQUEST is one of the values
-   above, and determines the action to be taken.
-   For all requests except PTRACE_TRACEME, PID specifies the process to be
-   traced.
-
-   PID and the other arguments described above for the various requests should
-   appear (those that are used for the particular request) as:
-     pid_t PID, void *ADDR, int DATA, void *ADDR2
-   after REQUEST.  */
-extern long int ptrace (enum __ptrace_request __request, ...) __THROW;
+#include <bits/ptrace-shared.h>
 
 __END_DECLS
 

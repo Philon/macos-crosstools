@@ -15,7 +15,6 @@ escape_char /
 % Date: 2011-05-06
 % Application: general
 % Users: general
-% Charset: UTF-8
 %
 % Based on ru_RU, cv_RU, da_DK
 % Modifed by:
@@ -50,18 +49,20 @@ category "i18n:2012";LC_MEASUREMENT
 END LC_IDENTIFICATION
 
 LC_COLLATE
+% There is no collation information for Ossetian in CLDR.
+% I just adapt the collation rules which I found here to the
+% updated iso14651_t1_common file.
 copy "iso14651_t1"
 
 collating-symbol <ae>
 
-reorder-after <CYR-A>
+reorder-after <S0430> % CYRILLIC SMALL LETTER A
 <ae>
 
-reorder-after <U0410>
-<U00C6> <ae>;<BAS>;<CAP>;IGNORE
-<U00E6> <ae>;<BAS>;<MIN>;IGNORE
-<U04D4> <ae>;<BAS>;<CAP>;IGNORE
-<U04D5> <ae>;<BAS>;<MIN>;IGNORE
+<U04D5> <ae>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ӕ CYRILLIC SMALL LIGATURE A IE
+<U04D4> <ae>;"<BASE><BASE>";"<CAP><CAP>";IGNORE % Ӕ CYRILLIC CAPITAL LIGATURE A IE
+<U00E6> <ae>;"<BASE><VRNT1>";"<MIN><MIN>";IGNORE % æ LATIN SMALL LETTER AE
+<U00C6> <ae>;"<BASE><VRNT1>";"<CAP><CAP>";IGNORE % Æ LATIN CAPITAL LETTER AE
 reorder-end
 END LC_COLLATE
 
@@ -75,28 +76,14 @@ translit_end
 END LC_CTYPE
 
 LC_MESSAGES
-yesexpr "<U005E><U005B><U002B><U0031><U0423><U0434><U0059><U0079><U005D>"
-noexpr  "<U005E><U005B><U002D><U0030><U0443><U043D><U004E><U006E><U005D>"
+yesexpr "^[+1yY<U0443><U0423>]"
+noexpr  "^[-0nN<U043D><U041D>]"
 yesstr  "<U0443><U043E><U0439><U044B>"
 nostr   "<U043D><U04D5><U0439><U044B>"
 END LC_MESSAGES
 
 LC_MONETARY
-int_curr_symbol           "<U0052><U0055><U0042><U0020>"
-currency_symbol           "<U20BD>"
-mon_decimal_point         "<U002E>"
-mon_thousands_sep         "<U00A0>"
-mon_grouping              3;3
-positive_sign             ""
-negative_sign             "<U002D>"
-int_frac_digits           2
-frac_digits               2
-p_cs_precedes             0
-p_sep_by_space            1
-n_cs_precedes             0
-n_sep_by_space            1
-p_sign_posn               1
-n_sign_posn               1
+copy "ru_RU"
 END LC_MONETARY
 
 LC_NUMERIC
@@ -129,7 +116,7 @@ abmon   "<U042F><U043D><U0432>";/
 "<U041D><U043E><U044F>";/
 "<U0414><U0435><U043A>"
 
-mon     "<U042F><U043D><U0432><U0430><U0440><U044C>";/
+alt_mon "<U042F><U043D><U0432><U0430><U0440><U044C>";/
 "<U0424><U0435><U0432><U0440><U0430><U043B><U044C>";/
 "<U041C><U0430><U0440><U0442><U044A><U0438>";/
 "<U0410><U043F><U0440><U0435><U043B><U044C>";/
@@ -141,10 +128,22 @@ mon     "<U042F><U043D><U0432><U0430><U0440><U044C>";/
 "<U041E><U043A><U0442><U044F><U0431><U0440><U044C>";/
 "<U041D><U043E><U044F><U0431><U0440><U044C>";/
 "<U0414><U0435><U043A><U0430><U0431><U0440><U044C>"
-d_t_fmt "<U0025><U0061><U0020><U0025><U0064><U0020><U0025><U0062>/
-<U0020><U0025><U0059><U0020><U0025><U0054>"
-d_fmt     "<U0025><U0064><U002E><U0025><U006D><U002E><U0025><U0059>"
-t_fmt     "<U0025><U0054>"
+
+mon     "<U044F><U043D><U0432><U0430><U0440><U044B>";/
+"<U0444><U0435><U0432><U0440><U0430><U043B><U044B>";/
+"<U043C><U0430><U0440><U0442><U044A><U0438><U0439><U044B>";/
+"<U0430><U043F><U0440><U0435><U043B><U044B>";/
+"<U043C><U0430><U0439><U044B>";/
+"<U0438><U044E><U043D><U044B>";/
+"<U0438><U044E><U043B><U044B>";/
+"<U0430><U0432><U0433><U0443><U0441><U0442><U044B>";/
+"<U0441><U0435><U043D><U0442><U044F><U0431><U0440><U044B>";/
+"<U043E><U043A><U0442><U044F><U0431><U0440><U044B>";/
+"<U043D><U043E><U044F><U0431><U0440><U044B>";/
+"<U0434><U0435><U043A><U0430><U0431><U0440><U044B>"
+d_t_fmt "%a %d %b %Y %T"
+d_fmt     "%d.%m.%Y"
+t_fmt     "%T"
 am_pm     "";""
 t_fmt_ampm ""
 week 7;19971130;1
@@ -168,21 +167,14 @@ copy "ru_RU"
 END LC_NAME
 
 LC_ADDRESS
-postal_fmt    "<U0025><U0066><U0025><U004E><U0025><U0061><U0025><U004E>/
-<U0025><U0064><U0025><U004E><U0025><U0062><U0025><U004E><U0025><U0073>/
-<U0020><U0025><U0068><U0020><U0025><U0065><U0020><U0025><U0072><U0025>/
-<U004E><U0025><U007A><U0020><U0025><U0054><U0025>/
-<U004E><U0025><U0063><U0025><U004E>"
+postal_fmt    "%f%N%a%N%d%N%b%N%s %h %e %r%N%z %T%N%c%N"
 country_name "<U0423><U04D5><U0440><U04D5><U0441><U0435>"
-country_ab2 "<U0052><U0055>"
-country_ab3 "<U0052><U0055><U0053>"
+country_ab2 "RU"
+country_ab3 "RUS"
 country_num 643
-% RUS
-country_car    "<U0052><U0055><U0053>"
-% os
-lang_ab      "<U006F><U0073>"
-% oss
-lang_term    "<U006F><U0073><U0073>"
-% oss
-lang_lib    "<U006F><U0073><U0073>"
+country_car "RUS"
+lang_name   "<U0438><U0440><U043E><U043D>"
+lang_ab      "os"
+lang_term    "oss"
+lang_lib    "oss"
 END LC_ADDRESS

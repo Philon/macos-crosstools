@@ -1,4 +1,4 @@
-/* Copyright (C) 1991-2017 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -106,9 +106,6 @@ __BEGIN_DECLS
 
 /* The X/Open Unix extensions are available.  */
 #define _XOPEN_UNIX	1
-
-/* Encryption is present.  */
-#define	_XOPEN_CRYPT	1
 
 /* The enhanced internationalization capabilities according to XPG4.2
    are present.  */
@@ -869,8 +866,7 @@ extern int setlogin (const char *__name) __THROW __nonnull ((1));
 /* Get definitions and prototypes for functions to process the
    arguments in ARGV (ARGC of them, minus the program name) for
    options given in OPTS.  */
-# define __need_getopt
-# include <getopt.h>
+# include <bits/getopt_posix.h>
 #endif
 
 
@@ -1106,7 +1102,12 @@ extern int lockf64 (int __fd, int __cmd, __off64_t __len) __wur;
        do __result = (long int) (expression);				      \
        while (__result == -1L && errno == EINTR);			      \
        __result; }))
-#endif
+
+/* Copy LENGTH bytes from INFD to OUTFD.  */
+ssize_t copy_file_range (int __infd, __off64_t *__pinoff,
+			 int __outfd, __off64_t *__poutoff,
+			 size_t __length, unsigned int __flags);
+#endif /* __USE_GNU */
 
 #if defined __USE_POSIX199309 || defined __USE_UNIX98
 /* Synchronize at least the data part of a file with the underlying
@@ -1114,20 +1115,17 @@ extern int lockf64 (int __fd, int __cmd, __off64_t __len) __wur;
 extern int fdatasync (int __fildes);
 #endif /* Use POSIX199309 */
 
-
-/* XPG4.2 specifies that prototypes for the encryption functions must
-   be defined here.  */
-#ifdef	__USE_XOPEN
-/* Encrypt at most 8 characters from KEY using salt to perturb DES.  */
+#ifdef __USE_MISC
+/* One-way hash PHRASE, returning a string suitable for storage in the
+   user database.  SALT selects the one-way function to use, and
+   ensures that no two users' hashes are the same, even if they use
+   the same passphrase.  The return value points to static storage
+   which will be overwritten by the next call to crypt.  */
 extern char *crypt (const char *__key, const char *__salt)
      __THROW __nonnull ((1, 2));
+#endif
 
-/* Encrypt data in BLOCK in place if EDFLAG is zero; otherwise decrypt
-   block in place.  */
-extern void encrypt (char *__glibc_block, int __edflag)
-     __THROW __nonnull ((1));
-
-
+#ifdef	__USE_XOPEN
 /* Swab pairs bytes in the first N bytes of the area pointed to by
    FROM and copy the result to TO.  The value of TO must not be in the
    range [FROM - N + 1, FROM - 1].  If N is odd the first byte in FROM

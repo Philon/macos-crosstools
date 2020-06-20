@@ -1,4 +1,4 @@
-/* Copyright (C) 2002-2017 Free Software Foundation, Inc.
+/* Copyright (C) 2002-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -21,13 +21,7 @@
 #include <stdint.h>
 #include <sys/types.h>
 
-/* Get __sigset_t.  */
-#include <bits/sigset.h>
-
-#ifndef __sigset_t_defined
-# define __sigset_t_defined
-typedef __sigset_t sigset_t;
-#endif
+#include <bits/types/sigset_t.h>
 
 /* Get the platform-dependent flags.  */
 #include <bits/epoll.h>

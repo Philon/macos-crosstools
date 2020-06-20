@@ -1,4 +1,4 @@
-/* Copyright (C) 1991-2017 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -46,8 +46,6 @@ __BEGIN_DECLS
 #define LC_MEASUREMENT	  __LC_MEASUREMENT
 #define LC_IDENTIFICATION __LC_IDENTIFICATION
 
-
-__BEGIN_NAMESPACE_STD
 
 /* Structure giving information about numeric and monetary notation.  */
 struct lconv
@@ -126,30 +124,22 @@ extern char *setlocale (int __category, const char *__locale) __THROW;
 /* Return the numeric/monetary information for the current locale.  */
 extern struct lconv *localeconv (void) __THROW;
 
-__END_NAMESPACE_STD
-
 
 #ifdef	__USE_XOPEN2K8
-/* The concept of one static locale per category is not very well
-   thought out.  Many applications will need to process its data using
-   information from several different locales.  Another application is
-   the implementation of the internationalization handling in the
-   upcoming ISO C++ standard library.  To support this another set of
-   the functions using locale data exist which have an additional
-   argument.
-
-   Attention: all these functions are *not* standardized in any form.
-   This is a proof-of-concept implementation.  */
-
-/* Get locale datatype definition.  */
-# include <xlocale.h>
+/* POSIX.1-2008 extends the locale interface with functions for
+   explicit creation and manipulation of 'locale_t' objects
+   representing locale contexts, and a set of parallel
+   locale-sensitive text processing functions that take a locale_t
+   argument.  This enables applications to work with data from
+   multiple locales simultaneously and thread-safely.  */
+# include <bits/types/locale_t.h>
 
 /* Return a reference to a data structure representing a set of locale
    datasets.  Unlike for the CATEGORY parameter for `setlocale' the
    CATEGORY_MASK parameter here uses a single bit for each category,
    made by OR'ing together LC_*_MASK bits above.  */
-extern __locale_t newlocale (int __category_mask, const char *__locale,
-			     __locale_t __base) __THROW;
+extern locale_t newlocale (int __category_mask, const char *__locale,
+			   locale_t __base) __THROW;
 
 /* These are the bits that can be set in the CATEGORY_MASK argument to
    `newlocale'.  In the GNU implementation, LC_FOO_MASK has the value
@@ -183,22 +173,22 @@ extern __locale_t newlocale (int __category_mask, const char *__locale,
 
 /* Return a duplicate of the set of locale in DATASET.  All usage
    counters are increased if necessary.  */
-extern __locale_t duplocale (__locale_t __dataset) __THROW;
+extern locale_t duplocale (locale_t __dataset) __THROW;
 
 /* Free the data associated with a locale dataset previously returned
    by a call to `setlocale_r'.  */
-extern void freelocale (__locale_t __dataset) __THROW;
+extern void freelocale (locale_t __dataset) __THROW;
 
 /* Switch the current thread's locale to DATASET.
    If DATASET is null, instead just return the current setting.
    The special value LC_GLOBAL_LOCALE is the initial setting
    for all threads and can also be installed any time, meaning
    the thread uses the global settings controlled by `setlocale'.  */
-extern __locale_t uselocale (__locale_t __dataset) __THROW;
+extern locale_t uselocale (locale_t __dataset) __THROW;
 
 /* This value can be passed to `uselocale' and may be returned by it.
    Passing this value to any other function has undefined behavior.  */
-# define LC_GLOBAL_LOCALE	((__locale_t) -1L)
+# define LC_GLOBAL_LOCALE	((locale_t) -1L)
 
 #endif
 

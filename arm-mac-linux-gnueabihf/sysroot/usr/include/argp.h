@@ -1,5 +1,5 @@
 /* Hierarchial argument parsing, layered over getopt.
-   Copyright (C) 1995-2017 Free Software Foundation, Inc.
+   Copyright (C) 1995-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
    Written by Miles Bader <miles@gnu.ai.mit.edu>.
 
@@ -24,16 +24,16 @@
 #include <ctype.h>
 #include <getopt.h>
 #include <limits.h>
-
-#define __need_error_t
 #include <errno.h>
-
-#ifndef __error_t_defined
-typedef int error_t;
-# define __error_t_defined
-#endif
 
 __BEGIN_DECLS
+
+/* error_t may or may not be available from errno.h, depending on the
+   operating system.  */
+#ifndef __error_t_defined
+# define __error_t_defined 1
+typedef int error_t;
+#endif
 
 /* A description of a particular option.  A pointer to an array of
    these is passed in the OPTIONS field of an argp structure.  Each option

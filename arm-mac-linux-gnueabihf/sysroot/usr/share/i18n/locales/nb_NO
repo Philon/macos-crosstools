@@ -24,14 +24,14 @@ escape_char /
 % Users: general
 
 LC_IDENTIFICATION
-title      "Norwegian (Bokmal) locale for Norway"
+title      "Norwegian (Bokm<U00E5>l) locale for Norway"
 source     "Norsk Standardiseringsforbund"
 address    "University Library, Drammensveien 41, N-9242 Oslo, Norge"
 contact    ""
 email      "bug-glibc-locales@gnu.org"
 tel        ""
 fax        ""
-language   "Norwegian Bokmål"
+language   "Norwegian Bokm<U00E5>l"
 territory  "Norway"
 revision   "1.0"
 date       "2000-06-29"
@@ -53,75 +53,87 @@ END LC_IDENTIFICATION
 LC_COLLATE
 copy "iso14651_t1"
 
+% CLDR collation rules for Norwegian (Bokmål):
+% (see: https://unicode.org/cldr/trac/browser/trunk/common/collation/nb.xml)
+%
+% &D<<đ<<<Đ<<ð<<<Ð
+% &t<<<þ/h
+% &T<<<Þ/H
+% &Y<<ü<<<Ü<<ű<<<Ű
+% &[before 1]ǀ<æ<<<Æ<<ä<<<Ä<<ę<<<Ę<ø<<<Ø<<ö<<<Ö<<ő<<<Ő<<œ<<<Œ<å<<<Å<<aa<<<Aa<<<AA
+%
+% And CLDR also lists the following
+% index characters:
+% (see: https://unicode.org/cldr/trac/browser/trunk/common/main/nb.xml)
+%
+% <exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Æ Ø Å]</exemplarCharacters>
+%
+% The following rules implement the same order for glibc.
+
 collating-element <A-A> from "<U0041><U0041>"
 collating-element <a-a> from "<U0061><U0061>"
 collating-element <A-a> from "<U0041><U0061>"
 collating-element <a-A> from "<U0061><U0041>"
-collating-symbol <CAP-MIN>
-collating-symbol <MIN-CAP>
 collating-symbol <ae>
 collating-symbol <o-stroke>
 collating-symbol <a-ring>
-collating-symbol <ETH>
 
 reorder-after <RES-1>
+<COMPATCAP>
 <CAP>
-<CAP-MIN>
-<MIN-CAP>
+<COMPAT>
+<MIN>
 
-reorder-after <OBL>
-<ETH>
-
-reorder-after <z>
+% &[before 1]ǀ<æ<<<Æ<<ä<<<Ä<<ę<<<Ę<ø<<<Ø<<ö<<<Ö<<ő<<<Ő<<œ<<<Œ<å<<<Å<<aa<<<Aa<<<AA
+reorder-after <AFTER-Z>
 <ae>
 <o-stroke>
 <a-ring>
 
-reorder-after <U0178>
-<U00DC> <y>;<U00DC>;<CAP>;IGNORE
-<U0170> <y>;<U0170>;<CAP>;IGNORE
-reorder-after <U00FF>
-<U00FC> <y>;<U00DC>;<MIN>;IGNORE
-<U0171> <y>;<U0170>;<MIN>;IGNORE
+% &D<<đ<<<Đ<<ð<<<Ð
+<U0110> <S0064>;"<BASE><BARRE>";"<CAP><MIN>";IGNORE % Đ
+<U0111> <S0064>;"<BASE><BARRE>";"<MIN><MIN>";IGNORE % đ
+<U00D0> <S0064>;"<BASE><VRNT1>";"<COMPATCAP><COMPAT>";IGNORE % Ð
+<U00F0> <S0064>;"<BASE><VRNT1>";"<COMPAT><COMPAT>";IGNORE % ð
 
-reorder-after <U017B>
-<U00C6> <ae>;<BAS>;<CAP>;IGNORE
-<U01FC> <ae>;<ACA>;<CAP>;IGNORE
-<U01E2> <ae>;<MAC>;<CAP>;IGNORE
-<U00C4> <ae>;<PCL>;<CAP>;IGNORE
-<U00D8> <o-stroke>;<BAS>;<CAP>;IGNORE
-<U01FE> <o-stroke>;<ACA>;<CAP>;IGNORE
-<U00D6> <o-stroke>;<REU>;<CAP>;IGNORE
-<U0150> <o-stroke>;<DAC>;<CAP>;IGNORE
-<U00C5> <a-ring>;<BAS>;<CAP>;IGNORE
-<A-A>   <a-ring>;<A-A>;<CAP>;IGNORE
-<A-a>   <a-ring>;<A-A>;<CAP-MIN>;IGNORE
-reorder-after <U017C>
-<U00E6> <ae>;<BAS>;<MIN>;IGNORE
-<U01FD> <ae>;<ACA>;<MIN>;IGNORE
-<U01E3> <ae>;<MAC>;<MIN>;IGNORE
-<U00E4> <ae>;<PCL>;<MIN>;IGNORE
-<U00F8> <o-stroke>;<BAS>;<MIN>;IGNORE
-<U01FF> <o-stroke>;<ACA>;<MIN>;IGNORE
-<U00F6> <o-stroke>;<REU>;<MIN>;IGNORE
-<U0151> <o-stroke>;<DAC>;<MIN>;IGNORE
-<U00E5> <a-ring>;<BAS>;<MIN>;IGNORE
-<a-A>   <a-ring>;<A-A>;<MIN-CAP>;IGNORE
-<a-a>   <a-ring>;<A-A>;<MIN>;IGNORE
+% &T<<<Þ/H
+% &t<<<þ/h
+<U00DE> "<S0074><S0068>";"<BASE><BASE>";"<COMPATCAP><COMPATCAP>";IGNORE % Þ
+<U00FE> "<S0074><S0068>";"<BASE><BASE>";"<COMPAT><COMPAT>";IGNORE % þ
 
-%  Present in iso14651_t1, but these definitions seem to have been
-%  removed from latest iso14651 tables.
-reorder-after <U0162>
-<U00DE> "<t><h>";"<LIG><LIG>";"<CAP><CAP>";IGNORE
-reorder-after <U0163>
-<U00FE> "<t><h>";"<LIG><LIG>";"<MIN><MIN>";IGNORE
+% &Y<<ü<<<Ü<<ű<<<Ű
+<U00DC> <S0079>;"<BASE><TREMA>";"<CAP><MIN>";IGNORE % Ü
+<U00FC> <S0079>;"<BASE><TREMA>";"<MIN><MIN>";IGNORE % ü
+<U0170> <S0079>;"<BASE><2AIGU>";"<CAP><MIN>";IGNORE % Ű
+<U0171> <S0079>;"<BASE><2AIGU>";"<MIN><MIN>";IGNORE % ű
 
-reorder-after <U0064>
-<U0110> <d>;<OBL>;<CAP>;IGNORE
-<U00D0> <d>;<ETH>;<CAP>;IGNORE
-reorder-after <U0044>
-<U0111> <d>;<OBL>;<MIN>;IGNORE
-<U00F0> <d>;<ETH>;<MIN>;IGNORE
+% &[before 1]ǀ<æ<<<Æ<<ä<<<Ä<<ę<<<Ę<ø<<<Ø<<ö<<<Ö<<ő<<<Ő<<œ<<<Œ<å<<<Å<<aa<<<Aa<<<AA
+<U00C6> <ae>;"<BASE><BASE>";"<COMPATCAP><COMPATCAP>";IGNORE % Æ
+<U00E6> <ae>;"<BASE><BASE>";"<COMPAT><COMPAT>";IGNORE % æ
+<U00C4> <ae>;"<BASE><VRNT1>";"<CAP><MIN>";IGNORE % Ä
+<U00E4> <ae>;"<BASE><VRNT1>";"<MIN><MIN>";IGNORE % ä
+<U0118> <ae>;"<BASE><VRNT2>";"<CAP><MIN>";IGNORE % Ę
+<U0119> <ae>;"<BASE><VRNT2>";"<MIN><MIN>";IGNORE % ę
+<U01FC> <ae>;"<BASE><VRNT3>";"<CAP><MIN>";IGNORE % Ǽ
+<U01FD> <ae>;"<BASE><VRNT3>";"<MIN><MIN>";IGNORE % ǽ
+<U01E2> <ae>;"<BASE><VRNT4>";"<CAP><MIN>";IGNORE % Ǣ
+<U01E3> <ae>;"<BASE><VRNT4>";"<MIN><MIN>";IGNORE % ǣ
+<U00D8> <o-stroke>;"<BASE><BASE>";"<COMPATCAP><COMPATCAP>";IGNORE % Ø
+<U00F8> <o-stroke>;"<BASE><BASE>";"<COMPAT><COMPAT>";IGNORE % ø
+<U01FE> <o-stroke>;"<BASE><VRNT1>";"<CAP><MIN>";IGNORE % Ǿ
+<U01FF> <o-stroke>;"<BASE><VRNT1>";"<MIN><MIN>";IGNORE % ǿ
+<U00D6> <o-stroke>;"<BASE><VRNT2>";"<CAP><MIN>";IGNORE % Ö
+<U00F6> <o-stroke>;"<BASE><VRNT2>";"<MIN><MIN>";IGNORE % ö
+<U0150> <o-stroke>;"<BASE><VRNT3>";"<CAP><MIN>";IGNORE % Ő
+<U0151> <o-stroke>;"<BASE><VRNT3>";"<MIN><MIN>";IGNORE % ő
+<U0152> <o-stroke>;"<BASE><VRNT4>";"<CAP><MIN>";IGNORE % Œ
+<U0153> <o-stroke>;"<BASE><VRNT4>";"<MIN><MIN>";IGNORE % œ
+<U00C5> <a-ring>;"<BASE><BASE>";"<COMPATCAP><COMPATCAP>";IGNORE % Å
+<U00E5> <a-ring>;"<BASE><BASE>";"<COMPAT><COMPAT>";IGNORE % å
+<A-A>   <a-ring>;"<BASE><VRNT1>";"<CAP><CAP>";IGNORE
+<A-a>   <a-ring>;"<BASE><VRNT1>";"<CAP><MIN>";IGNORE
+<a-A>   <a-ring>;"<BASE><VRNT1>";"<MIN><CAP>";IGNORE
+<a-a>   <a-ring>;"<BASE><VRNT1>";"<MIN><MIN>";IGNORE
 
 reorder-end
 
@@ -158,13 +170,13 @@ translit_end
 END LC_CTYPE
 
 LC_MONETARY
-int_curr_symbol         "<U004E><U004F><U004B><U0020>"
-currency_symbol         "<U006B><U0072>"
-mon_decimal_point       "<U002C>"
-mon_thousands_sep       "<U00A0>"
+int_curr_symbol         "NOK "
+currency_symbol         "kr"
+mon_decimal_point       ","
+mon_thousands_sep       "<U202F>"
 mon_grouping            3;3
 positive_sign           ""
-negative_sign           "<U002D>"
+negative_sign           "-"
 int_frac_digits         2
 frac_digits             2
 p_cs_precedes           1
@@ -176,67 +188,55 @@ n_sign_posn             4
 END LC_MONETARY
 
 LC_NUMERIC
-decimal_point           "<U002C>"
-thousands_sep           "<U00A0>"
+decimal_point           ","
+thousands_sep           "<U202F>"
 grouping                3;3
 END LC_NUMERIC
 
 LC_TIME
-abday       "<U0073><U00F8><U002E>";"<U006D><U0061><U002E>";/
-            "<U0074><U0069><U002E>";"<U006F><U006E><U002E>";/
-            "<U0074><U006F><U002E>";"<U0066><U0072><U002E>";/
-            "<U006C><U00F8><U002E>"
-day         "<U0073><U00F8><U006E><U0064><U0061><U0067>";/
-            "<U006D><U0061><U006E><U0064><U0061><U0067>";/
-            "<U0074><U0069><U0072><U0073><U0064><U0061><U0067>";/
-            "<U006F><U006E><U0073><U0064><U0061><U0067>";/
-            "<U0074><U006F><U0072><U0073><U0064><U0061><U0067>";/
-            "<U0066><U0072><U0065><U0064><U0061><U0067>";/
-            "<U006C><U00F8><U0072><U0064><U0061><U0067>"
-abmon       "<U006A><U0061><U006E><U002E>";"<U0066><U0065><U0062><U002E>";/
-            "<U006D><U0061><U0072><U0073>";"<U0061><U0070><U0072><U0069><U006C>";/
-            "<U006D><U0061><U0069>";"<U006A><U0075><U006E><U0069>";/
-            "<U006A><U0075><U006C><U0069>";"<U0061><U0075><U0067><U002E>";/
-            "<U0073><U0065><U0070><U002E>";"<U006F><U006B><U0074><U002E>";/
-            "<U006E><U006F><U0076><U002E>";"<U0064><U0065><U0073><U002E>"
-mon         "<U006A><U0061><U006E><U0075><U0061><U0072>";/
-            "<U0066><U0065><U0062><U0072><U0075><U0061><U0072>";/
-            "<U006D><U0061><U0072><U0073>";/
-            "<U0061><U0070><U0072><U0069><U006C>";/
-            "<U006D><U0061><U0069>";/
-            "<U006A><U0075><U006E><U0069>";/
-            "<U006A><U0075><U006C><U0069>";/
-            "<U0061><U0075><U0067><U0075><U0073><U0074>";/
-            "<U0073><U0065><U0070><U0074><U0065><U006D><U0062><U0065><U0072>";/
-            "<U006F><U006B><U0074><U006F><U0062><U0065><U0072>";/
-            "<U006E><U006F><U0076><U0065><U006D><U0062><U0065><U0072>";/
-            "<U0064><U0065><U0073><U0065><U006D><U0062><U0065><U0072>"
+abday       "s<U00F8>.";"ma.";"ti.";"on.";"to.";"fr.";"l<U00F8>."
+day         "s<U00F8>ndag";/
+            "mandag";/
+            "tirsdag";/
+            "onsdag";/
+            "torsdag";/
+            "fredag";/
+            "l<U00F8>rdag"
+abmon       "jan.";"feb.";/
+            "mars";"april";/
+            "mai";"juni";/
+            "juli";"aug.";/
+            "sep.";"okt.";/
+            "nov.";"des."
+mon         "januar";/
+            "februar";/
+            "mars";/
+            "april";/
+            "mai";/
+            "juni";/
+            "juli";/
+            "august";/
+            "september";/
+            "oktober";/
+            "november";/
+            "desember"
 % usual date representation
-% %a %d. %b %Y kl. %H.%M %z
-d_t_fmt "<U0025><U0061><U0020><U0025><U0064><U002E><U0020><U0025><U0062>/
-<U0020><U0025><U0059><U0020><U006B><U006C><U002E><U0020><U0025><U0048>/
-<U002E><U0025><U004D><U0020><U0025><U007A>"
-% %d. %b %Y
-d_fmt  "<U0025><U0064><U002E><U0020><U0025><U0062><U0020><U0025><U0059>"
-% kl. %H.%M %z
-t_fmt        "<U006B><U006C><U002E><U0020><U0025><U0048><U002E><U0025>/
-<U004D><U0020><U0025><U007A>"
+d_t_fmt "%a %d. %b %Y kl. %H.%M %z"
+d_fmt  "%d. %b %Y"
+t_fmt        "kl. %H.%M %z"
 am_pm       "";""
 t_fmt_ampm  ""
-% %a %d. %b %H:%M:%S %z %Y
-date_fmt       "<U0025><U0061><U0020><U0025><U0064><U002E><U0020><U0025>/
-<U0062><U0020><U0025><U0048><U003A><U0025><U004D><U003A><U0025><U0053>/
-<U0020><U0025><U007A><U0020><U0025><U0059>"
+date_fmt       "%a %d. %b %H:%M:%S %z %Y"
 
 week    7;19971130;4
 first_weekday 2
 END LC_TIME
 
 LC_MESSAGES
-yesexpr "<U005E><U005B><U002B><U0031><U004A><U006A><U0059><U0079><U005D>"
-noexpr  "<U005E><U005B><U002D><U0030><U004E><U006E><U005D>"
-yesstr  "<U006A><U0061>"
-nostr   "<U006E><U0065><U0069>"
+yesexpr "^[+1JjYy]"
+noexpr  "^[-0Nn]"
+yesstr  "ja"
+nostr   "nei"
 END LC_MESSAGES
 
 LC_PAPER
@@ -244,10 +244,10 @@ copy "i18n"
 END LC_PAPER
 
 LC_TELEPHONE
-tel_int_fmt    "<U002B><U0025><U0063><U0020><U0025><U006C>"
-tel_dom_fmt    "<U0025><U006C>"
-int_select     "<U0030><U0030>"
-int_prefix     "<U0034><U0037>"
+tel_int_fmt    "+%c %l"
+tel_dom_fmt    "%l"
+int_select     "00"
+int_prefix     "47"
 END LC_TELEPHONE
 
 LC_MEASUREMENT
@@ -255,28 +255,19 @@ copy "i18n"
 END LC_MEASUREMENT
 
 LC_NAME
-name_fmt    "<U0025><U0064><U0025><U0074><U0025><U0067><U0025><U0074>/
-<U0025><U006D><U0025><U0074><U0025><U0066>"
+name_fmt    "%d%t%g%t%m%t%f"
 END LC_NAME
 
 LC_ADDRESS
-postal_fmt    "<U0025><U0066><U0025><U004E><U0025><U0061><U0025><U004E>/
-<U0025><U0064><U0025><U004E><U0025><U0062><U0025><U004E><U0025><U0073>/
-<U0020><U0025><U0068><U0020><U0025><U0065><U0020><U0025><U0072><U0025>/
-<U004E><U0025><U007A><U0020><U0025><U0054><U0025>/
-<U004E><U0025><U0063><U0025><U004E>"
-country_name "<U004E><U006F><U0072><U0067><U0065>"
-country_ab2 "<U004E><U004F>"
-country_ab3 "<U004E><U004F><U0052>"
+postal_fmt    "%f%N%a%N%d%N%b%N%s %h %e %r%N%z %T%N%c%N"
+country_name "Norge"
+country_ab2 "NO"
+country_ab3 "NOR"
 country_num 578
-% N
-country_car    "<U004E>"
+country_car  "N"
 % Bokmål
-lang_name    "<U0042><U006F><U006B><U006D><U00E5><U006C>"
-% nb
-lang_ab      "<U006E><U0062>"
-% nob
-lang_term    "<U006E><U006F><U0062>"
-% nob
-lang_lib    "<U006E><U006F><U0062>"
+lang_name    "norsk bokm<U00E5>l"
+lang_ab      "nb"
+lang_term    "nob"
+lang_lib    "nob"
 END LC_ADDRESS

@@ -1,5 +1,5 @@
 /* Utilities for reading/writing fstab, mtab, etc.
-   Copyright (C) 1995-2017 Free Software Foundation, Inc.
+   Copyright (C) 1995-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -20,10 +20,8 @@
 #define	_MNTENT_H	1
 
 #include <features.h>
-#define __need_FILE
-#include <stdio.h>
 #include <paths.h>
-
+#include <bits/types/FILE.h>
 
 /* File listing canonical interesting mount points.  */
 #define	MNTTAB		_PATH_MNTTAB	/* Deprecated alias.  */

@@ -1,4 +1,4 @@
-/* Copyright (C) 1991-2017 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -30,6 +30,8 @@
 			Extensions to ISO C11 from TS 18661-1:2014.
    __STDC_WANT_IEC_60559_FUNCS_EXT__
 			Extensions to ISO C11 from TS 18661-4:2015.
+   __STDC_WANT_IEC_60559_TYPES_EXT__
+			Extensions to ISO C11 from TS 18661-3:2015.
 
    _POSIX_SOURCE	IEEE Std 1003.1.
    _POSIX_C_SOURCE	If ==1, like _POSIX_SOURCE; if >=2 add IEEE Std 1003.2;
@@ -74,6 +76,7 @@
    __USE_ISOC11		Define ISO C11 things.
    __USE_ISOC99		Define ISO C99 things.
    __USE_ISOC95		Define ISO C90 AMD1 (C95) things.
+   __USE_ISOCXX11	Define ISO C++11 things.
    __USE_POSIX		Define IEEE Std 1003.1 things.
    __USE_POSIX2		Define IEEE Std 1003.2 things.
    __USE_POSIX199309	Define IEEE Std 1003.1, and .1b things.
@@ -136,6 +139,8 @@
 #undef	__USE_GNU
 #undef	__USE_FORTIFY_LEVEL
 #undef	__KERNEL_STRICT_NAMES
+#undef	__GLIBC_USE_DEPRECATED_GETS
+#undef	__GLIBC_USE_DEPRECATED_SCANF
 
 /* Suppress kernel-name space pollution unless user expressedly asks
    for it.  */
@@ -210,7 +215,7 @@
    define _DEFAULT_SOURCE.  */
 #if (defined _DEFAULT_SOURCE					\
      || (!defined __STRICT_ANSI__				\
-	 && !defined _ISOC99_SOURCE				\
+	 && !defined _ISOC99_SOURCE && !defined _ISOC11_SOURCE	\
 	 && !defined _POSIX_SOURCE && !defined _POSIX_C_SOURCE	\
 	 && !defined _XOPEN_SOURCE))
 # undef  _DEFAULT_SOURCE
@@ -235,13 +240,17 @@
 # define __USE_ISOC95	1
 #endif
 
+#ifdef __cplusplus
+/* This is to enable compatibility for ISO C++17.  */
+# if __cplusplus >= 201703L
+#  define __USE_ISOC11	1
+# endif
 /* This is to enable compatibility for ISO C++11.
-
-   So far g++ does not provide a macro.  Check the temporary macro for
-   now, too.  */
-#if ((defined __cplusplus && __cplusplus >= 201103L)			      \
-     || defined __GXX_EXPERIMENTAL_CXX0X__)
-# define __USE_ISOCXX11	1
+   Check the temporary macro for now, too.  */
+# if __cplusplus >= 201103L || defined __GXX_EXPERIMENTAL_CXX0X__
+#  define __USE_ISOCXX11	1
+#  define __USE_ISOC99	1
+# endif
 #endif
 
 /* If none of the ANSI/POSIX macros are defined, or if _DEFAULT_SOURCE
@@ -383,6 +392,37 @@
 # define __USE_FORTIFY_LEVEL 0
 #endif
 
+/* The function 'gets' existed in C89, but is impossible to use
+   safely.  It has been removed from ISO C11 and ISO C++14.  Note: for
+   compatibility with various implementations of <cstdio>, this test
+   must consider only the value of __cplusplus when compiling C++.  */
+#if defined __cplusplus ? __cplusplus >= 201402L : defined __USE_ISOC11
+# define __GLIBC_USE_DEPRECATED_GETS 0
+#else
+# define __GLIBC_USE_DEPRECATED_GETS 1
+#endif
+
+/* GNU formerly extended the scanf functions with modified format
+   specifiers %as, %aS, and %a[...] that allocate a buffer for the
+   input using malloc.  This extension conflicts with ISO C99, which
+   defines %a as a standalone format specifier that reads a floating-
+   point number; moreover, POSIX.1-2008 provides the same feature
+   using the modifier letter 'm' instead (%ms, %mS, %m[...]).
+
+   We now follow C99 unless GNU extensions are active and the compiler
+   is specifically in C89 or C++98 mode (strict or not).  For
+   instance, with GCC, -std=gnu11 will have C99-compliant scanf with
+   or without -D_GNU_SOURCE, but -std=c89 -D_GNU_SOURCE will have the
+   old extension.  */
+#if defined __USE_GNU &&						\
+  (defined __cplusplus							\
+   ? (__cplusplus < 201103L && !defined __GXX_EXPERIMENTAL_CXX0X__)	\
+   : (!defined __STDC_VERSION__ || __STDC_VERSION__ < 199901L))
+# define __GLIBC_USE_DEPRECATED_SCANF 1
+#else
+# define __GLIBC_USE_DEPRECATED_SCANF 0
+#endif
+
 /* Get definitions of __STDC_* predefined macros, if the compiler has
    not preincluded this header automatically.  */
 #include <stdc-predef.h>
@@ -399,7 +439,7 @@
 /* Major and minor version number of the GNU C library package.  Use
    these macros to test for features in specific releases.  */
 #define	__GLIBC__	2
-#define	__GLIBC_MINOR__	25
+#define	__GLIBC_MINOR__	29
 
 #define __GLIBC_PREREQ(maj, min) \
 	((__GLIBC__ << 16) + __GLIBC_MINOR__ >= ((maj) << 16) + (min))

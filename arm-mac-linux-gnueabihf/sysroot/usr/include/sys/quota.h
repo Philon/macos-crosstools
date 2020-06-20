@@ -1,5 +1,5 @@
 /* This just represents the non-kernel parts of <linux/quota.h>.
-   Copyright (C) 1998-2017 Free Software Foundation, Inc.
+   Copyright (C) 1998-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -114,7 +114,7 @@ struct dqblk
 #define	dq_btime	dq_dqb.dqb_btime
 #define	dq_itime	dq_dqb.dqb_itime
 
-#define dqoff(UID)      ((loff_t)((UID) * sizeof (struct dqblk)))
+#define dqoff(UID)      ((__loff_t)((UID) * sizeof (struct dqblk)))
 
 /* Old name for struct if_dqinfo.  */
 struct dqinfo

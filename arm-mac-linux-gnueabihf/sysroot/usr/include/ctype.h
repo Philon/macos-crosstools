@@ -1,4 +1,4 @@
-/* Copyright (C) 1991-2017 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -101,8 +101,6 @@ extern const __int32_t **__ctype_toupper_loc (void)
 
 #define	__exctype(name)	extern int name (int) __THROW
 
-__BEGIN_NAMESPACE_STD
-
 /* The following names are all functions:
      int isCHARACTERISTIC(int c);
    which return nonzero iff C has CHARACTERISTIC.
@@ -126,16 +124,10 @@ extern int tolower (int __c) __THROW;
 /* Return the uppercase version of C.  */
 extern int toupper (int __c) __THROW;
 
-__END_NAMESPACE_STD
-
 
 /* ISO C99 introduced one new function.  */
 #ifdef	__USE_ISOC99
-__BEGIN_NAMESPACE_C99
-
 __exctype (isblank);
-
-__END_NAMESPACE_C99
 #endif
 
 #ifdef __USE_GNU
@@ -241,20 +233,8 @@ __NTH (toupper (int __c))
 
 
 #ifdef __USE_XOPEN2K8
-/* The concept of one static locale per category is not very well
-   thought out.  Many applications will need to process its data using
-   information from several different locales.  Another application is
-   the implementation of the internationalization handling in the
-   upcoming ISO C++ standard library.  To support this another set of
-   the functions using locale data exist which have an additional
-   argument.
-
-   Attention: all these functions are *not* standardized in any form.
-   This is a proof-of-concept implementation.  */
-
-/* Structure for reentrant locale using functions.  This is an
-   (almost) opaque type for the user level programs.  */
-# include <xlocale.h>
+/* POSIX.1-2008 extended locale interface (see locale.h).  */
+# include <bits/types/locale_t.h>
 
 /* These definitions are similar to the ones above but all functions
    take as an argument a handle for the locale which shall be used.  */
@@ -262,7 +242,7 @@ __NTH (toupper (int __c))
   ((locale)->__ctype_b[(int) (c)] & (unsigned short int) type)
 
 # define __exctype_l(name) 						      \
-  extern int name (int, __locale_t) __THROW
+  extern int name (int, locale_t) __THROW
 
 /* The following names are all functions:
      int isCHARACTERISTIC(int c, locale_t *locale);
@@ -284,12 +264,12 @@ __exctype_l (isblank_l);
 
 
 /* Return the lowercase version of C in locale L.  */
-extern int __tolower_l (int __c, __locale_t __l) __THROW;
-extern int tolower_l (int __c, __locale_t __l) __THROW;
+extern int __tolower_l (int __c, locale_t __l) __THROW;
+extern int tolower_l (int __c, locale_t __l) __THROW;
 
 /* Return the uppercase version of C.  */
-extern int __toupper_l (int __c, __locale_t __l) __THROW;
-extern int toupper_l (int __c, __locale_t __l) __THROW;
+extern int __toupper_l (int __c, locale_t __l) __THROW;
+extern int toupper_l (int __c, locale_t __l) __THROW;
 
 # if __GNUC__ >= 2 && defined __OPTIMIZE__ && !defined __cplusplus
 #  define __tolower_l(c, locale) \

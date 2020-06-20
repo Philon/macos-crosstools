@@ -17,7 +17,6 @@ escape_char /
 % Revision: 0.3
 % Date: 2000-07-11
 % Users: general
-% Charset: CP1256
 
 LC_IDENTIFICATION
 title      "Urdu Language Locale for Pakistan"
@@ -67,13 +66,13 @@ END LC_COLLATE
 
 LC_MONETARY
 %it is meant to be Pak RS, could you see if it is correct please
-int_curr_symbol "<U0050><U004B><U0052><U0020>"
-currency_symbol "<U0052><U0073>"
-mon_decimal_point "<U002E>"
-mon_thousands_sep "<U002C>"
+int_curr_symbol "PKR "
+currency_symbol "Rs"
+mon_decimal_point "."
+mon_thousands_sep ","
 mon_grouping  3;3
 positive_sign ""
-negative_sign "<U002D>"
+negative_sign "-"
 int_frac_digits 2
 frac_digits 2
 p_cs_precedes 1
@@ -85,8 +84,8 @@ n_sign_posn 1
 END LC_MONETARY
 
 LC_NUMERIC
-decimal_point "<U002E>"
-thousands_sep "<U002C>"
+decimal_point "."
+thousands_sep ","
 grouping 3;3
 END LC_NUMERIC
 
@@ -111,47 +110,47 @@ day	"<U0627><U062A><U0648><U0627><U0631>";/
 	"<U062C><U0645><U0639><U0631><U0627><U062A>";/
 	"<U062C><U0645><U0639><U0647>";/
 	"<U0647><U0641><U062A><U0647>"
-abmon	"<U062C><U0646><U0648><U0631><U064A>";/
-	"<U0641><U0631><U0648><U0631><U064A>";/
+abmon	"<U062C><U0646><U0648><U0631><U06CC>";/
+	"<U0641><U0631><U0648><U0631><U06CC>";/
 	"<U0645><U0627><U0631><U0686>";/
-	"<U0627><U067E><U0631><U064A><U0644>";/
-	"<U0645><U0653><U06CC>";/
+	"<U0627><U067E><U0631><U06CC><U0644>";/
+	"<U0645><U0626><U06CC>";/
 	"<U062C><U0648><U0646>";/
-	"<U062C><U0648><U0644><U0627><U064A>";/
+	"<U062C><U0648><U0644><U0627><U0626><U06CC>";/
 	"<U0627><U06AF><U0633><U062A>";/
 	"<U0633><U062A><U0645><U0628><U0631>";/
-	"<U0627><U0643><U062A><U0648><U0628><U0631>";/
+	"<U0627><U06A9><U062A><U0648><U0628><U0631>";/
 	"<U0646><U0648><U0645><U0628><U0631>";/
 	"<U062F><U0633><U0645><U0628><U0631>"
-mon	"<U062C><U0646><U0648><U0631><U064A>";/
-	"<U0641><U0631><U0648><U0631><U064A>";/
+mon	"<U062C><U0646><U0648><U0631><U06CC>";/
+	"<U0641><U0631><U0648><U0631><U06CC>";/
 	"<U0645><U0627><U0631><U0686>";/
-	"<U0627><U067E><U0631><U064A><U0644>";/
-	"<U0645><U0653><U06CC>";/
+	"<U0627><U067E><U0631><U06CC><U0644>";/
+	"<U0645><U0626><U06CC>";/
 	"<U062C><U0648><U0646>";/
-	"<U062C><U0648><U0644><U0627><U064A>";/
+	"<U062C><U0648><U0644><U0627><U0626><U06CC>";/
 	"<U0627><U06AF><U0633><U062A>";/
 	"<U0633><U062A><U0645><U0628><U0631>";/
-	"<U0627><U0643><U062A><U0648><U0628><U0631>";/
+	"<U0627><U06A9><U062A><U0648><U0628><U0631>";/
 	"<U0646><U0648><U0645><U0628><U0631>";/
 	"<U062F><U0633><U0645><U0628><U0631>"
 
 % Date Time Format
-d_t_fmt "<U0648><U0020><U0025><U0048><U003A><U0025><U004D><U003A><U0025><U0053><U0020><U0025><U005A><U0020><U062A><U0020><U0025><U0064><U0020><U0025><U0042><U0020><U0025><U0059>"
+d_t_fmt "<U0648> %H:%M:%S %Z <U062A> %d %B %Y"
 
 % date Format. I have put this in reverse order to try to get the date
 % in R->L order
-d_fmt "<U0025><U0064><U002F><U0025><U006D><U002F><U0025><U0059>"
+d_fmt "%d//%m//%Y"
 
 % time format
-t_fmt "<U0025><U0048><U003A><U0025><U004D><U003A><U0025><U0053>"
+t_fmt "%H:%M:%S"
 
 %<U0635> stands for <U0635><U0628><U062D>
 %<U0634> stands for <U0634><U0627><U0645>
 am_pm "<U0635>";"<U0634>"
 
 %time format in 12 hour clock
-t_fmt_ampm "<U0025><U0050><U0020><U0025><U0049><U003A><U0025><U004D><U003A><U0025><U0053>"
+t_fmt_ampm "%P %I:%M:%S"
 
 % display columns right to left ?
 cal_direction	3
@@ -165,10 +164,10 @@ LC_MESSAGES
 % would define cancel appropriately
 % <U0647> = <U0647><U0627><U06BA> , the last tag is for noon-ghunna!
 % <U0628> = <U0628><U0644><U0643><U0644>
-% again <U0066> and <U006F> are place holders
+% again "f" and "o" are place holders
 % <U0646> = <U0646><U0647><U064A><U06BA>
-yesexpr "<U005E><U005B><U002B><U0031><U0079><U0059><U0647><U0628><U0066><U005D>"
-noexpr  "<U005E><U005B><U002D><U0030><U006E><U004E><U0646><U006F><U005D>"
+yesexpr "^[+1yY<U0647><U0628>f]"
+noexpr  "^[-0nN<U0646>o]"
 yesstr  "<U06C1><U0627><U06BA>"
 nostr   "<U0646><U06C1><U06CC><U06BA>"
 END LC_MESSAGES
@@ -190,27 +189,20 @@ END LC_NAME
 
 LC_ADDRESS
 % FIXME
-postal_fmt    "<U0025><U0061><U0025><U004E><U0025><U0066><U0025><U004E>/
-<U0025><U0064><U0025><U004E><U0025><U0062><U0025><U004E><U0025><U0068>/
-<U0020><U0025><U0073><U0020><U0025><U0065><U0020><U0025><U0072><U0025>/
-<U004E><U0025><U0054><U0020><U0025><U007A><U0025>/
-<U004E><U0025><U0063><U0025><U004E>"
+postal_fmt    "%a%N%f%N%d%N%b%N%h %s %e %r%N%T %z%N%c%N"
 country_name "<U067E><U0627><U06A9><U0633><U062A><U0627><U0646>"
-country_ab2 "<U0050><U004B>"
-country_ab3 "<U0050><U0041><U004B>"
+country_ab2 "PK"
+country_ab3 "PAK"
 country_num 586
-% PK
-country_car    "<U0050><U004B>"
-% ur
-lang_ab      "<U0075><U0072>"
-% urd
-lang_term    "<U0075><U0072><U0064>"
-% urd
-lang_lib    "<U0075><U0072><U0064>"
+country_car "PK"
+lang_name   "<U0627><U0631><U062F><U0648>"
+lang_ab      "ur"
+lang_term    "urd"
+lang_lib    "urd"
 END LC_ADDRESS
 
 LC_TELEPHONE
-tel_int_fmt "<U002B><U0025><U0063><U0020><U003B><U0025><U0061><U0020><U003B><U0025><U006C>"
-int_prefix "<U0039><U0032>"
-int_select "<U0030><U0030>"
+tel_int_fmt "+%c ;%a ;%l"
+int_prefix "92"
+int_select "00"
 END LC_TELEPHONE

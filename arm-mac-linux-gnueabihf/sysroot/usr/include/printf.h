@@ -1,4 +1,4 @@
-/* Copyright (C) 1991-2017 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -22,11 +22,12 @@
 
 __BEGIN_DECLS
 
-#define	__need_FILE
-#include <stdio.h>
+#include <bits/types/FILE.h>
+
 #define	__need_size_t
 #define __need_wchar_t
 #include <stddef.h>
+
 #include <stdarg.h>
 
 
@@ -47,7 +48,9 @@ struct printf_info
   unsigned int is_char:1;	/* hh flag.  */
   unsigned int wide:1;		/* Nonzero for wide character streams.  */
   unsigned int i18n:1;		/* I flag.  */
-  unsigned int __pad:4;		/* Unused so far.  */
+  unsigned int is_binary128:1;	/* Floating-point argument is ABI-compatible
+				   with IEC 60559 binary128.  */
+  unsigned int __pad:3;		/* Unused so far.  */
   unsigned short int user;	/* Bits for user-installed modifiers.  */
   wchar_t pad;			/* Padding character.  */
 };
@@ -111,13 +114,13 @@ extern int register_printf_function (int __spec, printf_function __func,
    it returns a positive value representing the bit set in the USER
    field in 'struct printf_info'.  */
 
-extern int register_printf_modifier (const wchar_t *__str) __wur __THROW;
+extern int register_printf_modifier (const wchar_t *__str) __THROW __wur;
 
 
 /* Register variable argument handler for user type.  The return value
    is to be used in ARGINFO functions to signal the use of the
    type.  */
-extern int register_printf_type (printf_va_arg_function __fct) __wur __THROW;
+extern int register_printf_type (printf_va_arg_function __fct) __THROW __wur;
 
 
 /* Parse FMT, and fill in N elements of ARGTYPES with the

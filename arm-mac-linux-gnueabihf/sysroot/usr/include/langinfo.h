@@ -1,5 +1,5 @@
 /* Access to locale-dependent parameters.
-   Copyright (C) 1995-2017 Free Software Foundation, Inc.
+   Copyright (C) 1995-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -74,7 +74,8 @@ enum
   DAY_7,			/* Saturday */
 #define DAY_7			DAY_7
 
-  /* Abbreviated month names.  */
+  /* Abbreviated month names, in the grammatical form used when the month
+     is a part of a complete date.  */
   ABMON_1,			/* Jan */
 #define ABMON_1			ABMON_1
   ABMON_2,
@@ -100,7 +101,8 @@ enum
   ABMON_12,
 #define ABMON_12		ABMON_12
 
-  /* Long month names.  */
+  /* Long month names, in the grammatical form used when the month
+     is a part of a complete date.  */
   MON_1,			/* January */
 #define MON_1			MON_1
   MON_2,
@@ -175,7 +177,8 @@ enum
   _NL_WDAY_6,		/* Friday */
   _NL_WDAY_7,		/* Saturday */
 
-  /* Abbreviated month names.  */
+  /* Abbreviated month names, in the grammatical form used when the month
+     is a part of a complete date.  */
   _NL_WABMON_1,		/* Jan */
   _NL_WABMON_2,
   _NL_WABMON_3,
@@ -189,7 +192,8 @@ enum
   _NL_WABMON_11,
   _NL_WABMON_12,
 
-  /* Long month names.  */
+  /* Long month names, in the grammatical form used when the month
+     is a part of a complete date.  */
   _NL_WMON_1,		/* January */
   _NL_WMON_2,
   _NL_WMON_3,
@@ -230,6 +234,80 @@ enum
   _NL_W_DATE_FMT,
 
   _NL_TIME_CODESET,
+
+  /* Long month names, in the grammatical form used when the month
+     is named by itself.  */
+  __ALTMON_1,			/* January */
+  __ALTMON_2,
+  __ALTMON_3,
+  __ALTMON_4,
+  __ALTMON_5,
+  __ALTMON_6,
+  __ALTMON_7,
+  __ALTMON_8,
+  __ALTMON_9,
+  __ALTMON_10,
+  __ALTMON_11,
+  __ALTMON_12,
+#ifdef __USE_GNU
+# define ALTMON_1		__ALTMON_1
+# define ALTMON_2		__ALTMON_2
+# define ALTMON_3		__ALTMON_3
+# define ALTMON_4		__ALTMON_4
+# define ALTMON_5		__ALTMON_5
+# define ALTMON_6		__ALTMON_6
+# define ALTMON_7		__ALTMON_7
+# define ALTMON_8		__ALTMON_8
+# define ALTMON_9		__ALTMON_9
+# define ALTMON_10		__ALTMON_10
+# define ALTMON_11		__ALTMON_11
+# define ALTMON_12		__ALTMON_12
+#endif
+
+  /* Long month names, in the grammatical form used when the month
+     is named by itself.  */
+  _NL_WALTMON_1,			/* January */
+  _NL_WALTMON_2,
+  _NL_WALTMON_3,
+  _NL_WALTMON_4,
+  _NL_WALTMON_5,
+  _NL_WALTMON_6,
+  _NL_WALTMON_7,
+  _NL_WALTMON_8,
+  _NL_WALTMON_9,
+  _NL_WALTMON_10,
+  _NL_WALTMON_11,
+  _NL_WALTMON_12,
+
+  /* Abbreviated month names, in the grammatical form used when the month
+     is named by itself.  */
+  _NL_ABALTMON_1,			/* Jan */
+  _NL_ABALTMON_2,
+  _NL_ABALTMON_3,
+  _NL_ABALTMON_4,
+  _NL_ABALTMON_5,
+  _NL_ABALTMON_6,
+  _NL_ABALTMON_7,
+  _NL_ABALTMON_8,
+  _NL_ABALTMON_9,
+  _NL_ABALTMON_10,
+  _NL_ABALTMON_11,
+  _NL_ABALTMON_12,
+
+  /* Abbreviated month names, in the grammatical form used when the month
+     is named by itself.  */
+  _NL_WABALTMON_1,			/* Jan */
+  _NL_WABALTMON_2,
+  _NL_WABALTMON_3,
+  _NL_WABALTMON_4,
+  _NL_WABALTMON_5,
+  _NL_WABALTMON_6,
+  _NL_WABALTMON_7,
+  _NL_WABALTMON_8,
+  _NL_WABALTMON_9,
+  _NL_WABALTMON_10,
+  _NL_WABALTMON_11,
+  _NL_WABALTMON_12,
 
   _NL_NUM_LC_TIME,	/* Number of indices in LC_TIME category.  */
 
@@ -584,14 +662,11 @@ extern char *nl_langinfo (nl_item __item) __THROW;
 
 
 #ifdef __USE_XOPEN2K8
-/* This interface is for the extended locale model.  See <locale.h> for
-   more information.  */
-
-/* Get locale datatype definition.  */
-# include <xlocale.h>
+/* POSIX.1-2008 extended locale interface (see locale.h).  */
+# include <bits/types/locale_t.h>
 
 /* Just like nl_langinfo but get the information from the locale object L.  */
-extern char *nl_langinfo_l (nl_item __item, __locale_t __l);
+extern char *nl_langinfo_l (nl_item __item, locale_t __l);
 #endif
 
 __END_DECLS

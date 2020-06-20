@@ -1,4 +1,4 @@
-/* Copyright (C) 1991-2017 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -57,7 +57,7 @@ typedef __pid_t pid_t;
 #endif
 
 #ifdef __USE_XOPEN2K8
-# include <xlocale.h>
+# include <bits/types/locale_t.h>
 #endif
 
 #ifdef __USE_ISOC11
@@ -67,9 +67,8 @@ typedef __pid_t pid_t;
 
 __BEGIN_DECLS
 
-__BEGIN_NAMESPACE_STD
 /* Time used by the program so far (user time + system time).
-   The result / CLOCKS_PER_SECOND is program time in seconds.  */
+   The result / CLOCKS_PER_SEC is program time in seconds.  */
 extern clock_t clock (void) __THROW;
 
 /* Return the current time and put it in *TIMER if TIMER is not NULL.  */
@@ -89,7 +88,6 @@ extern time_t mktime (struct tm *__tp) __THROW;
 extern size_t strftime (char *__restrict __s, size_t __maxsize,
 			const char *__restrict __format,
 			const struct tm *__restrict __tp) __THROW;
-__END_NAMESPACE_STD
 
 #ifdef __USE_XOPEN
 /* Parse S according to FORMAT and store binary time information in TP.
@@ -106,17 +104,16 @@ extern char *strptime (const char *__restrict __s,
 extern size_t strftime_l (char *__restrict __s, size_t __maxsize,
 			  const char *__restrict __format,
 			  const struct tm *__restrict __tp,
-			  __locale_t __loc) __THROW;
+			  locale_t __loc) __THROW;
 #endif
 
 #ifdef __USE_GNU
 extern char *strptime_l (const char *__restrict __s,
 			 const char *__restrict __fmt, struct tm *__tp,
-			 __locale_t __loc) __THROW;
+			 locale_t __loc) __THROW;
 #endif
 
 
-__BEGIN_NAMESPACE_STD
 /* Return the `struct tm' representation of *TIMER
    in Universal Coordinated Time (aka Greenwich Mean Time).  */
 extern struct tm *gmtime (const time_t *__timer) __THROW;
@@ -124,7 +121,6 @@ extern struct tm *gmtime (const time_t *__timer) __THROW;
 /* Return the `struct tm' representation
    of *TIMER in the local timezone.  */
 extern struct tm *localtime (const time_t *__timer) __THROW;
-__END_NAMESPACE_STD
 
 #ifdef __USE_POSIX
 /* Return the `struct tm' representation of *TIMER in UTC,
@@ -138,14 +134,12 @@ extern struct tm *localtime_r (const time_t *__restrict __timer,
 			       struct tm *__restrict __tp) __THROW;
 #endif	/* POSIX */
 
-__BEGIN_NAMESPACE_STD
 /* Return a string of the form "Day Mon dd hh:mm:ss yyyy\n"
    that is the representation of TP in this format.  */
 extern char *asctime (const struct tm *__tp) __THROW;
 
 /* Equivalent to `asctime (localtime (timer))'.  */
 extern char *ctime (const time_t *__timer) __THROW;
-__END_NAMESPACE_STD
 
 #ifdef __USE_POSIX
 /* Reentrant versions of the above functions.  */

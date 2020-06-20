@@ -1,5 +1,5 @@
 /* Declarations of socket constants, types, and functions.
-   Copyright (C) 1991-2017 Free Software Foundation, Inc.
+   Copyright (C) 1991-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -23,14 +23,9 @@
 
 __BEGIN_DECLS
 
-#include <sys/uio.h>
+#include <bits/types/struct_iovec.h>
 #define	__need_size_t
 #include <stddef.h>
-#ifdef __USE_GNU
-/* Get the __sigset_t definition.  */
-# include <bits/sigset.h>
-#endif
-
 
 /* This operating system-specific header file defines the SOCK_*, PF_*,
    AF_*, MSG_*, SOL_*, and SO_* constants, and the `struct sockaddr',
@@ -256,7 +251,7 @@ extern int shutdown (int __fd, int __how) __THROW;
 
 
 #ifdef __USE_XOPEN2K
-/* Determine wheter socket is at a out-of-band mark.  */
+/* Determine whether socket is at a out-of-band mark.  */
 extern int sockatmark (int __fd) __THROW;
 #endif
 

@@ -155,66 +155,105 @@ END LC_CTYPE
 
 LC_COLLATE
 copy "iso14651_t1"
+% CLDR collation rules for Uzbek:
+% (see: https://unicode.org/cldr/trac/browser/trunk/common/collation/uz.xml)
+%
+% 	<collations>
+% 		<collation type="standard"><cr><![CDATA[
+% # The following letters sort after z, see
+% # https://en.wikipedia.org/wiki/Uzbek_alphabet#Alphabetical_order
+% # Native speaker+linguists say that
+% # the digraph ⟨ng⟩ and the symbol ⟨ʼ⟩ are not considered separate letters.
+% #
+% # Reset between the last z-like letter and ezh.
+% #
+% # U+02BB ʻ MODIFIER LETTER TURNED COMMA is hard to type, so make
+% # equivalent contractions with U+2018 ‘ LEFT SINGLE QUOTATION MARK
+% # and U+0027 APOSTROPHE.
+% # (https://en.wikipedia.org/wiki/Uzbek_alphabet#Distinct_characters)
+% # Remember that a pair of apostrophes encodes just one of them.
+% &[before 1]ʒ<oʻ=o‘=o''<<<Oʻ=O‘=O''
+% <gʻ=g‘=g''<<<Gʻ=G‘=G''
+% <sh<<<Sh<<<SH
+% <ch<<<Ch<<<CH
+% 		]]></cr></collation>
+% 	</collations>
+%
+% And CLDR also lists the following
+% index characters:
+% (see: https://unicode.org/cldr/trac/browser/trunk/common/main/uz.xml)
+%
+% <exemplarCharacters type="index">[A B D E F G H I J K L M N O P Q R S T U V X Y Z {Oʻ} {Gʻ} {Sh} {Ch}]</exemplarCharacters>
+%
 
-%% a b c d e f g g' h i j k l m n o o' p q r s t u v x y z
-%% cyr: a=, b=, v=, g=, d=, e=, io, z%, z=, i=, j=, k=, l=, m=, n=, o=,
-%%	p=, r=, s=, t=, u=, f=, h=, c=, c%, s%, sc, =' , y=, je, ju, ja,
-%%	v%, k,=, g-=, h,=
-collating-symbol  <g-'-uz>
-collating-element <g-'> from "<U0067><U0027>"
-collating-element <G-'> from "<U0047><U0027>"
-collating-symbol  <o-'-uz>
-collating-element <o-'> from "<U006F><U0027>"
-collating-element <O-'> from "<U004F><U0027>"
+collating-symbol  <g'-digraph>
+collating-symbol  <o'-digraph>
+collating-element <g-turned-comma> from "g<U02BB>"
+collating-element <G-turned-comma> from "G<U02BB>"
+collating-element <o-turned-comma> from "o<U02BB>"
+collating-element <O-turned-comma> from "O<U02BB>"
+% Unfortunately we cannot use “left single quotation mark” because
+% it fails when creating the uz_UZ.iso88591 locale. In UTF-8 it works
+% but in ISO-8859-1 one gets error messages that it uses the same
+% encoding as “turned comma”
+% collating-element <g-left-single-quotation-mark> from "g<U2018>"
+% collating-element <G-left-single-quotation-mark> from "G<U2018>"
+% collating-element <o-left-single-quotation-mark> from "o<U2018>"
+% collating-element <O-left-single-quotation-mark> from "O<U2018>"
+collating-element <g-double-apostrophe> from "g''"
+collating-element <G-double-apostrophe> from "G''"
+collating-element <o-double-apostrophe> from "o''"
+collating-element <O-double-apostrophe> from "O''"
+collating-symbol <sh-digraph>
+collating-element <sh> from "sh"
+collating-element <sH> from "sH"
+collating-element <Sh> from "Sh"
+collating-element <SH> from "SH"
+collating-symbol <ch-digraph>
+collating-element <ch> from "ch"
+collating-element <cH> from "cH"
+collating-element <Ch> from "Ch"
+collating-element <CH> from "CH"
 
-collating-symbol <k,=>
-collating-symbol <g-=>
-collating-symbol <h,=>
+reorder-after <AFTER-Z>
+<o'-digraph>
+<g'-digraph>
+<sh-digraph>
+<ch-digraph>
 
-reorder-after <g>
-<g-'-uz>
-reorder-after <o>
-<o-'-uz>
-reorder-after <CYR-YA>
-<CYR-OUBRE>
-<k,=>
-<g-=>
-<h,=>
-
-reorder-after <U0067>
-<g-'>	<g-'-uz>;<PCL>;<MIN>;IGNORE
-reorder-after <U0047>
-<G-'>	<g-'-uz>;<PCL>;<CAP>;IGNORE
-
-reorder-after <U006F>
-<o-'>	<o-'-uz>;<PCL>;<MIN>;IGNORE
-reorder-after <U004F>
-<O-'>	<o-'-uz>;<PCL>;<CAP>;IGNORE
-
-reorder-after <U044F>
-<U045E> <CYR-OUBRE>;<PCL>;<MIN>;IGNORE
-<U049B> <k,=>;<PCL>;<MIN>;IGNORE
-<U0493> <g-=>;<PCL>;<MIN>;IGNORE
-<U04B3> <h,=>;<PCL>;<MIN>;IGNORE
-
-reorder-after <U042F>
-<U040E> <CYR-OUBRE>;<PCL>;<CAP>;IGNORE
-<U049A> <k,=>;<PCL>;<CAP>;IGNORE
-<U0492> <g-=>;<PCL>;<CAP>;IGNORE
-<U04B2> <h,=>;<PCL>;<CAP>;IGNORE
+<o-turned-comma>               <o'-digraph>;"<BASE><BASE>";"<MIN><MIN>";<VRNT1>
+<O-turned-comma>               <o'-digraph>;"<BASE><BASE>";"<CAP><MIN>";<VRNT1>
+% <o-left-single-quotation-mark> <o'-digraph>;"<BASE><BASE>";"<MIN><MIN>";<VRNT2>
+% <O-left-single-quotation-mark> <o'-digraph>;"<BASE><BASE>";"<CAP><MIN>";<VRNT2>
+<o-double-apostrophe>          <o'-digraph>;"<BASE><BASE>";"<MIN><MIN>";<VRNT3>
+<O-double-apostrophe>          <o'-digraph>;"<BASE><BASE>";"<CAP><MIN>";<VRNT3>
+<g-turned-comma>               <g'-digraph>;"<BASE><BASE>";"<MIN><MIN>";<VRNT1>
+<G-turned-comma>               <g'-digraph>;"<BASE><BASE>";"<CAP><MIN>";<VRNT1>
+% <g-left-single-quotation-mark> <g'-digraph>;"<BASE><BASE>";"<MIN><MIN>";<VRNT2>
+% <G-left-single-quotation-mark> <g'-digraph>;"<BASE><BASE>";"<CAP><MIN>";<VRNT2>
+<g-double-apostrophe>          <g'-digraph>;"<BASE><BASE>";"<MIN><MIN>";<VRNT3>
+<G-double-apostrophe>          <g'-digraph>;"<BASE><BASE>";"<CAP><MIN>";<VRNT3>
+<sh>                           <sh-digraph>;"<BASE><BASE>";"<MIN><MIN>";IGNORE
+<sH>                           <sh-digraph>;"<BASE><BASE>";"<MIN><CAP>";IGNORE
+<Sh>                           <sh-digraph>;"<BASE><BASE>";"<CAP><MIN>";IGNORE
+<SH>                           <sh-digraph>;"<BASE><BASE>";"<CAP><CAP>";IGNORE
+<ch>                           <ch-digraph>;"<BASE><BASE>";"<MIN><MIN>";IGNORE
+<cH>                           <ch-digraph>;"<BASE><BASE>";"<MIN><CAP>";IGNORE
+<Ch>                           <ch-digraph>;"<BASE><BASE>";"<CAP><MIN>";IGNORE
+<CH>                           <ch-digraph>;"<BASE><BASE>";"<CAP><CAP>";IGNORE
 
 reorder-end
 
 END LC_COLLATE
 
 LC_MONETARY
-int_curr_symbol         "<U0055><U005A><U0053><U0020>"
-currency_symbol         "<U0073><U006F><U02BB><U006D>"
-mon_decimal_point       "<U002E>"
-mon_thousands_sep       "<U002C>"
+int_curr_symbol         "UZS "
+currency_symbol         "so<U02BB>m"
+mon_decimal_point       "."
+mon_thousands_sep       ","
 mon_grouping            3;3
 positive_sign           ""
-negative_sign           "<U002D>"
+negative_sign           "-"
 int_frac_digits         2
 frac_digits             2
 p_cs_precedes           1
@@ -226,47 +265,47 @@ n_sign_posn             1
 END LC_MONETARY
 
 LC_NUMERIC
-decimal_point           "<U002E>"
-thousands_sep           "<U002C>"
+decimal_point           "."
+thousands_sep           ","
 grouping                3;3
 END LC_NUMERIC
 
 LC_TIME
-abday       "<U0059><U0061><U006B>";"<U0044><U0075>";/
-            "<U0053><U0065>";"<U0043><U0068><U006F>";/
-            "<U0050><U0061><U0079>";"<U004A><U0075>";/
-            "<U0053><U0068><U0061>"
-day         "<U0059><U0061><U006B><U0073><U0068><U0061><U006E><U0062><U0061>";/
-            "<U0044><U0075><U0073><U0068><U0061><U006E><U0062><U0061>";/
-            "<U0053><U0065><U0073><U0068><U0061><U006E><U0062><U0061>";/
-            "<U0043><U0068><U006F><U0072><U0073><U0068><U0061><U006E><U0062><U0061>";/
-            "<U0050><U0061><U0079><U0073><U0068><U0061><U006E><U0062><U0061>";/
-            "<U004A><U0075><U006D><U0061>";/
-            "<U0053><U0068><U0061><U006E><U0062><U0061>"
-abmon       "<U0059><U0061><U006E>";"<U0046><U0065><U0076>";/
-            "<U004D><U0061><U0072>";"<U0041><U0070><U0072>";/
-            "<U004D><U0061><U0079>";"<U0049><U0079><U006E>";/
-            "<U0049><U0079><U006C>";"<U0041><U0076><U0067>";/
-            "<U0053><U0065><U006E>";"<U004F><U006B><U0074>";/
-            "<U004E><U006F><U0079>";"<U0044><U0065><U006B>"
-mon         "<U0059><U0061><U006E><U0076><U0061><U0072>";/
-            "<U0046><U0065><U0076><U0072><U0061><U006C>";/
-            "<U004D><U0061><U0072><U0074>";/
-            "<U0041><U0070><U0072><U0065><U006C>";/
-            "<U004D><U0061><U0079>";/
-            "<U0049><U0079><U0075><U006E>";/
-            "<U0049><U0079><U0075><U006C>";/
-            "<U0041><U0076><U0067><U0075><U0073><U0074>";/
-            "<U0053><U0065><U006E><U0074><U0079><U0061><U0062><U0072>";/
-            "<U004F><U006B><U0074><U0079><U0061><U0062><U0072>";/
-            "<U004E><U006F><U0079><U0061><U0062><U0072>";/
-            "<U0044><U0065><U006B><U0061><U0062><U0072>"
-d_t_fmt  "<U0025><U0054><U002C><U0020><U0025><U0064><U0020><U0025><U0042><U002C><U0020><U0025><U0059><U0020><U0079><U0069><U006C><U002C><U0020><U0025><U0041>"
-d_fmt       "<U0025><U0064><U002F><U0025><U006D><U002F><U0025><U0079>"
-t_fmt       "<U0025><U0054>"
+abday       "Yak";"Du";/
+            "Se";"Cho";/
+            "Pay";"Ju";/
+            "Sha"
+day         "Yakshanba";/
+            "Dushanba";/
+            "Seshanba";/
+            "Chorshanba";/
+            "Payshanba";/
+            "Juma";/
+            "Shanba"
+abmon       "Yan";"Fev";/
+            "Mar";"Apr";/
+            "May";"Iyn";/
+            "Iyl";"Avg";/
+            "Sen";"Okt";/
+            "Noy";"Dek"
+mon         "Yanvar";/
+            "Fevral";/
+            "Mart";/
+            "Aprel";/
+            "May";/
+            "Iyun";/
+            "Iyul";/
+            "Avgust";/
+            "Sentabr";/
+            "Oktabr";/
+            "Noyabr";/
+            "Dekabr"
+d_t_fmt  "%T, %d %B, %Y yil, %A"
+d_fmt       "%d//%m//%y"
+t_fmt       "%T"
 am_pm       "";""
 t_fmt_ampm  ""
-date_fmt    "<U0025><U0064><U0020><U0025><U0042><U002C><U0020><U0025><U0059><U0020><U0079><U0069><U006C><U002C><U0020><U0025><U0041>"
+date_fmt    "%d %B, %Y yil, %A"
 week 7;19971130;1
 first_weekday 2
 END LC_TIME
@@ -274,11 +313,10 @@ END LC_TIME
 LC_MESSAGES
 % Note: "No" is "yo‘q" which conflicts with English "yes".
 % This is why "jo‘q" & "jJ" is also accepted as "no".
-yesexpr "<U005E><U005B><U002B><U0031><U04B2><U04B3><U0048><U0068><U005D>"
-noexpr  "<U005E><U005B><U002D><U0030><U0419><U0439><U004E><U006E><U0059>/
-<U0079><U004A><U006A><U005D>"
-yesstr  "<U0068><U0061>"
-nostr   "<U0079><U006F><U2018><U0071>"
+yesexpr "^[+1hH<U04B2><U04B3>]"
+noexpr  "^[-0nNyYjJ<U0419><U0439>]"
+yesstr  "ha"
+nostr   "yo<U2018>q"
 END LC_MESSAGES
 
 LC_PAPER
@@ -287,9 +325,9 @@ END LC_PAPER
 
 LC_TELEPHONE
 % FIXME: todo
-tel_int_fmt    "<U002B><U0025><U0063><U0020><U0025><U0061><U0020><U0025>/
-<U006C>"
-int_prefix     "<U0039><U0039><U0038>"
+tel_int_fmt    "+%c %a %l"
+int_prefix     "998"
+int_select     "00"
 END LC_TELEPHONE
 
 LC_MEASUREMENT
@@ -297,8 +335,7 @@ copy "i18n"
 END LC_MEASUREMENT
 
 LC_NAME
-name_fmt    "<U0025><U0064><U0025><U0074><U0025><U0066><U0025><U0074>/
-<U0025><U0067><U0025><U0074><U0025><U006D>"
+name_fmt    "%d%t%f%t%g%t%m"
 name_gen    "Hurmatli"
 name_mr     "Janob"
 name_mrs    "Xonim"
@@ -312,25 +349,17 @@ LC_ADDRESS
 % format: %C%N%S%N%T%N%s %h%N%f%N%b%N%d%N%e %r%N%a%N%z
 % but %S seems not recognized yet ? so %C%N%T%N%s %h%N%f%N%b%N%d%N%e %r%N%a%N%z
 % is used.
-postal_fmt    "<U0025><U0043><U0025><U004E>/
-<U0025><U0054><U0025><U004E><U0025><U0073><U0020><U0025><U0068><U0025>/
-<U004E><U0025><U0066><U0025><U004E><U0025><U0062><U0025><U004E><U0025>/
-<U0064><U0025><U004E><U0025><U0065><U0020><U0025><U0072><U0025><U004E>/
-<U0025><U0061><U0025><U004E><U0025><U007A>"
-country_name "<U004F><U02BB><U007A><U0062><U0065><U006B><U0069><U0073><U0074><U006F><U006E>"
+postal_fmt    "%C%N%T%N%s %h%N%f%N%b%N%d%N%e %r%N%a%N%z"
+country_name "O<U02BB>zbekiston"
 country_post "UZ" % ??
 country_ab2  "UZ"
 country_ab3  "UZB"
 country_num  860
 % FIXME: ISBN number?
 %country_isbn ""
-% UZ
-country_car    "<U0055><U005A>"
-lang_name   "<U004F><U0027><U007A><U0062><U0065><U006B>"
-% uz
-lang_ab      "<U0075><U007A>"
-% uzb
-lang_term    "<U0075><U007A><U0062>"
-% uzb
-lang_lib     "<U0075><U007A><U0062>"
+country_car   "UZ"
+lang_name   "o<U2018>zbek"
+lang_ab      "uz"
+lang_term    "uzb"
+lang_lib     "uzb"
 END LC_ADDRESS

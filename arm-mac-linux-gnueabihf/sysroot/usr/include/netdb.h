@@ -1,4 +1,4 @@
-  /* Copyright (C) 1996-2017 Free Software Foundation, Inc.
+  /* Copyright (C) 1996-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -25,7 +25,7 @@
 #include <features.h>
 
 #include <netinet/in.h>
-#include <stdint.h>
+#include <bits/stdint-uintn.h>
 #ifdef __USE_MISC
 /* This is necessary to make this include file properly replace the
    Sun version.  */
@@ -33,8 +33,7 @@
 #endif
 
 #ifdef __USE_GNU
-# define __need_sigevent_t
-# include <bits/siginfo.h>
+# include <bits/types/sigevent_t.h>
 # include <bits/types/struct_timespec.h>
 #endif
 
@@ -606,10 +605,10 @@ struct gaicb
 				   in the current locale's character set)
 				   before looking it up. */
 #  define AI_CANONIDN	0x0080	/* Translate canonical name from IDN format. */
-#  define AI_IDN_ALLOW_UNASSIGNED 0x0100 /* Don't reject unassigned Unicode
-					    code points.  */
-#  define AI_IDN_USE_STD3_ASCII_RULES 0x0200 /* Validate strings according to
-						STD3 rules.  */
+#  define AI_IDN_ALLOW_UNASSIGNED \
+  __glibc_macro_warning ("AI_IDN_ALLOW_UNASSIGNED is deprecated") 0x0100
+#  define AI_IDN_USE_STD3_ASCII_RULES \
+  __glibc_macro_warning ("AI_IDN_USE_STD3_ASCII_RULES is deprecated") 0x0200
 # endif
 # define AI_NUMERICSERV	0x0400	/* Don't use name resolution.  */
 
@@ -647,10 +646,10 @@ struct gaicb
 # define NI_DGRAM	16	/* Look up UDP service rather than TCP.  */
 # ifdef __USE_GNU
 #  define NI_IDN	32	/* Convert name from IDN format.  */
-#  define NI_IDN_ALLOW_UNASSIGNED 64 /* Don't reject unassigned Unicode
-					code points.  */
-#  define NI_IDN_USE_STD3_ASCII_RULES 128 /* Validate strings according to
-					     STD3 rules.  */
+#  define NI_IDN_ALLOW_UNASSIGNED \
+  __glibc_macro_warning ("NI_IDN_ALLOW_UNASSIGNED is deprecated") 64
+#  define NI_IDN_USE_STD3_ASCII_RULES \
+  __glibc_macro_warning ("NI_IDN_USE_STD3_ASCII_RULES is deprecated") 128
 # endif
 
 /* Translate name of a service location and/or a service name to set of

@@ -14,7 +14,6 @@ escape_char /
 % Option: euro
 % Date: 2000-08-20
 % Users: general
-% Charset: ISO-8859-15
 
 LC_IDENTIFICATION
 title      "Breton locale for France with Euro"
@@ -47,8 +46,7 @@ copy "br_FR"
 END LC_CTYPE
 
 LC_COLLATE
-% Copy the template from ISO/IEC 14651
-copy "iso14651_t1"
+copy "br_FR"
 END LC_COLLATE
 
 LC_MESSAGES

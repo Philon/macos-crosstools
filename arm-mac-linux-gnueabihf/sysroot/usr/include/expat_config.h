@@ -4,6 +4,12 @@
 /* 1234 = LIL_ENDIAN, 4321 = BIGENDIAN */
 #define BYTEORDER 1234
 
+/* Define to 1 if you have the `arc4random' function. */
+/* #undef HAVE_ARC4RANDOM */
+
+/* Define to 1 if you have the `arc4random_buf' function. */
+/* #undef HAVE_ARC4RANDOM_BUF */
+
 /* Define to 1 if you have the `bcopy' function. */
 #define HAVE_BCOPY 1
 
@@ -16,8 +22,14 @@
 /* Define to 1 if you have the `getpagesize' function. */
 #define HAVE_GETPAGESIZE 1
 
+/* Define to 1 if you have the `getrandom' function. */
+#define HAVE_GETRANDOM 1
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
+
+/* Define to 1 if you have the `bsd' library (-lbsd). */
+/* #undef HAVE_LIBBSD */
 
 /* Define to 1 if you have the `memmove' function. */
 #define HAVE_MEMMOVE 1
@@ -40,6 +52,9 @@
 /* Define to 1 if you have the <string.h> header file. */
 #define HAVE_STRING_H 1
 
+/* Define to 1 if you have `syscall' and `SYS_getrandom'. */
+/* #undef HAVE_SYSCALL_GETRANDOM */
+
 /* Define to 1 if you have the <sys/param.h> header file. */
 #define HAVE_SYS_PARAM_H 1
 
@@ -55,6 +70,9 @@
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #define LT_OBJDIR ".libs/"
 
+/* Name of package */
+#define PACKAGE "expat"
+
 /* Define to the address where bug reports for this package should be sent. */
 #define PACKAGE_BUGREPORT "expat-bugs@libexpat.org"
 
@@ -62,7 +80,7 @@
 #define PACKAGE_NAME "expat"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "expat 2.2.0"
+#define PACKAGE_STRING "expat 2.2.6"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "expat"
@@ -71,10 +89,13 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "2.2.0"
+#define PACKAGE_VERSION "2.2.6"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
+
+/* Version number of package */
+#define VERSION "2.2.6"
 
 /* whether byteorder is bigendian */
 /* #undef WORDS_BIGENDIAN */
@@ -83,14 +104,14 @@
    point. */
 #define XML_CONTEXT_BYTES 1024
 
+/* Define to include code reading entropy from `/dev/urandom'. */
+#define XML_DEV_URANDOM 1
+
 /* Define to make parameter entity parsing functionality available. */
 #define XML_DTD 1
 
 /* Define to make XML Namespaces functionality available. */
 #define XML_NS 1
-
-/* Define to __FUNCTION__ or "" if `__func__' does not conform to ANSI C. */
-/* #undef __func__ */
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */

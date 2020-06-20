@@ -9,7 +9,6 @@ escape_char /
 % otherwise be governed by that license.
 
 % Sinhala language locale for Sri Lanka.
-% Charset: UTF-8
 % Contributed by Anuradha Ratnaweera <anuradha at gnu org>
 % and Himira Ratnatilake <himira at linux lk>
 
@@ -53,19 +52,61 @@ LC_COLLATE
 % Copy the template from ISO/IEC 14651
 copy "iso14651_t1"
 
+% CLDR collation rules for Sinhala:
+% (see: https://unicode.org/cldr/trac/browser/trunk/common/collation/si.xml)
+%
+% <collation type="standard" references="Sri Lanka standard 1134 Part 1 - 2007 edition - Sri Lanka Standards Institution">
+% 	<cr><![CDATA[
+% 		[normalization on]
+% 		[reorder Sinh Deva Beng Guru Gujr Orya Taml Telu Knda Mlym]
+% 		&ඖ<ං<ඃ
+% 		&ඥ<ඤ
+% 	]]></cr>
+% </collation>
+%
+% And CLDR also lists the following
+% index characters:
+% (see: https://unicode.org/cldr/trac/browser/trunk/common/main/si.xml)
+%
+% <exemplarCharacters type="index">[අ ආ ඇ ඈ ඉ ඊ උ ඌ ඍ එ ඒ ඓ ඔ ඕ ඖ ක ඛ ග ඝ ඞ ඟ ච ඡ ජ ඣ ඥ ඤ ට ඨ ඩ ඪ ණ ඬ ත ථ ද ධ න ඳ ප ඵ බ භ ම ඹ ය ර ල ව ශ ෂ ස හ ළ ෆ]</exemplarCharacters>
+%
+% The following rules implement the same order for glibc.
+
+collating-symbol <sinhala-sign-anusvaraya>
+collating-symbol <sinhala-sign-visargaya>
+collating-symbol <sinhala-letter-taaluja-naasikyaya>
+
+% &ඖ<ං<ඃ
+reorder-after <S0D96> % ඖ U+0D96 SINHALA LETTER AUYANNA
+<sinhala-sign-anusvaraya>
+<sinhala-sign-visargaya>
+
+% &ඥ<ඤ
+reorder-after <S0DA5> % ඥ U+0DA5 SINHALA LETTER TAALUJA SANYOOGA NAAKSIKYAYA
+<sinhala-letter-taaluja-naasikyaya>
+
+% &ඖ<ං<ඃ
+<U0D82> <sinhala-sign-anusvaraya>;<ANUSVARA>;<MIN>;<U0D82> % SINHALA SIGN ANUSVARAYA
+<U0D83> <sinhala-sign-visargaya>;<VISARGA>;<MIN>;<U0D83> % SINHALA SIGN VISARGAYA
+
+% &ඥ<ඤ
+<U0DA4> <sinhala-letter-taaluja-naasikyaya>;<BASE>;<MIN>;<U0DA4> % SINHALA LETTER TAALUJA NAASIKYAYA
+
+reorder-end
+
 END LC_COLLATE
 
 
 LC_MONETARY
 % This is the POSIX Locale definition the LC_MONETARY category
 %
-int_curr_symbol       "<U004C><U004B><U0052><U0020>"
+int_curr_symbol       "LKR "
 currency_symbol       "<U0DBB><U0DD4>"
-mon_decimal_point     "<U002E>"
-mon_thousands_sep     "<U002C>"
+mon_decimal_point     "."
+mon_thousands_sep     ","
 mon_grouping          3
 positive_sign         ""
-negative_sign         "<U002D>"
+negative_sign         "-"
 int_frac_digits       2
 frac_digits           2
 p_cs_precedes         1
@@ -81,8 +122,8 @@ END LC_MONETARY
 LC_NUMERIC
 % This is the POSIX Locale definition for the LC_NUMERIC  category.
 %
-decimal_point          "<U002E>"
-thousands_sep          "<U002C>"
+decimal_point          "."
+thousands_sep          ","
 grouping               3
 %
 END LC_NUMERIC
@@ -124,7 +165,7 @@ abmon       "<U0DA2><U0DB1>";/
 mon         "<U0DA2><U0DB1><U0DC0><U0DCF><U0DBB><U0DD2>";/
 	    "<U0DB4><U0DD9><U0DB6><U0DBB><U0DC0><U0DCF><U0DBB><U0DD2>";/
 	    "<U0DB8><U0DCF><U0DBB><U0DCA><U0DAD><U0DD4>";/
-	    "<U0D85><U0DB4><U0DCA><U200D><U0DBB><U0DD2><U0DBA><U0DD9><U0DBD><U0DCA>";/
+	    "<U0D85><U0DB4><U0DCA><U200D><U0DBB><U0DDA><U0DBD><U0DCA>";/
 	    "<U0DB8><U0DD0><U0DBA><U0DD2>";/
 	    "<U0DA2><U0DD6><U0DB1><U0DD2>";/
 	    "<U0DA2><U0DD6><U0DBD><U0DD2>";/
@@ -135,27 +176,22 @@ mon         "<U0DA2><U0DB1><U0DC0><U0DCF><U0DBB><U0DD2>";/
 	    "<U0DAF><U0DD9><U0DC3><U0DD0><U0DB8><U0DCA><U0DB6><U0DBB><U0DCA>"
 %
 % Equivalent of AM PM
-am_pm       "<U0DB4><U0DD9><U002E><U0DC0><U002E>";"<U0DB4><U002E><U0DC0><U002E>"
+am_pm       "<U0DB4><U0DD9>.<U0DC0>.";"<U0DB4>.<U0DC0>."
 %
 % Appropriate date and time representation (use the same as ISO)
-% %Y-%m-%d %H:%M:%S %z
-d_t_fmt     "<U0025><U0059><U002D><U0025><U006D><U002D><U0025><U0064><U0020><U0025><U0048><U003A><U0025><U004D><U003A><U0025><U0053><U0020><U0025><U007A>"
+d_t_fmt     "%Y-%m-%d %H:%M:%S %z"
 %
 % Appropriate date representation (use the same as ISO)
-% %Y-%m-%d
-d_fmt "<U0025><U0059><U002D><U0025><U006D><U002D><U0025><U0064>"
+d_fmt "%Y-%m-%d"
 %
 % Appropriate time representation
-% %H:%M:%S
-t_fmt       "<U0025><U0048><U003A><U0025><U004D><U003A><U0025><U0053>"
+t_fmt       "%H:%M:%S"
 %
 % Appropriate 12 h time representation
-% %p %I:%M:%S
-t_fmt_ampm  "<U0025><U0070><U0020><U0025><U0049><U003A><U0025><U004D><U003A><U0025><U0053>"
+t_fmt_ampm  "%p %I:%M:%S"
 %
 % Appropriate date and time (date(1))
-% %Y %B %e %A %H:%M:%S %z
-date_fmt     "<U0025><U0059><U0020><U0025><U0042><U0020><U0025><U0065><U0020><U0DC0><U0DD0><U0DB1><U0DD2><U0020><U0025><U0041><U0020><U0025><U0048><U003A><U0025><U004D><U003A><U0025><U0053><U0020><U0025><U007A>"
+date_fmt     "%Y %B %e <U0DC0><U0DD0><U0DB1><U0DD2> %A %H:%M:%S %z"
 %
 week 7;19971130;1
 first_weekday 2
@@ -163,8 +199,8 @@ END LC_TIME
 
 
 LC_MESSAGES
-yesexpr "<U005E><U005B><U002B><U0031><U0D94><U0059><U0079><U005D>"
-noexpr  "<U005E><U005B><U002D><U0030><U0DB1><U004E><U006E><U005D>"
+yesexpr "^[+1yY<U0D94>]"
+noexpr  "^[-0nN<U0DB1>]"
 yesstr  "<U0D94><U0DC0><U0DCA>"
 nostr   "<U0DB1><U0DD0><U0DAD>"
 END LC_MESSAGES
@@ -178,7 +214,7 @@ END LC_PAPER
 LC_NAME
 % This is the ISO_IEC TR14652 Locale definition for the LC_NAME category
 %
-name_fmt    "<U0025><U0067><U0025><U0074><U0025><U006D><U0025><U0074><U0025><U0066><U0025><U0074><U0025><U0073>"
+name_fmt    "%g%t%m%t%f%t%s"
 name_gen    ""
 name_mr     "<U0DB8><U0DBA><U0DCF>"
 name_mrs    "<U0DB8><U0DD2><U0DBA>"
@@ -190,32 +226,28 @@ END LC_NAME
 
 LC_ADDRESS
 
-postal_fmt  "<U0025><U007A><U0025><U0063><U0025><U0054><U0025><U0073><U0025><U0062><U0025><U0065><U0025><U0072>"
-country_name "<U0DC1><U0DCA><U200D><U0DBB><U0DD3><U0020><U0DBD><U0D82><U0D9A><U0DCF><U0DC0>"
-country_ab2 "<U004C><U004B>"
-country_ab3 "<U004C><U004B><U0041>"
+postal_fmt  "%z%c%T%s%b%e%r"
+country_name "<U0DC1><U0DCA><U200D><U0DBB><U0DD3> <U0DBD><U0D82><U0D9A><U0DCF><U0DC0>"
+country_ab2 "LK"
+country_ab3 "LKA"
 country_num 144
-% CL
-country_car  "<U0043><U004C>"
+country_car  "CL"
 % සිංහල
 lang_name    "<U0DC3><U0DD2><U0D82><U0DC4><U0DBD>"
-% si
-lang_ab      "<U0073><U0069>"
-% sin
-lang_term    "<U0073><U0069><U006E>"
-% sin
-lang_lib    "<U0073><U0069><U006E>"
+lang_ab      "si"
+lang_term    "sin"
+lang_lib    "sin"
 END LC_ADDRESS
 
 
 LC_TELEPHONE
 % This is the ISO_IEC TR14652 Locale definition for the LC_TELEPHONE
 %
-tel_int_fmt    "<U002B><U0025><U0063><U0020><U0028><U0025><U0061><U0029>/
-<U0020><U0025><U006C>"
-tel_dom_fmt    "<U0028><U0025><U0061><U0029><U0020><U0025><U006C>"
-int_select     "<U0030><U0030>"
-int_prefix     "<U0039><U0034>"
+tel_int_fmt    "+%c (%a)/
+ %l"
+tel_dom_fmt    "(%a) %l"
+int_select     "00"
+int_prefix     "94"
 
 END LC_TELEPHONE
 

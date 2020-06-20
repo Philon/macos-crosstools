@@ -20,7 +20,6 @@ escape_char /
 % Date: 2006-07-25
 % Application: general
 % Users: general
-% Charset: UTF-8
 
 LC_IDENTIFICATION
 title      "Kashubian locale for Poland"
@@ -54,6 +53,12 @@ copy "pl_PL"
 END LC_CTYPE
 
 LC_COLLATE
+% There is no collation information for Kashubian in CLDR.
+%
+% https://en.wikipedia.org/wiki/Kashubian_language#Kashubian_alphabet
+%
+% A Ą Ã B C D E É Ë F G H I J K L Ł M N Ń O Ò Ó Ô P R S T U Ù W Y Z Ż
+
 copy "iso14651_t1"
 
 collating-symbol <aogonek>
@@ -68,74 +73,57 @@ collating-symbol <ocircumflex>
 collating-symbol <ugrave>
 collating-symbol <zdot>
 
-reorder-after <a>
+reorder-after <AFTER-A>
 <aogonek>
 <atilde>
-
-reorder-after <e>
+reorder-after <AFTER-E>
 <eacute>
 <ediaeresis>
-
-reorder-after <l>
+reorder-after <AFTER-L>
 <lstroke>
-
-reorder-after <n>
+reorder-after <AFTER-N>
 <nacute>
-
-reorder-after <o>
+reorder-after <AFTER-O>
 <ograve>
 <oacute>
 <ocircumflex>
-
-reorder-after <u>
+reorder-after <AFTER-U>
 <ugrave>
-
-reorder-after <z>
+reorder-after <AFTER-Z>
 <zdot>
 
-reorder-after <U0061>
-<U0105> <aogonek>;<BAS>;<MIN>;IGNORE
-<U0104> <aogonek>;<BAS>;<CAP>;IGNORE
-<U00E3> <atilde>;<BAS>;<MIN>;IGNORE
-<U00C3> <atilde>;<BAS>;<CAP>;IGNORE
-
-reorder-after <U0065>
-<U00E9> <eacute>;<BAS>;<MIN>;IGNORE
-<U00C9> <eacute>;<BAS>;<CAP>;IGNORE
-<U00EB> <ediaeresis>;<BAS>;<MIN>;IGNORE
-<U00CB> <ediaeresis>;<BAS>;<CAP>;IGNORE
-
-reorder-after <U006C>
-<U0142> <lstroke>;<BAS>;<MIN>;IGNORE
-<U0141> <lstroke>;<BAS>;<CAP>;IGNORE
-
-reorder-after <U006E>
-<U0144> <nacute>;<BAS>;<MIN>;IGNORE
-<U0143> <nacute>;<BAS>;<CAP>;IGNORE
-
-reorder-after <U006F>
-<U00F2> <ograve>;<BAS>;<MIN>;IGNORE
-<U00D2> <ograve>;<BAS>;<CAP>;IGNORE
-<U00F3> <oacute>;<BAS>;<MIN>;IGNORE
-<U00D3> <oacute>;<BAS>;<CAP>;IGNORE
-<U00F4> <ocircumflex>;<BAS>;<MIN>;IGNORE
-<U00D4> <ocircumflex>;<BAS>;<CAP>;IGNORE
-
-reorder-after <U0075>
-<U00F9> <ugrave>;<BAS>;<MIN>;IGNORE
-<U00D9> <ugrave>;<BAS>;<CAP>;IGNORE
-
-reorder-after <U007A>
-<U017C> <zdot>;<BAS>;<MIN>;IGNORE
-<U017B> <zdot>;<BAS>;<CAP>;IGNORE
+<U0105> <aogonek>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ą
+<U0104> <aogonek>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ą
+<U00E3> <atilde>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ã
+<U00C3> <atilde>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ã
+<U00E9> <eacute>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % é
+<U00C9> <eacute>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % É
+<U00EB> <ediaeresis>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ë
+<U00CB> <ediaeresis>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ë
+<U0142> <lstroke>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ł
+<U0141> <lstroke>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ł
+<U0144> <nacute>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ń
+<U0143> <nacute>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ń
+<U00F2> <ograve>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ò
+<U00D2> <ograve>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ò
+<U00F3> <oacute>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ó
+<U00D3> <oacute>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ó
+<U00F4> <ocircumflex>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ô
+<U00D4> <ocircumflex>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ô
+<U00F9> <ugrave>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ù
+<U00D9> <ugrave>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ù
+<U017C> <zdot>;"<BASE><BASE>";"<MIN><MIN>";IGNORE % ż
+<U017B> <zdot>;"<BASE><BASE>";"<CAP><MIN>";IGNORE % Ż
 
 reorder-end
 
 END LC_COLLATE
 
 LC_MESSAGES
-yesexpr "<U005E><U005B><U002B><U0031><U004A><U006A><U0054><U0074><U0059><U0079><U005D>"
-noexpr  "<U005E><U005B><U002D><U0030><U006E><U004E><U005D>"
+yesexpr "^[+1JjTtYy]"
+noexpr  "^[-0nN]"
+yesstr  "jo"
+nostr   "ni<U00E9>"
 END LC_MESSAGES
 
 LC_MONETARY
@@ -147,39 +135,57 @@ copy "pl_PL"
 END LC_NUMERIC
 
 LC_TIME
-abday   "<U006E><U0069><U0065>"; "<U0070><U00F2><U006E>";/
-        "<U0077><U0074><U00F3>"; "<U0073><U0074><U0072>";/
-        "<U0063><U007A><U0077>"; "<U0070><U0069><U0105>";/
-        "<U0073><U006F><U0062>"
+abday   "nie"; "p<U00F2>n";/
+        "wt<U00F3>"; "str";/
+        "czw"; "pi<U0105>";/
+        "sob"
 
-day    "<U006E><U0069><U0065><U0064><U007A><U0065><U006C><U0061>";/
-        "<U0070><U00F2><U006E><U0069><U0065><U0064><U007A><U00F4><U0142><U006B>";/
-        "<U0077><U0074><U00F3><U0072><U006B>";/
-        "<U0073><U0074><U0072><U007A><U006F><U0064><U0061>";/
-        "<U0063><U007A><U0077><U0069><U00F4><U0072><U0074><U006B>";/
-        "<U0070><U0069><U0105><U0074><U006B>";/
-        "<U0073><U006F><U0062><U00F2><U0074><U0061>"
-abmon  "<U0073><U0074><U00EB>"; "<U0067><U0072><U006F>";/
-        "<U0073><U0074><U006D>"; "<U0142><U017C><U00EB>";/
-        "<U006D><U00F4><U006A>"; "<U0063><U007A><U0065>";/
-        "<U006C><U00EB><U0070>"; "<U007A><U00E9><U006C>";/
-        "<U0073><U00E9><U0077>"; "<U0072><U0075><U006A>";/
-        "<U006C><U00EB><U0073>"; "<U0067><U00F2><U0064>"
-mon    "<U0073><U0074><U00EB><U0063><U007A><U006E><U0069><U006B>";/
-        "<U0067><U0072><U006F><U006D><U0069><U0063><U007A><U006E><U0069><U006B>";/
-        "<U0073><U0074><U0072><U0075><U006D><U0069><U0061><U006E><U006E><U0069><U006B>";/
-        "<U0142><U017C><U00EB><U006B><U0077><U0069><U00F4><U0074>";/
-        "<U006D><U00F4><U006A>";/
-        "<U0063><U007A><U0065><U0072><U0077><U0069><U0144><U0063>";/
-        "<U006C><U00EB><U0070><U0069><U006E><U0063>";/
-        "<U007A><U00E9><U006C><U006E><U0069><U006B>";/
-        "<U0073><U00E9><U0077><U006E><U0069><U006B>";/
-        "<U0072><U0075><U006A><U0061><U006E>";/
-        "<U006C><U00EB><U0073><U0074><U006F><U0070><U0061><U0064><U006E><U0069><U006B>";/
-        "<U0067><U00F2><U0064><U006E><U0069><U006B>"
-d_t_fmt "<U0025><U0061><U0020><U0025><U0064><U0020><U0025><U0062><U0020><U0025><U0059><U0020><U0025><U0054><U0020><U0025><U005A>"
-d_fmt   "<U0025><U0059><U002D><U0025><U006D><U002D><U0025><U0064>"
-t_fmt   "<U0025><U0054>"
+day    "niedzela";/
+        "p<U00F2>niedz<U00F4><U0142>k";/
+        "wt<U00F3>rk";/
+        "strzoda";/
+        "czwi<U00F4>rtk";/
+        "pi<U0105>tk";/
+        "sob<U00F2>ta"
+ab_alt_mon "st<U00EB>"; "gro";/
+        "str"; "<U0142><U017C><U00EB>";/
+        "m<U00F4>j"; "cze";/
+        "l<U00EB>p"; "z<U00E9>l";/
+        "s<U00E9>w"; "ruj";/
+        "l<U00EB>s"; "g<U00F2>d"
+abmon   "st<U00EB>"; "gro";/
+        "str"; "<U0142><U017C><U00EB>";/
+        "maj"; "cze";/
+        "l<U00EB>p"; "z<U00E9>l";/
+        "s<U00E9>w"; "ruj";/
+        "l<U00EB>s"; "g<U00F2>d"
+alt_mon "st<U00EB>cznik";/
+        "gromicznik";/
+        "str<U00EB>miannik";/
+        "<U0142><U017C><U00EB>kwiat";/
+        "m<U00F4>j";/
+        "czerwi<U0144>c";/
+        "l<U00EB>pi<U0144>c";/
+        "z<U00E9>lnik";/
+        "s<U00E9>wnik";/
+        "rujan";/
+        "l<U00EB>stopadnik";/
+        "g<U00F2>dnik"
+mon     "st<U00EB>cznika";/
+        "gromicznika";/
+        "str<U00EB>miannika";/
+        "<U0142><U017C><U00EB>kwiata";/
+        "maja";/
+        "czerwi<U0144>ca";/
+        "l<U00EB>pi<U0144>ca";/
+        "z<U00E9>lnika";/
+        "s<U00E9>wnika";/
+        "rujana";/
+        "l<U00EB>stopadnika";/
+        "g<U00F2>dnika"
+d_t_fmt "%a %d %b %Y %T %Z"
+d_fmt   "%Y-%m-%d"
+t_fmt   "%T"
 am_pm   "";""
 t_fmt_ampm ""
 week    7;19971130;4
@@ -203,20 +209,13 @@ copy "pl_PL"
 END LC_NAME
 
 LC_ADDRESS
-postal_fmt    "<U0025><U0066><U0025><U004E><U0025><U0061><U0025><U004E>/
-<U0025><U0064><U0025><U004E><U0025><U0062><U0025><U004E><U0025><U0073>/
-<U0020><U0025><U0068><U0020><U0025><U0065><U0020><U0025><U0072><U0025>/
-<U004E><U0025><U007A><U0020><U0025><U0054><U0025>/
-<U004E><U0025><U0063><U0025><U004E>"
-country_ab2 "<U0050><U004C>"
-country_ab3 "<U0050><U004F><U004C>"
+postal_fmt    "%f%N%a%N%d%N%b%N%s %h %e %r%N%z %T%N%c%N"
+country_ab2 "PL"
+country_ab3 "POL"
 country_num 616
-% PL
-country_car    "<U0050><U004C>"
+country_car    "PL"
 % kaszëbsczi jãzëk
-lang_name    "<U006B><U0061><U0073><U007A><U00EB><U0062><U0073><U0063><U007A><U0069><U0020><U006A><U00E3><U007A><U00EB><U006B>"
-% csb
-lang_term    "<U0063><U0073><U0062>"
-% csb
-lang_lib    "<U0063><U0073><U0062>"
+lang_name    "kasz<U00EB>bsczi j<U00E3>z<U00EB>k"
+lang_term    "csb"
+lang_lib    "csb"
 END LC_ADDRESS

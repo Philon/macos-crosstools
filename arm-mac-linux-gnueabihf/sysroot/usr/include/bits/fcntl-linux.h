@@ -1,5 +1,5 @@
 /* O_*, F_*, FD_* bit values for Linux.
-   Copyright (C) 2001-2017 Free Software Foundation, Inc.
+   Copyright (C) 2001-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -35,7 +35,7 @@
 */
 
 #ifdef __USE_GNU
-# include <bits/uio.h>
+# include <bits/types/struct_iovec.h>
 #endif
 
 /* open/fcntl.  */
@@ -76,7 +76,7 @@
 #endif
 
 #ifndef __O_DIRECTORY
-# define __O_DIRECTORY  0200000
+# define __O_DIRECTORY	0200000
 #endif
 #ifndef __O_NOFOLLOW
 # define __O_NOFOLLOW	0400000
@@ -104,9 +104,9 @@
 # ifndef __USE_FILE_OFFSET64
 #  define F_GETLK	5	/* Get record locking info.  */
 #  define F_SETLK	6	/* Set record locking info (non-blocking).  */
-#  define F_SETLKW	7	/* Set record locking info (blocking).	*/
+#  define F_SETLKW	7	/* Set record locking info (blocking).  */
 # else
-#  define F_GETLK	F_GETLK64  /* Get record locking info.	*/
+#  define F_GETLK	F_GETLK64  /* Get record locking info.  */
 #  define F_SETLK	F_SETLK64  /* Set record locking info (non-blocking).*/
 #  define F_SETLKW	F_SETLKW64 /* Set record locking info (blocking).  */
 # endif
@@ -114,7 +114,7 @@
 #ifndef F_GETLK64
 # define F_GETLK64	12	/* Get record locking info.  */
 # define F_SETLK64	13	/* Set record locking info (non-blocking).  */
-# define F_SETLKW64	14	/* Set record locking info (blocking).	*/
+# define F_SETLKW64	14	/* Set record locking info (blocking).  */
 #endif
 
 /* open file description locks.
@@ -139,27 +139,27 @@
 #endif
 
 #ifdef __USE_XOPEN2K8
-# define O_DIRECTORY	__O_DIRECTORY	/* Must be a directory.	 */
-# define O_NOFOLLOW	__O_NOFOLLOW	/* Do not follow links.	 */
+# define O_DIRECTORY	__O_DIRECTORY	/* Must be a directory.  */
+# define O_NOFOLLOW	__O_NOFOLLOW	/* Do not follow links.  */
 # define O_CLOEXEC	__O_CLOEXEC	/* Set close_on_exec.  */
 #endif
 
 #ifdef __USE_GNU
-# define O_DIRECT	__O_DIRECT	/* Direct disk access.	*/
+# define O_DIRECT	__O_DIRECT	/* Direct disk access.  */
 # define O_NOATIME	__O_NOATIME	/* Do not set atime.  */
 # define O_PATH		__O_PATH	/* Resolve pathname but do not open file.  */
 # define O_TMPFILE	__O_TMPFILE	/* Atomically create nameless file.  */
 #endif
 
-/* For now, Linux has no separate synchronicitiy options for read
+/* For now, Linux has no separate synchronicity options for read
    operations.  We define O_RSYNC therefore as the same as O_SYNC
    since this is a superset.  */
 #if defined __USE_POSIX199309 || defined __USE_UNIX98
 # define O_DSYNC	__O_DSYNC	/* Synchronize data.  */
 # if defined __O_RSYNC
-#  define O_RSYNC	__O_RSYNC	/* Synchronize read operations.	 */
+#  define O_RSYNC	__O_RSYNC	/* Synchronize read operations.  */
 # else
-#  define O_RSYNC	O_SYNC		/* Synchronize read operations.	 */
+#  define O_RSYNC	O_SYNC		/* Synchronize read operations.  */
 # endif
 #endif
 
@@ -197,11 +197,18 @@
 #endif
 
 #ifdef __USE_GNU
-# define F_SETLEASE	1024	/* Set a lease.	 */
+# define F_SETLEASE	1024	/* Set a lease.  */
 # define F_GETLEASE	1025	/* Enquire what lease is active.  */
 # define F_NOTIFY	1026	/* Request notifications on a directory.  */
 # define F_SETPIPE_SZ	1031	/* Set pipe page size array.  */
 # define F_GETPIPE_SZ	1032	/* Set pipe page size array.  */
+# define F_ADD_SEALS	1033	/* Add seals to file.  */
+# define F_GET_SEALS	1034	/* Get seals for file.  */
+/* Set / get write life time hints.  */
+# define F_GET_RW_HINT	1035
+# define F_SET_RW_HINT	1036
+# define F_GET_FILE_RW_HINT	1037
+# define F_SET_FILE_RW_HINT	1038
 #endif
 #ifdef __USE_XOPEN2K8
 # define F_DUPFD_CLOEXEC 1030	/* Duplicate file descriptor with
@@ -214,8 +221,8 @@
 #ifndef F_RDLCK
 /* For posix fcntl() and `l_type' field of a `struct flock' for lockf().  */
 # define F_RDLCK		0	/* Read lock.  */
-# define F_WRLCK		1	/* Write lock.	*/
-# define F_UNLCK		2	/* Remove lock.	 */
+# define F_WRLCK		1	/* Write lock.  */
+# define F_UNLCK		2	/* Remove lock.  */
 #endif
 
 
@@ -235,10 +242,10 @@
 #endif
 
 #ifdef __USE_GNU
-# define LOCK_MAND	32	/* This is a mandatory flock:	*/
-# define LOCK_READ	64	/* ... which allows concurrent read operations.	 */
+# define LOCK_MAND	32	/* This is a mandatory flock:  */
+# define LOCK_READ	64	/* ... which allows concurrent read operations.  */
 # define LOCK_WRITE	128	/* ... which allows concurrent write operations.  */
-# define LOCK_RW	192	/* ... Which allows concurrent read & write operations.	 */
+# define LOCK_RW	192	/* ... Which allows concurrent read & write operations.  */
 #endif
 
 #ifdef __USE_GNU
@@ -271,6 +278,24 @@ struct f_owner_ex
   };
 #endif
 
+#ifdef __USE_GNU
+/* Types of seals.  */
+# define F_SEAL_SEAL	0x0001	/* Prevent further seals from being set.  */
+# define F_SEAL_SHRINK	0x0002	/* Prevent file from shrinking.  */
+# define F_SEAL_GROW	0x0004	/* Prevent file from growing.  */
+# define F_SEAL_WRITE	0x0008	/* Prevent writes.  */
+#endif
+
+#ifdef __USE_GNU
+/* Hint values for F_{GET,SET}_RW_HINT.  */
+# define RWF_WRITE_LIFE_NOT_SET	0
+# define RWH_WRITE_LIFE_NONE	1
+# define RWH_WRITE_LIFE_SHORT	2
+# define RWH_WRITE_LIFE_MEDIUM	3
+# define RWH_WRITE_LIFE_LONG	4
+# define RWH_WRITE_LIFE_EXTREME	5
+#endif
+
 /* Define some more compatibility macros to be backward compatible with
    BSD systems which did not managed to hide these kernel macros.  */
 #ifdef	__USE_MISC
@@ -289,7 +314,7 @@ struct f_owner_ex
 #ifdef __USE_XOPEN2K
 # define POSIX_FADV_NORMAL	0 /* No further special treatment.  */
 # define POSIX_FADV_RANDOM	1 /* Expect random page references.  */
-# define POSIX_FADV_SEQUENTIAL	2 /* Expect sequential page references.	 */
+# define POSIX_FADV_SEQUENTIAL	2 /* Expect sequential page references.  */
 # define POSIX_FADV_WILLNEED	3 /* Will need these pages.  */
 # define POSIX_FADV_DONTNEED	__POSIX_FADV_DONTNEED /* Don't need these pages.  */
 # define POSIX_FADV_NOREUSE	__POSIX_FADV_NOREUSE /* Data will be accessed once.  */
@@ -339,7 +364,7 @@ __BEGIN_DECLS
 #ifdef __USE_GNU
 
 /* Provide kernel hint to read ahead.  */
-extern ssize_t readahead (int __fd, __off64_t __offset, size_t __count)
+extern __ssize_t readahead (int __fd, __off64_t __offset, size_t __count)
     __THROW;
 
 
@@ -355,23 +380,23 @@ extern int sync_file_range (int __fd, __off64_t __offset, __off64_t __count,
 
    This function is a possible cancellation point and therefore not
    marked with __THROW.  */
-extern ssize_t vmsplice (int __fdout, const struct iovec *__iov,
-			 size_t __count, unsigned int __flags);
+extern __ssize_t vmsplice (int __fdout, const struct iovec *__iov,
+			   size_t __count, unsigned int __flags);
 
 /* Splice two files together.
 
    This function is a possible cancellation point and therefore not
    marked with __THROW.  */
-extern ssize_t splice (int __fdin, __off64_t *__offin, int __fdout,
-		       __off64_t *__offout, size_t __len,
-		       unsigned int __flags);
+extern __ssize_t splice (int __fdin, __off64_t *__offin, int __fdout,
+			 __off64_t *__offout, size_t __len,
+			 unsigned int __flags);
 
 /* In-kernel implementation of tee for pipe buffers.
 
    This function is a possible cancellation point and therefore not
    marked with __THROW.  */
-extern ssize_t tee (int __fdin, int __fdout, size_t __len,
-		    unsigned int __flags);
+extern __ssize_t tee (int __fdin, int __fdout, size_t __len,
+		      unsigned int __flags);
 
 /* Reserve storage for the data of the file associated with FD.
 

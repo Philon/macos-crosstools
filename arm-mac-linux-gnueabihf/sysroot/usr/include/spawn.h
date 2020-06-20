@@ -1,5 +1,5 @@
 /* Definitions for POSIX spawn interface.
-   Copyright (C) 2000-2017 Free Software Foundation, Inc.
+   Copyright (C) 2000-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -21,9 +21,8 @@
 
 #include <features.h>
 #include <sched.h>
-#define __need_sigset_t
-#include <signal.h>
 #include <sys/types.h>
+#include <bits/types/sigset_t.h>
 
 
 /* Data structure to contain attributes for thread creation.  */
@@ -59,6 +58,7 @@ typedef struct
 #define POSIX_SPAWN_SETSCHEDULER	0x20
 #ifdef __USE_GNU
 # define POSIX_SPAWN_USEVFORK		0x40
+# define POSIX_SPAWN_SETSID		0x80
 #endif
 
 
@@ -184,6 +184,19 @@ extern int posix_spawn_file_actions_addclose (posix_spawn_file_actions_t *
 extern int posix_spawn_file_actions_adddup2 (posix_spawn_file_actions_t *
 					     __file_actions,
 					     int __fd, int __newfd) __THROW;
+
+#ifdef __USE_GNU
+/* Add an action changing the directory to PATH during spawn.  This
+   affects the subsequent file actions.  */
+extern int posix_spawn_file_actions_addchdir_np (posix_spawn_file_actions_t *,
+						 const char *__path) __THROW;
+
+/* Add an action changing the directory to FD during spawn.  This
+   affects the subsequent file actions.  FD is not duplicated and must
+   be open when the file action is executed.  */
+extern int posix_spawn_file_actions_addfchdir_np (posix_spawn_file_actions_t *,
+						  int __fd) __THROW;
+#endif
 
 __END_DECLS
 

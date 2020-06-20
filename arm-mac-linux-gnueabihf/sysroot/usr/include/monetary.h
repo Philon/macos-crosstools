@@ -1,5 +1,5 @@
 /* Header file for monetary value formatting functions.
-   Copyright (C) 1996-2017 Free Software Foundation, Inc.
+   Copyright (C) 1996-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -40,11 +40,12 @@ extern ssize_t strfmon (char *__restrict __s, size_t __maxsize,
      __THROW __attribute_format_strfmon__ (3, 4);
 
 #ifdef __USE_XOPEN2K8
-# include <xlocale.h>
+/* POSIX.1-2008 extended locale interface (see locale.h).  */
+# include <bits/types/locale_t.h>
 
 /* Formatting a monetary value according to the given locale.  */
 extern ssize_t strfmon_l (char *__restrict __s, size_t __maxsize,
-			  __locale_t __loc,
+			  locale_t __loc,
 			  const char *__restrict __format, ...)
      __THROW __attribute_format_strfmon__ (4, 5);
 #endif

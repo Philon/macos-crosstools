@@ -1,7 +1,7 @@
 /*
  * UFC-crypt: ultra fast crypt(3) implementation
  *
- * Copyright (C) 1991-2017 Free Software Foundation, Inc.
+ * Copyright (C) 1991-2019 Free Software Foundation, Inc.
  *
  * The GNU C Library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,21 +28,18 @@
 
 __BEGIN_DECLS
 
-/* Encrypt at most 8 characters from KEY using salt to perturb DES.  */
-extern char *crypt (const char *__key, const char *__salt)
+/* One-way hash PHRASE, returning a string suitable for storage in the
+   user database.  SALT selects the one-way function to use, and
+   ensures that no two users' hashes are the same, even if they use
+   the same passphrase.  The return value points to static storage
+   which will be overwritten by the next call to crypt.  */
+extern char *crypt (const char *__phrase, const char *__salt)
      __THROW __nonnull ((1, 2));
 
-/* Setup DES tables according KEY.  */
-extern void setkey (const char *__key) __THROW __nonnull ((1));
-
-/* Encrypt data in BLOCK in place if EDFLAG is zero; otherwise decrypt
-   block in place.  */
-extern void encrypt (char *__glibc_block, int __edflag)
-     __THROW __nonnull ((1));
-
 #ifdef __USE_GNU
-/* Reentrant versions of the functions above.  The additional argument
-   points to a structure where the results are placed in.  */
+
+/* This structure provides scratch and output buffers for 'crypt_r'.
+   Its contents should not be accessed directly.  */
 struct crypt_data
   {
     char keysched[16 * 8];
@@ -57,17 +54,15 @@ struct crypt_data
     int  direction, initialized;
   };
 
-extern char *crypt_r (const char *__key, const char *__salt,
+/* Thread-safe version of 'crypt'.
+   DATA must point to a 'struct crypt_data' allocated by the caller.
+   Before the first call to 'crypt_r' with a new 'struct crypt_data',
+   that object must be initialized to all zeroes.  The pointer
+   returned, if not NULL, will point within DATA.  (It will still be
+   overwritten by the next call to 'crypt_r' with the same DATA.)  */
+extern char *crypt_r (const char *__phrase, const char *__salt,
 		      struct crypt_data * __restrict __data)
      __THROW __nonnull ((1, 2, 3));
-
-extern void setkey_r (const char *__key,
-		      struct crypt_data * __restrict __data)
-     __THROW __nonnull ((1, 2));
-
-extern void encrypt_r (char *__glibc_block, int __edflag,
-		       struct crypt_data * __restrict __data)
-     __THROW __nonnull ((1, 3));
 #endif
 
 __END_DECLS

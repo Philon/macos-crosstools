@@ -1,5 +1,5 @@
 /* bits/types.h -- definitions of __*_t types underlying *_t types.
-   Copyright (C) 2002-2017 Free Software Foundation, Inc.
+   Copyright (C) 2002-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@
 
 #include <features.h>
 #include <bits/wordsize.h>
+#include <bits/timesize.h>
 
 /* Convenience types.  */
 typedef unsigned char __u_char;
@@ -46,6 +47,16 @@ typedef unsigned long int __uint64_t;
 __extension__ typedef signed long long int __int64_t;
 __extension__ typedef unsigned long long int __uint64_t;
 #endif
+
+/* Smallest types with at least a given width.  */
+typedef __int8_t __int_least8_t;
+typedef __uint8_t __uint_least8_t;
+typedef __int16_t __int_least16_t;
+typedef __uint16_t __uint_least16_t;
+typedef __int32_t __int_least32_t;
+typedef __uint32_t __uint_least32_t;
+typedef __int64_t __int_least64_t;
+typedef __uint64_t __uint_least64_t;
 
 /* quad_t is also 64 bits.  */
 #if __WORDSIZE == 64
@@ -128,6 +139,7 @@ __extension__ typedef unsigned long long int __uintmax_t;
 # error
 #endif
 #include <bits/typesizes.h>	/* Defines __*_T_TYPE macros.  */
+#include <bits/time64.h>	/* Defines __TIME*_T_TYPE macros.  */
 
 
 __STD_TYPE __DEV_T_TYPE __dev_t;	/* Type of device numbers.  */
@@ -188,7 +200,6 @@ __STD_TYPE __SYSCALL_ULONG_TYPE __syscall_ulong_t;
 /* These few don't really vary by system, they always correspond
    to one of the other defined types.  */
 typedef __off64_t __loff_t;	/* Type of file sizes and offsets (LFS).  */
-typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 
 /* Duplicates info from stdint.h but this is used in unistd.h.  */
@@ -197,6 +208,16 @@ __STD_TYPE __SWORD_TYPE __intptr_t;
 /* Duplicate info from sys/socket.h.  */
 __STD_TYPE __U32_TYPE __socklen_t;
 
+/* C99: An integer type that can be accessed as an atomic entity,
+   even in the presence of asynchronous interrupts.
+   It is not currently necessary for this to be machine-specific.  */
+typedef int __sig_atomic_t;
+
+#if __TIMESIZE == 64
+# define __time64_t __time_t
+#else
+__STD_TYPE __TIME64_T_TYPE __time64_t;	/* Seconds since the Epoch.  */
+#endif
 
 #undef __STD_TYPE
 

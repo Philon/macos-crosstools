@@ -1,7 +1,7 @@
-#!/bin/sh
-# $Id: ncurses-config.in,v 1.35 2015/04/22 00:54:19 tom Exp $
+#!/usr/local/opt/bash/bin/bash
+# $Id: ncurses-config.in,v 1.36 2017/12/09 22:45:44 tom Exp $
 ##############################################################################
-# Copyright (c) 2006-2012,2015 Free Software Foundation, Inc.                #
+# Copyright (c) 2006-2015,2017 Free Software Foundation, Inc.                #
 #                                                                            #
 # Permission is hereby granted, free of charge, to any person obtaining a    #
 # copy of this software and associated documentation files (the "Software"), #
@@ -86,7 +86,7 @@ if test xyes = xno ; then
 	esac
 fi
 
-test $# = 0 && exec /bin/sh $0 --error
+test $# = 0 && exec /usr/local/opt/bash/bin/bash $0 --error
 
 while test $# -gt 0; do
 	case "$1" in
@@ -99,7 +99,7 @@ while test $# -gt 0; do
 		;;
 	# compile/link
 	--cflags)
-		INCS=" -D_GNU_SOURCE"
+		INCS=" -D_GNU_SOURCE -D_DEFAULT_SOURCE"
 		if test "xyes" = xno ; then
 			INCS="$INCS -I${includesubdir}"
 		fi
@@ -129,7 +129,7 @@ ENDECHO
 		;;
 	# identification
 	--version)
-		echo "6.0.20151107"
+		echo "6.1.20180129"
 		;;
 	--abi-version)
 		echo "5"
@@ -145,7 +145,13 @@ ENDECHO
 		echo "${datadir}"
 		;;
 	--includedir)
-		echo "${includedir}"
+		INCS=
+		if test "xyes" = xno ; then
+			INCS="${includesubdir}"
+		elif test "${includedir}" != /usr/include ; then
+			INCS="${includedir}"
+		fi
+		echo $INCS
 		;;
 	--libdir)
 		echo "${libdir}"
@@ -191,7 +197,7 @@ Options:
 ENDHELP
 		;;
 	--error|*)
-		/bin/sh $0 --help 1>&2
+		/usr/local/opt/bash/bin/bash $0 --help 1>&2
 		exit 1
 		;;
 	esac

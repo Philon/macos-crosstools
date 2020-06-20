@@ -1,5 +1,5 @@
 /* System-specific socket constants and types.  Linux version.
-   Copyright (C) 1991-2017 Free Software Foundation, Inc.
+   Copyright (C) 1991-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -84,7 +84,9 @@ typedef __socklen_t socklen_t;
 #define PF_VSOCK	40	/* vSockets.  */
 #define PF_KCM		41	/* Kernel Connection Multiplexor.  */
 #define PF_QIPCRTR	42	/* Qualcomm IPC Router.  */
-#define PF_MAX		43	/* For now..  */
+#define PF_SMC		43	/* SMC sockets.  */
+#define PF_XDP		44	/* XDP sockets.  */
+#define PF_MAX		45	/* For now..  */
 
 /* Address families.  */
 #define AF_UNSPEC	PF_UNSPEC
@@ -133,6 +135,8 @@ typedef __socklen_t socklen_t;
 #define AF_VSOCK	PF_VSOCK
 #define AF_KCM		PF_KCM
 #define AF_QIPCRTR	PF_QIPCRTR
+#define AF_SMC		PF_SMC
+#define AF_XDP		PF_XDP
 #define AF_MAX		PF_MAX
 
 /* Socket level values.  Others are defined in the appropriate headers.
@@ -161,6 +165,8 @@ typedef __socklen_t socklen_t;
 #define SOL_ALG		279
 #define SOL_NFC		280
 #define SOL_KCM		281
+#define SOL_TLS		282
+#define SOL_XDP		283
 
 /* Maximum queue length specifiable by listen.  */
 #define SOMAXCONN	128
@@ -234,6 +240,8 @@ enum
 #define MSG_WAITFORONE	MSG_WAITFORONE
     MSG_BATCH		= 0x40000, /* sendmmsg: more messages coming.  */
 #define MSG_BATCH	MSG_BATCH
+    MSG_ZEROCOPY	= 0x4000000, /* Use user data in kernel path.  */
+#define MSG_ZEROCOPY	MSG_ZEROCOPY
     MSG_FASTOPEN	= 0x20000000, /* Send data in TCP SYN.  */
 #define MSG_FASTOPEN	MSG_FASTOPEN
 
@@ -365,6 +373,21 @@ struct ucred
 #  define __SYS_SOCKET_H_undef_SIOCSPGRP
 # endif
 #endif
+#ifndef IOCSIZE_MASK
+# define __SYS_SOCKET_H_undef_IOCSIZE_MASK
+#endif
+#ifndef IOCSIZE_SHIFT
+# define __SYS_SOCKET_H_undef_IOCSIZE_SHIFT
+#endif
+#ifndef IOC_IN
+# define __SYS_SOCKET_H_undef_IOC_IN
+#endif
+#ifndef IOC_INOUT
+# define __SYS_SOCKET_H_undef_IOC_INOUT
+#endif
+#ifndef IOC_OUT
+# define __SYS_SOCKET_H_undef_IOC_OUT
+#endif
 
 /* Get socket manipulation related informations from kernel headers.  */
 #include <asm/socket.h>
@@ -398,6 +421,26 @@ struct ucred
 #  undef __SYS_SOCKET_H_undef_SIOCSPGRP
 #  undef SIOCSPGRP
 # endif
+#endif
+#ifdef __SYS_SOCKET_H_undef_IOCSIZE_MASK
+# undef __SYS_SOCKET_H_undef_IOCSIZE_MASK
+# undef IOCSIZE_MASK
+#endif
+#ifdef __SYS_SOCKET_H_undef_IOCSIZE_SHIFT
+# undef __SYS_SOCKET_H_undef_IOCSIZE_SHIFT
+# undef IOCSIZE_SHIFT
+#endif
+#ifdef __SYS_SOCKET_H_undef_IOC_IN
+# undef __SYS_SOCKET_H_undef_IOC_IN
+# undef IOC_IN
+#endif
+#ifdef __SYS_SOCKET_H_undef_IOC_INOUT
+# undef __SYS_SOCKET_H_undef_IOC_INOUT
+# undef IOC_INOUT
+#endif
+#ifdef __SYS_SOCKET_H_undef_IOC_OUT
+# undef __SYS_SOCKET_H_undef_IOC_OUT
+# undef IOC_OUT
 #endif
 
 /* Structure used to manipulate the SO_LINGER option.  */

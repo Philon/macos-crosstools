@@ -1,4 +1,6 @@
-/* Copyright (C) 1996-2017 Free Software Foundation, Inc.
+/* Definitions for core files and libthread_db.  Generic Linux version.
+   Copyright (C) 1996-2019 Free Software Foundation, Inc.
+
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -12,7 +14,7 @@
    Lesser General Public License for more details.
 
    You should have received a copy of the GNU Lesser General Public
-   License along with the GNU C Library.  If not, see
+   License along with the GNU C Library; if not, see
    <http://www.gnu.org/licenses/>.  */
 
 #ifndef _SYS_PROCFS_H
@@ -32,20 +34,16 @@
 #include <sys/types.h>
 #include <sys/user.h>
 
+/* bits/procfs.h, provided by each architecture, must define
+   elf_gregset_t, elf_fpregset_t and any other architecture-specific
+   types needed.  */
+#include <bits/procfs.h>
+
+/* bits/procfs-id.h must define __pr_uid_t and __pr_gid_t, the types
+   of pr_uid and pr_gid.  */
+#include <bits/procfs-id.h>
+
 __BEGIN_DECLS
-
-/* Type for a general-purpose register.  */
-typedef unsigned long elf_greg_t;
-
-/* And the whole bunch of them.  We could have used `struct
-   user_regs' directly in the typedef, but tradition says that
-   the register set is an array, which does have some peculiar
-   semantics, so leave it that way.  */
-#define ELF_NGREG (sizeof (struct user_regs) / sizeof(elf_greg_t))
-typedef elf_greg_t elf_gregset_t[ELF_NGREG];
-
-/* Register set for the floating-point registers.  */
-typedef struct user_fpregs elf_fpregset_t;
 
 /* Signal info.  */
 struct elf_siginfo
@@ -90,8 +88,8 @@ struct elf_prpsinfo
     char pr_zomb;			/* Zombie.  */
     char pr_nice;			/* Nice val.  */
     unsigned long int pr_flag;		/* Flags.  */
-    unsigned short int pr_uid;
-    unsigned short int pr_gid;
+    __pr_uid_t pr_uid;
+    __pr_gid_t pr_gid;
     int pr_pid, pr_ppid, pr_pgrp, pr_sid;
     /* Lots missing */
     char pr_fname[16];			/* Filename of executable.  */
@@ -105,9 +103,11 @@ struct elf_prpsinfo
 /* Addresses.  */
 typedef void *psaddr_t;
 
+#include <bits/procfs-prregset.h>
+
 /* Register sets.  Linux has different names.  */
-typedef elf_gregset_t prgregset_t;
-typedef elf_fpregset_t prfpregset_t;
+typedef __prgregset_t prgregset_t;
+typedef __prfpregset_t prfpregset_t;
 
 /* We don't have any differences between processes and threads,
    therefore have only one PID type.  */
@@ -119,4 +119,8 @@ typedef struct elf_prpsinfo prpsinfo_t;
 
 __END_DECLS
 
-#endif	/* sys/procfs.h */
+/* On some architectures, provide other-ABI variants of the above
+   types.  */
+#include <bits/procfs-extra.h>
+
+#endif	/* sys/procfs.h.  */

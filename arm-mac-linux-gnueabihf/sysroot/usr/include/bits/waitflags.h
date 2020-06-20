@@ -1,5 +1,5 @@
 /* Definitions of flag bits for `waitpid' et al.
-   Copyright (C) 1992-2017 Free Software Foundation, Inc.
+   Copyright (C) 1992-2019 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -26,10 +26,12 @@
 #define	WUNTRACED	2	/* Report status of stopped children.  */
 
 /* Bits in the fourth argument to `waitid'.  */
-#define WSTOPPED	2	/* Report stopped child (same as WUNTRACED). */
-#define WEXITED		4	/* Report dead child.  */
-#define WCONTINUED	8	/* Report continued child.  */
-#define WNOWAIT		0x01000000 /* Don't reap, just poll status.  */
+#if defined __USE_XOPEN_EXTENDED || defined __USE_XOPEN2K8
+# define WSTOPPED	2	/* Report stopped child (same as WUNTRACED). */
+# define WEXITED	4	/* Report dead child.  */
+# define WCONTINUED	8	/* Report continued child.  */
+# define WNOWAIT	0x01000000 /* Don't reap, just poll status.  */
+#endif
 
 #define __WNOTHREAD     0x20000000 /* Don't wait on children of other threads
 				      in this group */

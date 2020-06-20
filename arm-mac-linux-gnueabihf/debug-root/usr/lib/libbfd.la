@@ -17,7 +17,7 @@ old_library='libbfd.a'
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' -L/Volumes/buildcc/.build/arm-mac-linux-gnueabihf/build/build-gdb-native/zlib -lz -ldl'
+dependency_libs=' -L/Volumes/dev/philon/build/arm-mac-linux-gnueabihf/build/build-gdb-native/zlib -lz -ldl'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

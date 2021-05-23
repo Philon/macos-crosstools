@@ -1,0 +1,13 @@
+%rename link	newlib_nano_link
+%rename cpp	newlib_nano_cpp
+%rename cc1plus	newlib_nano_cc1plus
+
+*cpp:
+-isystem %:getenv(GCC_EXEC_PREFIX ../../newlib-nano/arm-mac-eabi/include) %(newlib_nano_cpp)
+
+*cc1plus:
+-idirafter %:getenv(GCC_EXEC_PREFIX ../../newlib-nano/arm-mac-eabi/include) %(newlib_nano_cc1plus)
+
+*link:
+-L%:getenv(GCC_EXEC_PREFIX ../../newlib-nano/arm-mac-eabi/lib/%M) -L%:getenv(GCC_EXEC_PREFIX ../../newlib-nano/arm-mac-eabi/lib)
+

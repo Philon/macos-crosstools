@@ -1,6 +1,0 @@
-python
-import sys
-sys.path.insert(0, '/Volumes/Develop/x-tools/arm-mac-linux-gnueabihf/share/gcc-10.3.0/python')
-from libstdcxx.v6.printers import register_libstdcxx_printers
-register_libstdcxx_printers (None)
-end

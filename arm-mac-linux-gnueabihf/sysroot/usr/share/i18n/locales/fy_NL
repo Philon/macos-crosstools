@@ -17,7 +17,7 @@ escape_char /
 LC_IDENTIFICATION
 title      "Frisian locale for the Netherlands"
 source     "Free Software Foundation, Inc."
-address    "http:////www.gnu.org//software//libc//"
+address    "https:////www.gnu.org//software//libc//"
 contact    ""
 email      "bug-glibc-locales@gnu.org"
 tel        ""
@@ -82,7 +82,8 @@ mon     "Jannewaris";/
         "Oktober";/
         "Novimber";/
         "Desimber"
-d_t_fmt "%a %d %b %Y %T %Z"
+d_t_fmt  "%a %d %b %Y %T"
+date_fmt "%a %d %b %Y %T %Z"
 d_fmt   "%d-%m-%y"
 t_fmt   "%T"
 am_pm   "";""

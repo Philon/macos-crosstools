@@ -111,7 +111,7 @@ escape_char /
 LC_IDENTIFICATION
 title      "Czech locale for the Czech Republic"
 source     "Free Software Foundation, Inc."
-address    "http:////www.gnu.org//software//libc//"
+address    "https:////www.gnu.org//software//libc//"
 contact    ""
 email      "bug-glibc-locales@gnu.org"
 tel        ""
@@ -361,7 +361,8 @@ mon		"ledna";/
 week		7;19971130;4
 first_weekday	2
 
-d_t_fmt		"%a<U00A0>%-d.<U00A0>%B<U00A0>%Y,<U00A0>%H:%M:%S<U00A0>%Z"
+d_t_fmt		"%a<U00A0>%-d.<U00A0>%B<U00A0>%Y,<U00A0>%H:%M:%S"
+date_fmt	"%a<U00A0>%-d.<U00A0>%B<U00A0>%Y,<U00A0>%H:%M:%S<U00A0>%Z"
 
 d_fmt 		"%-d.%-m.%Y"
 

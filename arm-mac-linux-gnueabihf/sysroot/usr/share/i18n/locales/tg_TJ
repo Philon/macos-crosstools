@@ -191,7 +191,8 @@ abmon   "<U042F><U043D><U0432>";/
         "<U041E><U043A><U0442>";/
         "<U041D><U043E><U044F>";/
         "<U0414><U0435><U043A>"
-d_t_fmt "%a %d %b %Y %T"
+d_t_fmt   "%a %d %b %Y %T"
+date_fmt  "%a %d %b %Y %T %Z"
 d_fmt     "%d.%m.%Y"
 t_fmt     "%T"
 am_pm     "";""
@@ -222,6 +223,8 @@ country_ab2 "TJ"
 country_ab3 "TJK"
 country_num 762
 country_car    "TJ"
+% тоҷикӣ
+lang_name    "<U0442><U043E><U04B7><U0438><U043A><U04E3>"
 lang_ab      "tg"
 lang_term    "tgk"
 lang_lib    "tgk"

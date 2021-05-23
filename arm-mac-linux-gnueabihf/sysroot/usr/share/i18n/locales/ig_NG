@@ -263,7 +263,8 @@ mon         "Jen<U1EE5>war<U1ECB>";/
             "Novemba";/
             "Disemba"
 % FIXME
-d_t_fmt     "%A, %d %B %Y %T %Z"
+d_t_fmt     "%A, %d %B %Y %T"
+date_fmt    "%A, %d %B %Y %T %Z"
 d_fmt       "%d//%m//%y"
 t_fmt       "%r"
 am_pm       "AM";"PM"
@@ -321,11 +322,11 @@ LC_ADDRESS
 % "end of line
 postal_fmt    "%f%N%a%N%d%N%b%N%s %h %e %r%N%z %T%N%c%N"
 
-% Country name in Igbo - "Nigeria"
-country_name  "Nigeria"
+% Country name in Igbo - "Naịjịrịa"
+country_name  "Na<U1ECB>j<U1ECB>r<U1ECB>a"
 
-% Language name in Igbo - "Igbo"
-lang_name     "Igbo"
+% Language name in Igbo - "Asụsụ Igbo"
+lang_name     "As<U1EE5>s<U1EE5> Igbo"
 
 % CEPT MAILCODES are suggested
 % Alternatively use the code found on your countries postal item tracking number

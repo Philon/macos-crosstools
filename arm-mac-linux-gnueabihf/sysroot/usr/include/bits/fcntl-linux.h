@@ -1,5 +1,5 @@
 /* O_*, F_*, FD_* bit values for Linux.
-   Copyright (C) 2001-2019 Free Software Foundation, Inc.
+   Copyright (C) 2001-2021 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
+   <https://www.gnu.org/licenses/>.  */
 
 #ifndef	_FCNTL_H
 # error "Never use <bits/fcntl-linux.h> directly; include <fcntl.h> instead."
@@ -284,11 +284,14 @@ struct f_owner_ex
 # define F_SEAL_SHRINK	0x0002	/* Prevent file from shrinking.  */
 # define F_SEAL_GROW	0x0004	/* Prevent file from growing.  */
 # define F_SEAL_WRITE	0x0008	/* Prevent writes.  */
+# define F_SEAL_FUTURE_WRITE	0x0010	/* Prevent future writes while
+					   mapped.  */
 #endif
 
 #ifdef __USE_GNU
 /* Hint values for F_{GET,SET}_RW_HINT.  */
-# define RWF_WRITE_LIFE_NOT_SET	0
+# define RWH_WRITE_LIFE_NOT_SET	0
+# define RWF_WRITE_LIFE_NOT_SET	RWH_WRITE_LIFE_NOT_SET
 # define RWH_WRITE_LIFE_NONE	1
 # define RWH_WRITE_LIFE_SHORT	2
 # define RWH_WRITE_LIFE_MEDIUM	3
@@ -332,6 +335,11 @@ struct f_owner_ex
 # define SYNC_FILE_RANGE_WAIT_AFTER	4 /* Wait upon writeout of all pages in
 					     the range after performing the
 					     write.  */
+/* SYNC_FILE_RANGE_WRITE_AND_WAIT ensures all pages in the range are
+   written to disk before returning.  */
+# define SYNC_FILE_RANGE_WRITE_AND_WAIT	(SYNC_FILE_RANGE_WRITE		\
+					 | SYNC_FILE_RANGE_WAIT_BEFORE	\
+					 | SYNC_FILE_RANGE_WAIT_AFTER)
 
 /* Flags for SPLICE and VMSPLICE.  */
 # define SPLICE_F_MOVE		1	/* Move pages instead of copying.  */

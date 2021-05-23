@@ -171,7 +171,8 @@ mon	"Januaro";/
 	"Decembro"
 am_pm "";""
 t_fmt_ampm ""
-d_t_fmt "%a %d %b %Y %T %z"
+d_t_fmt  "%a %d %b %Y %T"
+date_fmt "%a %d %b %Y %T %z"
 d_fmt   "%Y-%m-%d"
 t_fmt   "%T"
 week 7;19971130;1
@@ -206,7 +207,7 @@ END LC_NAME
 
 LC_ADDRESS
 postal_fmt   "%f%N%a%N%d%N%b%N%s %h %e %r%N%%z %T%N%c%N"
-lang_name    "Esperanto"
+lang_name    "esperanto"
 lang_ab      "eo"
 lang_term    "epo"
 END LC_ADDRESS

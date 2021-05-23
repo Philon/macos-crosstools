@@ -1,8 +1,8 @@
-#!/usr/local/opt/bash/bin/bash
+#!/opt/homebrew/bin/bash
 
 # NON-CONFIGURABLE STUFF!
 export LC_ALL=C
-version="1.24.0"
+version="1.24.0.349_6d00833"
 bits="32"
 sed="${SED:-sed}"
 grep="${GREP:-grep}"

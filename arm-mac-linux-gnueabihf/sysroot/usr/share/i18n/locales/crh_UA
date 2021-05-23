@@ -175,7 +175,8 @@ abmon   "Yan";/
         "Okt";/
         "Noy";/
         "Dek"
-d_t_fmt "%a %d %b %Y %T"
+d_t_fmt   "%a %d %b %Y %T"
+date_fmt  "%a %d %b %Y %T %Z"
 d_fmt     "%d.%m.%Y"
 t_fmt     "%T"
 am_pm     "<U00DC>E";"<U00DC>S"
@@ -198,8 +199,8 @@ country_ab2 "UA"
 country_ab3 "UKR"
 country_num 804
 country_car  "UA"
-% Qırımtatarca
-lang_name    "Q<U0131>r<U0131>mtatarca"
+% qırımtatar tili
+lang_name    "q<U0131>r<U0131>mtatar tili"
 lang_term    "crh"
 lang_lib    "crh"
 END LC_ADDRESS

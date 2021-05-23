@@ -105,7 +105,8 @@ mon     "Enero";/
         "Nobiyembre";/
         "Disyembre"
 %
-d_t_fmt     "%a %d %b %Y %r %Z"
+d_t_fmt     "%a %d %b %Y %r"
+date_fmt    "%a %d %b %Y %r %Z"
 d_fmt       "%m//%d//%y"
 t_fmt       "%r"
 am_pm       "AM";"PM"
@@ -138,6 +139,7 @@ country_ab2 "PH"
 country_ab3 "PHL"
 country_num 608
 country_car    "RP"
+lang_name    "Tagalog"
 lang_ab      "tl"
 lang_term    "tgl"
 lang_lib    "tgl"

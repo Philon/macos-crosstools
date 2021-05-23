@@ -1,4 +1,4 @@
-/* Copyright (C) 1991-2019 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2021 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
+   <https://www.gnu.org/licenses/>.  */
 
 /*
  *	ISO C99 Standard: 7.20 General utilities	<stdlib.h>
@@ -208,7 +208,7 @@ extern unsigned long long int strtoull (const char *__restrict __nptr,
 #endif /* ISO C99 or use MISC.  */
 
 /* Convert a floating-point number to a string.  */
-#if __GLIBC_USE (IEC_60559_BFP_EXT)
+#if __GLIBC_USE (IEC_60559_BFP_EXT_C2X)
 extern int strfromd (char *__dest, size_t __size, const char *__format,
 		     double __f)
      __THROW __nonnull ((3));
@@ -397,7 +397,7 @@ extern long int a64l (const char *__s)
    `initstate' and `setstate' functions are those from BSD Unices.
    The `rand' and `srand' functions are required by the ANSI standard.
    We provide both interfaces to the same random number generator.  */
-/* Return a random long integer between 0 and RAND_MAX inclusive.  */
+/* Return a random long integer between 0 and 2^31-1 inclusive.  */
 extern long int random (void) __THROW;
 
 /* Seed the random number generator with the given number.  */
@@ -536,10 +536,11 @@ extern int lcong48_r (unsigned short int __param[7],
 #endif	/* Use misc or X/Open.  */
 
 /* Allocate SIZE bytes of memory.  */
-extern void *malloc (size_t __size) __THROW __attribute_malloc__ __wur;
+extern void *malloc (size_t __size) __THROW __attribute_malloc__
+     __attribute_alloc_size__ ((1)) __wur;
 /* Allocate NMEMB elements of SIZE bytes each, all initialized to 0.  */
 extern void *calloc (size_t __nmemb, size_t __size)
-     __THROW __attribute_malloc__ __wur;
+     __THROW __attribute_malloc__ __attribute_alloc_size__ ((1, 2)) __wur;
 
 /* Re-allocate the previously allocated block
    in PTR, making the new block SIZE bytes long.  */
@@ -547,7 +548,7 @@ extern void *calloc (size_t __nmemb, size_t __size)
    the same pointer that was passed to it, aliasing needs to be allowed
    between objects pointed by the old and new pointers.  */
 extern void *realloc (void *__ptr, size_t __size)
-     __THROW __attribute_warn_unused_result__;
+     __THROW __attribute_warn_unused_result__ __attribute_alloc_size__ ((2));
 
 #ifdef __USE_MISC
 /* Re-allocate the previously allocated block in PTR, making the new
@@ -556,7 +557,8 @@ extern void *realloc (void *__ptr, size_t __size)
    the same pointer that was passed to it, aliasing needs to be allowed
    between objects pointed by the old and new pointers.  */
 extern void *reallocarray (void *__ptr, size_t __nmemb, size_t __size)
-     __THROW __attribute_warn_unused_result__;
+     __THROW __attribute_warn_unused_result__
+     __attribute_alloc_size__ ((2, 3));
 #endif
 
 /* Free a block allocated by `malloc', `realloc' or `calloc'.  */
@@ -569,7 +571,8 @@ extern void free (void *__ptr) __THROW;
 #if (defined __USE_XOPEN_EXTENDED && !defined __USE_XOPEN2K) \
     || defined __USE_MISC
 /* Allocate SIZE bytes on a page boundary.  The storage cannot be freed.  */
-extern void *valloc (size_t __size) __THROW __attribute_malloc__ __wur;
+extern void *valloc (size_t __size) __THROW __attribute_malloc__
+     __attribute_alloc_size__ ((1)) __wur;
 #endif
 
 #ifdef __USE_XOPEN2K
@@ -928,12 +931,13 @@ extern int wctomb (char *__s, wchar_t __wchar) __THROW;
 
 /* Convert a multibyte string to a wide char string.  */
 extern size_t mbstowcs (wchar_t *__restrict  __pwcs,
-			const char *__restrict __s, size_t __n) __THROW;
+			const char *__restrict __s, size_t __n) __THROW
+    __attr_access ((__read_only__, 2));
 /* Convert a wide char string to multibyte string.  */
 extern size_t wcstombs (char *__restrict __s,
 			const wchar_t *__restrict __pwcs, size_t __n)
-     __THROW;
-
+     __THROW
+  __attr_access ((__write_only__, 1, 3)) __attr_access ((__read_only__, 2));
 
 #ifdef __USE_MISC
 /* Determine whether the string value of RESPONSE matches the affirmation
@@ -987,7 +991,7 @@ extern char *ptsname (int __fd) __THROW __wur;
    terminal associated with the master FD is open on in BUF.
    Return 0 on success, otherwise an error number.  */
 extern int ptsname_r (int __fd, char *__buf, size_t __buflen)
-     __THROW __nonnull ((2));
+     __THROW __nonnull ((2)) __attr_access ((__write_only__, 2, 3));
 
 /* Open a master pseudo terminal and return its file descriptor.  */
 extern int getpt (void);
@@ -1013,7 +1017,9 @@ extern int ttyslot (void) __THROW;
 #if __USE_FORTIFY_LEVEL > 0 && defined __fortify_function
 # include <bits/stdlib.h>
 #endif
-#ifdef __LDBL_COMPAT
+
+#include <bits/floatn.h>
+#if defined __LDBL_COMPAT || __LDOUBLE_REDIRECTS_TO_FLOAT128_ABI == 1
 # include <bits/stdlib-ldbl.h>
 #endif
 

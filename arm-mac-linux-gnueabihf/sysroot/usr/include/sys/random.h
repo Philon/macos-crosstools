@@ -1,5 +1,5 @@
 /* Interfaces for obtaining random bytes.
-   Copyright (C) 2016-2019 Free Software Foundation, Inc.
+   Copyright (C) 2016-2021 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
+   <https://www.gnu.org/licenses/>.  */
 
 #ifndef _SYS_RANDOM_H
 #define _SYS_RANDOM_H 1
@@ -25,6 +25,7 @@
 /* Flags for use with getrandom.  */
 #define GRND_NONBLOCK 0x01
 #define GRND_RANDOM 0x02
+#define GRND_INSECURE 0x04
 
 __BEGIN_DECLS
 

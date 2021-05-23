@@ -74,7 +74,7 @@ LC_MONETARY
 int_curr_symbol           "EUR "
 currency_symbol           "<U20AC>"
 mon_decimal_point         ","
-mon_thousands_sep         "<U202F>"
+mon_thousands_sep         "."
 mon_grouping              3;3
 positive_sign             ""
 negative_sign             "-"
@@ -83,15 +83,15 @@ frac_digits               2
 p_cs_precedes             1
 p_sep_by_space            1
 n_cs_precedes             1
-n_sep_by_space            1
+n_sep_by_space            2
 p_sign_posn               1
-n_sign_posn               2
+n_sign_posn               4
 END LC_MONETARY
 
 LC_NUMERIC
 decimal_point             ","
-thousands_sep             ""
-grouping                  0;0
+thousands_sep             "."
+grouping                  3;3
 END LC_NUMERIC
 
 LC_TIME
@@ -150,6 +150,11 @@ END LC_MEASUREMENT
 
 LC_NAME
 name_fmt    "%d%t%g%t%m%t%f"
+name_gen    "heer of mevrouw"
+name_mr     "heer"
+name_mrs    "mevrouw"
+name_miss   "mevrouw"
+name_ms     "mevrouw"
 END LC_NAME
 
 LC_ADDRESS

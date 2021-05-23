@@ -44,7 +44,7 @@ country_ab3 "BEL"
 country_num 056
 country_isbn "2"
 country_car  "B"
-lang_name "Walon"
+lang_name "walon"
 lang_ab      "wa"
 lang_term    "wln"
 lang_lib     "wln"
@@ -160,7 +160,8 @@ mon     "di djanv<U00EE>";/
         "di n<U00F4>vimbe";/
         "di decimbe"
 
-d_t_fmt "Li %A %d %B %Y %T %Z"
+d_t_fmt  "Li %A %d %B %Y %T"
+date_fmt "Li %A %d %B %Y %T %Z"
 % Chal, ça va
 d_fmt   "%d//%m//%Y"
 t_fmt   "%H:%M:%S"

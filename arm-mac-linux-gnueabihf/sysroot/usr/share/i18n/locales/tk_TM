@@ -323,7 +323,8 @@ abmon   "<U00DD>an";"Few";/
 % date  dd.mm.yyyy %d.%m.%Y %T
 % time  hh:mm:ss (24 hour - no am/pm)
 %
-d_t_fmt "%d.%m.%Y %T"
+d_t_fmt   "%d.%m.%Y %T"
+date_fmt  "%d.%m.%Y %T %Z"
 d_fmt     "%d.%m.%Y"
 t_fmt     "%T"
 am_pm     "";""
@@ -399,7 +400,7 @@ country_num  795
 country_ab2 "TM"
 country_ab3 "TKM"
 % Türkmençe
-lang_name   "t<U00FC>rkmen<U00E7>e"
+lang_name   "t<U00FC>rkmen dili"
 lang_term   "tuk"
 lang_lib    "tuk"
 lang_ab     "tk"

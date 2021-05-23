@@ -1,5 +1,5 @@
 /* This file defines standard ELF types, structures, and macros.
-   Copyright (C) 1995-2019 Free Software Foundation, Inc.
+   Copyright (C) 1995-2021 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -14,14 +14,10 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
+   <https://www.gnu.org/licenses/>.  */
 
 #ifndef _ELF_H
 #define	_ELF_H 1
-
-#include <features.h>
-
-__BEGIN_DECLS
 
 /* Standard ELF types.  */
 
@@ -322,7 +318,7 @@ typedef struct
 				/* reserved 184 */
 #define EM_AVR32	185	/* Amtel 32-bit microprocessor */
 #define EM_STM8		186	/* STMicroelectronics STM8 */
-#define EM_TILE64	187	/* Tileta TILE64 */
+#define EM_TILE64	187	/* Tilera TILE64 */
 #define EM_TILEPRO	188	/* Tilera TILEPro */
 #define EM_MICROBLAZE	189	/* Xilinx MicroBlaze */
 #define EM_CUDA		190	/* NVIDIA CUDA */
@@ -330,7 +326,7 @@ typedef struct
 #define EM_CLOUDSHIELD	192	/* CloudShield */
 #define EM_COREA_1ST	193	/* KIPO-KAIST Core-A 1st gen. */
 #define EM_COREA_2ND	194	/* KIPO-KAIST Core-A 2nd gen. */
-#define EM_ARC_COMPACT2	195	/* Synopsys ARCompact V2 */
+#define EM_ARCV2	195	/* Synopsys ARCv2 ISA.  */
 #define EM_OPEN8	196	/* Open8 RISC */
 #define EM_RL78		197	/* Renesas RL78 */
 #define EM_VIDEOCORE5	198	/* Broadcom VideoCore V */
@@ -360,7 +356,7 @@ typedef struct
 #define EM_RISCV	243	/* RISC-V */
 
 #define EM_BPF		247	/* Linux BPF -- in-kernel virtual machine */
-#define EM_CSKY		252     /* C_SKY */
+#define EM_CSKY		252     /* C-SKY */
 
 #define EM_NUM		253
 
@@ -445,7 +441,7 @@ typedef struct
 #define SHT_FINI_ARRAY	  15		/* Array of destructors */
 #define SHT_PREINIT_ARRAY 16		/* Array of pre-constructors */
 #define SHT_GROUP	  17		/* Section group */
-#define SHT_SYMTAB_SHNDX  18		/* Extended section indeces */
+#define SHT_SYMTAB_SHNDX  18		/* Extended section indices */
 #define	SHT_NUM		  19		/* Number of defined types.  */
 #define SHT_LOOS	  0x60000000	/* Start OS-specific.  */
 #define SHT_GNU_ATTRIBUTES 0x6ffffff5	/* Object attributes.  */
@@ -482,6 +478,7 @@ typedef struct
 #define SHF_COMPRESSED	     (1 << 11)	/* Section with compressed data. */
 #define SHF_MASKOS	     0x0ff00000	/* OS-specific.  */
 #define SHF_MASKPROC	     0xf0000000	/* Processor-specific */
+#define SHF_GNU_RETAIN	     (1 << 21)  /* Not to be GCed by linker.  */
 #define SHF_ORDERED	     (1 << 30)	/* Special ordering requirement
 					   (Solaris).  */
 #define SHF_EXCLUDE	     (1U << 31)	/* Section is excluded unless
@@ -721,6 +718,7 @@ typedef struct
 #define PT_GNU_EH_FRAME	0x6474e550	/* GCC .eh_frame_hdr segment */
 #define PT_GNU_STACK	0x6474e551	/* Indicates stack executability */
 #define PT_GNU_RELRO	0x6474e552	/* Read-only after relocation */
+#define PT_GNU_PROPERTY	0x6474e553	/* GNU property */
 #define PT_LOSUNW	0x6ffffffa
 #define PT_SUNWBSS	0x6ffffffa	/* Sun Specific segment */
 #define PT_SUNWSTACK	0x6ffffffb	/* Stack segment */
@@ -809,9 +807,16 @@ typedef struct
 #define NT_ARM_SYSTEM_CALL	0x404	/* ARM system call number */
 #define NT_ARM_SVE	0x405		/* ARM Scalable Vector Extension
 					   registers */
+#define NT_ARM_PAC_MASK	0x406		/* ARM pointer authentication
+					   code masks.  */
+#define NT_ARM_PACA_KEYS	0x407	/* ARM pointer authentication
+					   address keys.  */
+#define NT_ARM_PACG_KEYS	0x408	/* ARM pointer authentication
+					   generic key.  */
 #define NT_VMCOREDD	0x700		/* Vmcore Device Dump Note.  */
 #define NT_MIPS_DSP	0x800		/* MIPS DSP ASE registers.  */
 #define NT_MIPS_FP_MODE	0x801		/* MIPS floating-point mode.  */
+#define NT_MIPS_MSA	0x802		/* MIPS SIMD registers.  */
 
 /* Legal values for the note segment descriptor types for object files.  */
 
@@ -987,6 +992,9 @@ typedef struct
 #define	DF_1_SINGLETON	0x02000000	/* Singleton symbols are used.  */
 #define	DF_1_STUB	0x04000000
 #define	DF_1_PIE	0x08000000
+#define	DF_1_KMOD       0x10000000
+#define	DF_1_WEAKFILTER 0x20000000
+#define	DF_1_NOCOMMON   0x40000000
 
 /* Flags for the feature selection in DT_FEATURE_1.  */
 #define DTF_1_PARINIT	0x00000001
@@ -1039,7 +1047,7 @@ typedef struct
 #define	VER_NDX_LORESERVE	0xff00	/* Beginning of reserved entries.  */
 #define	VER_NDX_ELIMINATE	0xff01	/* Symbol is to be eliminated.  */
 
-/* Auxialiary version information.  */
+/* Auxiliary version information.  */
 
 typedef struct
 {
@@ -1308,33 +1316,34 @@ typedef struct
 /* Application-specific semantics, hi */
 #define GNU_PROPERTY_HIUSER			0xffffffff
 
+/* AArch64 specific GNU properties.  */
+#define GNU_PROPERTY_AARCH64_FEATURE_1_AND	0xc0000000
+
+#define GNU_PROPERTY_AARCH64_FEATURE_1_BTI	(1U << 0)
+#define GNU_PROPERTY_AARCH64_FEATURE_1_PAC	(1U << 1)
+
 /* The x86 instruction sets indicated by the corresponding bits are
    used in program.  Their support in the hardware is optional.  */
-#define GNU_PROPERTY_X86_ISA_1_USED		0xc0000000
+#define GNU_PROPERTY_X86_ISA_1_USED		0xc0010002
 /* The x86 instruction sets indicated by the corresponding bits are
    used in program and they must be supported by the hardware.   */
-#define GNU_PROPERTY_X86_ISA_1_NEEDED		0xc0000001
+#define GNU_PROPERTY_X86_ISA_1_NEEDED		0xc0008002
 /* X86 processor-specific features used in program.  */
 #define GNU_PROPERTY_X86_FEATURE_1_AND		0xc0000002
 
-#define GNU_PROPERTY_X86_ISA_1_486		(1U << 0)
-#define GNU_PROPERTY_X86_ISA_1_586		(1U << 1)
-#define GNU_PROPERTY_X86_ISA_1_686		(1U << 2)
-#define GNU_PROPERTY_X86_ISA_1_SSE		(1U << 3)
-#define GNU_PROPERTY_X86_ISA_1_SSE2		(1U << 4)
-#define GNU_PROPERTY_X86_ISA_1_SSE3		(1U << 5)
-#define GNU_PROPERTY_X86_ISA_1_SSSE3		(1U << 6)
-#define GNU_PROPERTY_X86_ISA_1_SSE4_1		(1U << 7)
-#define GNU_PROPERTY_X86_ISA_1_SSE4_2		(1U << 8)
-#define GNU_PROPERTY_X86_ISA_1_AVX		(1U << 9)
-#define GNU_PROPERTY_X86_ISA_1_AVX2		(1U << 10)
-#define GNU_PROPERTY_X86_ISA_1_AVX512F		(1U << 11)
-#define GNU_PROPERTY_X86_ISA_1_AVX512CD		(1U << 12)
-#define GNU_PROPERTY_X86_ISA_1_AVX512ER		(1U << 13)
-#define GNU_PROPERTY_X86_ISA_1_AVX512PF		(1U << 14)
-#define GNU_PROPERTY_X86_ISA_1_AVX512VL		(1U << 15)
-#define GNU_PROPERTY_X86_ISA_1_AVX512DQ		(1U << 16)
-#define GNU_PROPERTY_X86_ISA_1_AVX512BW		(1U << 17)
+/* GNU_PROPERTY_X86_ISA_1_BASELINE: CMOV, CX8 (cmpxchg8b), FPU (fld),
+   MMX, OSFXSR (fxsave), SCE (syscall), SSE and SSE2.  */
+#define GNU_PROPERTY_X86_ISA_1_BASELINE		(1U << 0)
+/* GNU_PROPERTY_X86_ISA_1_V2: GNU_PROPERTY_X86_ISA_1_BASELINE,
+   CMPXCHG16B (cmpxchg16b), LAHF-SAHF (lahf), POPCNT (popcnt), SSE3,
+   SSSE3, SSE4.1 and SSE4.2.  */
+#define GNU_PROPERTY_X86_ISA_1_V2		(1U << 1)
+/* GNU_PROPERTY_X86_ISA_1_V3: GNU_PROPERTY_X86_ISA_1_V2, AVX, AVX2, BMI1,
+   BMI2, F16C, FMA, LZCNT, MOVBE, XSAVE.  */
+#define GNU_PROPERTY_X86_ISA_1_V3		(1U << 2)
+/* GNU_PROPERTY_X86_ISA_1_V4: GNU_PROPERTY_X86_ISA_1_V3, AVX512F,
+   AVX512BW, AVX512CD, AVX512DQ and AVX512VL.  */
+#define GNU_PROPERTY_X86_ISA_1_V4		(1U << 3)
 
 /* This indicates that all executable sections are compatible with
    IBT.  */
@@ -1705,6 +1714,7 @@ typedef struct
 #define SHT_MIPS_EH_REGION	0x70000027
 #define SHT_MIPS_XLATE_OLD	0x70000028
 #define SHT_MIPS_PDR_EXCEPTION	0x70000029
+#define SHT_MIPS_XHASH		0x7000002b
 
 /* Legal values for sh_flags field of Elf32_Shdr.  */
 
@@ -1952,7 +1962,9 @@ typedef struct
    in a PIE as it stores a relative offset from the address of the tag
    rather than an absolute address.  */
 #define DT_MIPS_RLD_MAP_REL  0x70000035
-#define DT_MIPS_NUM	     0x36
+/* GNU-style hash table with xlat.  */
+#define DT_MIPS_XHASH	     0x70000036
+#define DT_MIPS_NUM	     0x37
 
 /* Legal values for DT_MIPS_FLAGS Elf32_Dyn entry.  */
 
@@ -2123,9 +2135,9 @@ enum
 #define EFA_PARISC_1_1		    0x0210 /* PA-RISC 1.1 big-endian.  */
 #define EFA_PARISC_2_0		    0x0214 /* PA-RISC 2.0 big-endian.  */
 
-/* Additional section indeces.  */
+/* Additional section indices.  */
 
-#define SHN_PARISC_ANSI_COMMON	0xff00	   /* Section for tenatively declared
+#define SHN_PARISC_ANSI_COMMON	0xff00	   /* Section for tentatively declared
 					      symbols in ANSI C.  */
 #define SHN_PARISC_HUGE_COMMON	0xff01	   /* Common blocks in huge model.  */
 
@@ -2854,6 +2866,15 @@ enum
 #define R_AARCH64_TLSDESC      1031	/* TLS Descriptor.  */
 #define R_AARCH64_IRELATIVE	1032	/* STT_GNU_IFUNC relocation.  */
 
+/* AArch64 specific values for the Dyn d_tag field.  */
+#define DT_AARCH64_BTI_PLT	(DT_LOPROC + 1)
+#define DT_AARCH64_PAC_PLT	(DT_LOPROC + 3)
+#define DT_AARCH64_VARIANT_PCS	(DT_LOPROC + 5)
+#define DT_AARCH64_NUM		6
+
+/* AArch64 specific values for the st_other field.  */
+#define STO_AARCH64_VARIANT_PCS 0x80
+
 /* ARM relocs.  */
 
 #define R_ARM_NONE		0	/* No reloc */
@@ -3022,7 +3043,7 @@ enum
 /* Keep this the last entry.  */
 #define R_ARM_NUM		256
 
-/* csky */
+/* C-SKY */
 #define R_CKCORE_NONE               0	/* no reloc */
 #define R_CKCORE_ADDR32             1	/* direct 32 bit (S + A) */
 #define R_CKCORE_PCRELIMM8BY4       2	/* disp ((S + A - P) >> 2) & 0xff   */
@@ -3085,6 +3106,17 @@ enum
 #define R_CKCORE_TLS_DTPMOD32       56
 #define R_CKCORE_TLS_DTPOFF32       57
 #define R_CKCORE_TLS_TPOFF32        58
+
+/* C-SKY elf header definition.  */
+#define EF_CSKY_ABIMASK		    0XF0000000
+#define EF_CSKY_OTHER		    0X0FFF0000
+#define EF_CSKY_PROCESSOR	    0X0000FFFF
+
+#define EF_CSKY_ABIV1		    0X10000000
+#define EF_CSKY_ABIV2		    0X20000000
+
+/* C-SKY attributes section.  */
+#define SHT_CSKY_ATTRIBUTES	    (SHT_LOPROC + 1)
 
 /* IA-64 specific declarations.  */
 
@@ -3915,8 +3947,9 @@ enum
 #define R_RISCV_SET16		55
 #define R_RISCV_SET32		56
 #define R_RISCV_32_PCREL	57
+#define R_RISCV_IRELATIVE	58
 
-#define R_RISCV_NUM		58
+#define R_RISCV_NUM		59
 
 /* BPF specific declarations.  */
 
@@ -3933,7 +3966,7 @@ enum
 #define R_METAG_RELBRANCH	4
 #define R_METAG_GETSETOFF	5
 
-/* Backward compatability */
+/* Backward compatibility */
 #define R_METAG_REG32OP1	6
 #define R_METAG_REG32OP2	7
 #define R_METAG_REG32OP3	8
@@ -3996,6 +4029,72 @@ enum
 #define R_NDS32_TLS_TPOFF	102
 #define R_NDS32_TLS_DESC	119
 
-__END_DECLS
+/* ARCompact/ARCv2 specific relocs.  */
+#define R_ARC_NONE		0x0
+#define R_ARC_8			0x1
+#define R_ARC_16		0x2
+#define R_ARC_24		0x3
+#define R_ARC_32		0x4
+#define R_ARC_B26		0x5
+#define R_ARC_B22_PCREL		0x6
+#define R_ARC_H30		0x7
+#define R_ARC_N8		0x8
+#define R_ARC_N16		0x9
+#define R_ARC_N24		0xA
+#define R_ARC_N32		0xB
+#define R_ARC_SDA		0xC
+#define R_ARC_SECTOFF		0xD
+#define R_ARC_S21H_PCREL	0xE
+#define R_ARC_S21W_PCREL	0xF
+#define R_ARC_S25H_PCREL	0x10
+#define R_ARC_S25W_PCREL	0x11
+#define R_ARC_SDA32		0x12
+#define R_ARC_SDA_LDST		0x13
+#define R_ARC_SDA_LDST1		0x14
+#define R_ARC_SDA_LDST2		0x15
+#define R_ARC_SDA16_LD		0x16
+#define R_ARC_SDA16_LD1		0x17
+#define R_ARC_SDA16_LD2		0x18
+#define R_ARC_S13_PCREL		0x19
+#define R_ARC_W			0x1A
+#define R_ARC_32_ME		0x1B
+#define R_ARC_N32_ME		0x1C
+#define R_ARC_SECTOFF_ME	0x1D
+#define R_ARC_SDA32_ME		0x1E
+#define R_ARC_W_ME		0x1F
+#define R_ARC_H30_ME		0x20
+#define R_ARC_SECTOFF_U8	0x21
+#define R_ARC_SECTOFF_S9	0x22
+#define R_AC_SECTOFF_U8		0x23
+#define R_AC_SECTOFF_U8_1	0x24
+#define R_AC_SECTOFF_U8_2	0x25
+#define R_AC_SECTOFF_S9		0x26
+#define R_AC_SECTOFF_S9_1	0x27
+#define R_AC_SECTOFF_S9_2	0x28
+#define R_ARC_SECTOFF_ME_1	0x29
+#define R_ARC_SECTOFF_ME_2	0x2A
+#define R_ARC_SECTOFF_1		0x2B
+#define R_ARC_SECTOFF_2		0x2C
+#define R_ARC_PC32		0x32
+#define R_ARC_GOTPC32		0x33
+#define R_ARC_PLT32		0x34
+#define R_ARC_COPY		0x35
+#define R_ARC_GLOB_DAT		0x36
+#define R_ARC_JUMP_SLOT		0x37
+#define R_ARC_RELATIVE		0x38
+#define R_ARC_GOTOFF		0x39
+#define R_ARC_GOTPC		0x3A
+#define R_ARC_GOT32		0x3B
+
+#define R_ARC_TLS_DTPMOD	0x42
+#define R_ARC_TLS_DTPOFF	0x43
+#define R_ARC_TLS_TPOFF		0x44
+#define R_ARC_TLS_GD_GOT	0x45
+#define R_ARC_TLS_GD_LD	        0x46
+#define R_ARC_TLS_GD_CALL	0x47
+#define R_ARC_TLS_IE_GOT	0x48
+#define R_ARC_TLS_DTPOFF_S9	0x4a
+#define R_ARC_TLS_LE_S9		0x4a
+#define R_ARC_TLS_LE_32		0x4b
 
 #endif	/* elf.h */

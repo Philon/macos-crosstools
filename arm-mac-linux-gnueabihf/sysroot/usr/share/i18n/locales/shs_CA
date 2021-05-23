@@ -8,7 +8,7 @@ escape_char /
 % exempt you from the conditions of the license if your use would
 % otherwise be governed by that license.
 
-% Secwepemctsin (Shuswap) language locale for Canada
+% Shuswap language locale for Canada
 % sorting according to CAN/CSA-Z243.4.1-1992
 % Source: Neskie Manuel
 % Address: 745 Ska-Hiish Dr
@@ -25,14 +25,14 @@ escape_char /
 % Users: general
 
 LC_IDENTIFICATION
-title      "Secwepemctsin locale for Canada"
+title      "Shuswap locale for Canada"
 source     "Neskie Manuel"
 address    "745 Ska-Hiish Dr, Chase BC V0E 1M3"
 contact    ""
 email      "bug-glibc-locales@gnu.org"
 tel        ""
 fax        ""
-language   "Secwepemctsin"
+language   "Shuswap"
 territory  "Canada"
 revision   "1.0"
 date       "2008-01-15"
@@ -120,7 +120,8 @@ mon        "Pellkwet<U0313>min";/
        "Pesllw<U00E9>lsten";/
        "Pellc7ell7<U00E9>7llcwten<U0313>";/
        "Pelltet<U00E9>tq<U0313>em"
-d_t_fmt    "%a %d %b %Y %r %Z"
+d_t_fmt    "%a %d %b %Y %r"
+date_fmt   "%a %d %b %Y %r %Z"
 d_fmt      "%d//%m//%y"
 t_fmt      "%r"
 am_pm      "AM";"PM"
@@ -155,7 +156,7 @@ country_ab2 "CA"
 country_ab3 "CAN"
 country_num 124
 country_car    "CDN"
-lang_name "Secwepemctsin"
+lang_name "Secwepemcts<U00ED>n"
 lang_term "shs"
 lang_lib "shs"
 END LC_ADDRESS

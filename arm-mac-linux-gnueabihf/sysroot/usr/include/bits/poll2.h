@@ -1,5 +1,5 @@
 /* Checking macros for poll functions.
-   Copyright (C) 2012-2019 Free Software Foundation, Inc.
+   Copyright (C) 2012-2021 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
+   <https://www.gnu.org/licenses/>.  */
 
 #ifndef _SYS_POLL_H
 # error "Never include <bits/poll2.h> directly; use <sys/poll.h> instead."
@@ -35,12 +35,13 @@ extern int __REDIRECT (__poll_chk_warn, (struct pollfd *__fds, nfds_t __nfds,
 __fortify_function int
 poll (struct pollfd *__fds, nfds_t __nfds, int __timeout)
 {
-  if (__bos (__fds) != (__SIZE_TYPE__) -1)
+  if (__glibc_objsize (__fds) != (__SIZE_TYPE__) -1)
     {
       if (! __builtin_constant_p (__nfds))
-	return __poll_chk (__fds, __nfds, __timeout, __bos (__fds));
-      else if (__bos (__fds) / sizeof (*__fds) < __nfds)
-	return __poll_chk_warn (__fds, __nfds, __timeout, __bos (__fds));
+	return __poll_chk (__fds, __nfds, __timeout, __glibc_objsize (__fds));
+      else if (__glibc_objsize (__fds) / sizeof (*__fds) < __nfds)
+	return __poll_chk_warn (__fds, __nfds, __timeout,
+				__glibc_objsize (__fds));
     }
 
   return __poll_alias (__fds, __nfds, __timeout);
@@ -65,13 +66,14 @@ __fortify_function int
 ppoll (struct pollfd *__fds, nfds_t __nfds, const struct timespec *__timeout,
        const __sigset_t *__ss)
 {
-  if (__bos (__fds) != (__SIZE_TYPE__) -1)
+  if (__glibc_objsize (__fds) != (__SIZE_TYPE__) -1)
     {
       if (! __builtin_constant_p (__nfds))
-	return __ppoll_chk (__fds, __nfds, __timeout, __ss, __bos (__fds));
-      else if (__bos (__fds) / sizeof (*__fds) < __nfds)
+	return __ppoll_chk (__fds, __nfds, __timeout, __ss,
+			    __glibc_objsize (__fds));
+      else if (__glibc_objsize (__fds) / sizeof (*__fds) < __nfds)
 	return __ppoll_chk_warn (__fds, __nfds, __timeout, __ss,
-				 __bos (__fds));
+				 __glibc_objsize (__fds));
     }
 
   return __ppoll_alias (__fds, __nfds, __timeout, __ss);

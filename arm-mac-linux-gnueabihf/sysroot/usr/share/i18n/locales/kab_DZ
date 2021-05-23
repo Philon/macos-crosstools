@@ -89,7 +89,10 @@ abday "Ace";/
       "Sed"
 %
 % Appropriate date and time representation
-d_t_fmt        "%a %d %b %Y %T %Z"
+d_t_fmt       "%a %d %b %Y %T"
+%
+% Appropriate date and time representation for date(1)
+date_fmt      "%a %d %b %Y %T %Z"
 % Appropriate date representation
 d_fmt         "%d//%m//%Y"
 % Appropriate time representation
@@ -154,7 +157,7 @@ END LC_NAME
 
 LC_ADDRESS
 postal_fmt   "%f%N%a%N%d%N%b%N%s %h %e %r%N%z %T%N%c%N"
-country_name "Zzayer"
+country_name "Lezzayer"
 country_ab2  "DZ"
 country_ab3  "DZA"
 country_num  012

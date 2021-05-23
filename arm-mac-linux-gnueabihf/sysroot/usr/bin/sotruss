@@ -1,5 +1,5 @@
 #! /bin/bash
-# Copyright (C) 2011-2019 Free Software Foundation, Inc.
+# Copyright (C) 2011-2021 Free Software Foundation, Inc.
 # This file is part of the GNU C Library.
 
 # The GNU C Library is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@
 
 # You should have received a copy of the GNU Lesser General Public
 # License along with the GNU C Library; if not, see
-# <http://www.gnu.org/licenses/>.
+# <https://www.gnu.org/licenses/>.
 
 # We should be able to find the translation right at the beginning.
 TEXTDOMAIN=libc
@@ -47,7 +47,7 @@ do_help() {
   echo
 
   printf $"For bug reporting instructions, please see:\\n%s.\\n" \
-    "<http://www.gnu.org/software/libc/bugs.html>"
+    "<https://www.gnu.org/software/libc/bugs.html>"
   exit 0
 }
 
@@ -71,11 +71,11 @@ do_ambiguous() {
 while test $# -gt 0; do
   case "$1" in
   --v | --ve | --ver | --vers | --versi | --versio | --version)
-    echo "sotruss (crosstool-NG 1.24.0) 2.29"
+    echo "sotruss (crosstool-NG 1.24.0.349_6d00833) 2.33"
     printf $"Copyright (C) %s Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-" "2019"
+" "2021"
     printf $"Written by %s.\n" "Ulrich Drepper"
     exit 0
     ;;

@@ -2,9 +2,9 @@
 # Ask the user about the time zone, and output the resulting TZ value to stdout.
 # Interact with the user via stderr and stdin.
 
-PKGVERSION="(crosstool-NG 1.24.0) "
-TZVERSION="2.29"
-REPORT_BUGS_TO="<http://www.gnu.org/software/libc/bugs.html>"
+PKGVERSION="(crosstool-NG 1.24.0.349_6d00833) "
+TZVERSION="2.33"
+REPORT_BUGS_TO="<https://www.gnu.org/software/libc/bugs.html>"
 
 # Contributed by Paul Eggert.  This file is in the public domain.
 

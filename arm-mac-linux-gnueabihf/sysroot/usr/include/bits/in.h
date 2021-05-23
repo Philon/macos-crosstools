@@ -1,4 +1,4 @@
-/* Copyright (C) 1991-2019 Free Software Foundation, Inc.
+/* Copyright (C) 1991-2021 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
+   <https://www.gnu.org/licenses/>.  */
 
 /* Linux version.  */
 
@@ -102,6 +102,7 @@
 #define IP_CHECKSUM     23
 #define IP_BIND_ADDRESS_NO_PORT 24
 #define IP_RECVFRAGSIZE 25
+#define IP_RECVERR_RFC4884 26
 
 /* IP_MTU_DISCOVER arguments.  */
 #define IP_PMTUDISC_DONT   0	/* Never send DF frames.  */
@@ -192,6 +193,8 @@ struct in_pktinfo
 #define IPV6_JOIN_ANYCAST	27
 #define IPV6_LEAVE_ANYCAST	28
 #define IPV6_MULTICAST_ALL	29
+#define IPV6_ROUTER_ALERT_ISOLATE 30
+#define IPV6_RECVERR_RFC4884	31
 #define IPV6_IPSEC_POLICY	34
 #define IPV6_XFRM_POLICY	35
 #define IPV6_HDRINCL		36

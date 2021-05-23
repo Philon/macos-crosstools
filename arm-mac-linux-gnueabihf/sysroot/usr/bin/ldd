@@ -1,5 +1,5 @@
 #! /bin/bash
-# Copyright (C) 1996-2019 Free Software Foundation, Inc.
+# Copyright (C) 1996-2021 Free Software Foundation, Inc.
 # This file is part of the GNU C Library.
 
 # The GNU C Library is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@
 
 # You should have received a copy of the GNU Lesser General Public
 # License along with the GNU C Library; if not, see
-# <http://www.gnu.org/licenses/>.
+# <https://www.gnu.org/licenses/>.
 
 
 # This is the `ldd' command, which lists what shared libraries are
@@ -34,11 +34,11 @@ verbose=
 while test $# -gt 0; do
   case "$1" in
   --vers | --versi | --versio | --version)
-    echo 'ldd (crosstool-NG 1.24.0) 2.29'
+    echo 'ldd (crosstool-NG 1.24.0.349_6d00833) 2.33'
     printf $"Copyright (C) %s Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-" "2019"
+" "2021"
     printf $"Written by %s and %s.
 " "Roland McGrath" "Ulrich Drepper"
     exit 0
@@ -53,7 +53,7 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
   -v, --verbose           print all information
 "
     printf $"For bug reporting instructions, please see:\\n%s.\\n" \
-      "<http://www.gnu.org/software/libc/bugs.html>"
+      "<https://www.gnu.org/software/libc/bugs.html>"
     exit 0
     ;;
   -d | --d | --da | --dat | --data | --data- | --data-r | --data-re | \
@@ -167,7 +167,7 @@ warning: you do not have execution permission for" "\`$file'" >&2
     1)
       # This can be a non-ELF binary or no binary at all.
       nonelf "$file" || {
-	echo $"	not a dynamic executable"
+	echo $"	not a dynamic executable" >&2
 	result=1
       }
       ;;

@@ -1,4 +1,4 @@
-/* Copyright (C) 1997-2019 Free Software Foundation, Inc.
+/* Copyright (C) 1997-2021 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -13,7 +13,7 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
+   <https://www.gnu.org/licenses/>.  */
 
 /*
  *	ISO C99: 7.8 Format conversion of integer types	<inttypes.h>
@@ -310,124 +310,6 @@ extern intmax_t wcstoimax (const __gwchar_t *__restrict __nptr,
 extern uintmax_t wcstoumax (const __gwchar_t *__restrict __nptr,
 			    __gwchar_t ** __restrict __endptr, int __base)
      __THROW;
-
-#ifdef __USE_EXTERN_INLINES
-
-# if __WORDSIZE == 64
-
-extern long int __strtol_internal (const char *__restrict __nptr,
-				   char **__restrict __endptr,
-				   int __base, int __group)
-  __THROW __nonnull ((1)) __wur;
-/* Like `strtol' but convert to `intmax_t'.  */
-__extern_inline intmax_t
-__NTH (strtoimax (const char *__restrict nptr, char **__restrict endptr,
-		  int base))
-{
-  return __strtol_internal (nptr, endptr, base, 0);
-}
-
-extern unsigned long int __strtoul_internal (const char *__restrict __nptr,
-					     char ** __restrict __endptr,
-					     int __base, int __group)
-  __THROW __nonnull ((1)) __wur;
-/* Like `strtoul' but convert to `uintmax_t'.  */
-__extern_inline uintmax_t
-__NTH (strtoumax (const char *__restrict nptr, char **__restrict endptr,
-		  int base))
-{
-  return __strtoul_internal (nptr, endptr, base, 0);
-}
-
-extern long int __wcstol_internal (const __gwchar_t * __restrict __nptr,
-				   __gwchar_t **__restrict __endptr,
-				   int __base, int __group)
-  __THROW __nonnull ((1)) __wur;
-/* Like `wcstol' but convert to `intmax_t'.  */
-__extern_inline intmax_t
-__NTH (wcstoimax (const __gwchar_t *__restrict nptr,
-		  __gwchar_t **__restrict endptr, int base))
-{
-  return __wcstol_internal (nptr, endptr, base, 0);
-}
-
-extern unsigned long int __wcstoul_internal (const __gwchar_t *
-					     __restrict __nptr,
-					     __gwchar_t **
-					     __restrict __endptr,
-					     int __base, int __group)
-  __THROW __nonnull ((1)) __wur;
-/* Like `wcstoul' but convert to `uintmax_t'.  */
-__extern_inline uintmax_t
-__NTH (wcstoumax (const __gwchar_t *__restrict nptr,
-		  __gwchar_t **__restrict endptr, int base))
-{
-  return __wcstoul_internal (nptr, endptr, base, 0);
-}
-
-# else /* __WORDSIZE == 32 */
-
-__extension__
-extern long long int __strtoll_internal (const char *__restrict __nptr,
-					 char **__restrict __endptr,
-					 int __base, int __group)
-  __THROW __nonnull ((1)) __wur;
-/* Like `strtol' but convert to `intmax_t'.  */
-__extern_inline intmax_t
-__NTH (strtoimax (const char *__restrict nptr, char **__restrict endptr,
-		  int base))
-{
-  return __strtoll_internal (nptr, endptr, base, 0);
-}
-
-__extension__
-extern unsigned long long int __strtoull_internal (const char *
-						   __restrict __nptr,
-						   char **
-						   __restrict __endptr,
-						   int __base,
-						   int __group)
-  __THROW __nonnull ((1)) __wur;
-/* Like `strtoul' but convert to `uintmax_t'.  */
-__extern_inline uintmax_t
-__NTH (strtoumax (const char *__restrict nptr, char **__restrict endptr,
-		  int base))
-{
-  return __strtoull_internal (nptr, endptr, base, 0);
-}
-
-__extension__
-extern long long int __wcstoll_internal (const __gwchar_t *__restrict __nptr,
-					 __gwchar_t **__restrict __endptr,
-					 int __base, int __group)
-  __THROW __nonnull ((1)) __wur;
-/* Like `wcstol' but convert to `intmax_t'.  */
-__extern_inline intmax_t
-__NTH (wcstoimax (const __gwchar_t *__restrict nptr,
-		  __gwchar_t **__restrict endptr, int base))
-{
-  return __wcstoll_internal (nptr, endptr, base, 0);
-}
-
-
-__extension__
-extern unsigned long long int __wcstoull_internal (const __gwchar_t *
-						   __restrict __nptr,
-						   __gwchar_t **
-						   __restrict __endptr,
-						   int __base,
-						   int __group)
-  __THROW __nonnull ((1)) __wur;
-/* Like `wcstoul' but convert to `uintmax_t'.  */
-__extern_inline uintmax_t
-__NTH (wcstoumax (const __gwchar_t *__restrict nptr,
-		  __gwchar_t **__restrict endptr, int base))
-{
-  return __wcstoull_internal (nptr, endptr, base, 0);
-}
-
-# endif	/* __WORDSIZE == 32	*/
-#endif	/* Use extern inlines.  */
 
 __END_DECLS
 

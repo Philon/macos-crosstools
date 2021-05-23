@@ -1,4 +1,4 @@
-/* Copyright (C) 1995-2019 Free Software Foundation, Inc.
+/* Copyright (C) 1995-2021 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
 
    The GNU C Library is free software; you can redistribute it and/or
@@ -13,14 +13,15 @@
 
    You should have received a copy of the GNU Lesser General Public
    License along with the GNU C Library; if not, see
-   <http://www.gnu.org/licenses/>.  */
+   <https://www.gnu.org/licenses/>.  */
 
 #ifndef _SYS_SEM_H
 # error "Never include <bits/sem.h> directly; use <sys/sem.h> instead."
 #endif
 
 #include <sys/types.h>
-#include <bits/sem-pad.h>
+#include <bits/timesize.h>
+#include <bits/types/struct_semid_ds.h>
 
 /* Flags for `semop'.  */
 #define SEM_UNDO	0x1000		/* undo the operation on exit */
@@ -33,29 +34,6 @@
 #define GETZCNT		15		/* get semzcnt */
 #define SETVAL		16		/* set semval */
 #define SETALL		17		/* set all semval's */
-
-
-#if __SEM_PAD_BEFORE_TIME
-# define __SEM_PAD_TIME(NAME, RES)				\
-  __syscall_ulong_t __glibc_reserved ## RES; __time_t NAME
-#elif __SEM_PAD_AFTER_TIME
-# define __SEM_PAD_TIME(NAME, RES)				\
-  __time_t NAME; __syscall_ulong_t __glibc_reserved ## RES
-#else
-# define __SEM_PAD_TIME(NAME, RES)		\
-  __time_t NAME
-#endif
-
-/* Data structure describing a set of semaphores.  */
-struct semid_ds
-{
-  struct ipc_perm sem_perm;		/* operation permission struct */
-  __SEM_PAD_TIME (sem_otime, 1);	/* last semop() time */
-  __SEM_PAD_TIME (sem_ctime, 2);	/* last time changed by semctl() */
-  __syscall_ulong_t sem_nsems;		/* number of semaphores in set */
-  __syscall_ulong_t __glibc_reserved3;
-  __syscall_ulong_t __glibc_reserved4;
-};
 
 /* The user should define a union like the following to use it for arguments
    for `semctl'.

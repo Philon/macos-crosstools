@@ -14,7 +14,7 @@ escape_char /
 LC_IDENTIFICATION
 title      "Dutch language locale for Aruba"
 source     "Free Software Foundation, Inc."
-address    "http:////www.gnu.org//software//libc//"
+address    "https:////www.gnu.org//software//libc//"
 contact    ""
 email      "bug-glibc-locales@gnu.org"
 tel        ""
@@ -50,7 +50,7 @@ LC_MONETARY
 int_curr_symbol     "AWG "
 currency_symbol     "Afl."
 mon_decimal_point   ","
-mon_thousands_sep   "<U202F>"
+mon_thousands_sep   "."
 mon_grouping        3;3
 positive_sign       ""
 negative_sign       "-"
@@ -59,9 +59,9 @@ frac_digits         2
 p_cs_precedes       1
 p_sep_by_space      1
 n_cs_precedes       1
-n_sep_by_space      1
+n_sep_by_space      2
 p_sign_posn         1
-n_sign_posn         2
+n_sign_posn         4
 END LC_MONETARY
 
 LC_NUMERIC

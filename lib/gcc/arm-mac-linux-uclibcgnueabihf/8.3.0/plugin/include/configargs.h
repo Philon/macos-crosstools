@@ -1,0 +1,7 @@
+/* Generated automatically. */
+static const char configuration_arguments[] = "/Users/Philon/gcc-arm/.build/arm-mac-linux-uclibcgnueabihf/src/gcc/configure --build=x86_64-build_apple-darwin20.4.0 --host=x86_64-build_apple-darwin20.4.0 --target=arm-mac-linux-uclibcgnueabihf --prefix=/Users/Philon/x-tools/arm-mac-linux-uclibcgnueabihf --with-sysroot=/Users/Philon/x-tools/arm-mac-linux-uclibcgnueabihf/arm-mac-linux-uclibcgnueabihf/sysroot --enable-languages=c,c++ --with-cpu=arm926ej-s --with-float=hard --with-pkgversion='crosstool-NG 1.24.0' --enable-__cxa_atexit --disable-libmudflap --disable-libgomp --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-libsanitizer --disable-libmpx --with-gmp=/Users/Philon/gcc-arm/.build/arm-mac-linux-uclibcgnueabihf/buildtools --with-mpfr=/Users/Philon/gcc-arm/.build/arm-mac-linux-uclibcgnueabihf/buildtools --with-mpc=/Users/Philon/gcc-arm/.build/arm-mac-linux-uclibcgnueabihf/buildtools --with-isl=/Users/Philon/gcc-arm/.build/arm-mac-linux-uclibcgnueabihf/buildtools --enable-lto --enable-threads=posix --enable-target-optspace --enable-plugin --enable-gold --disable-nls --disable-multilib --with-local-prefix=/Users/Philon/x-tools/arm-mac-linux-uclibcgnueabihf/arm-mac-linux-uclibcgnueabihf/sysroot --enable-long-long";
+static const char thread_model[] = "posix";
+
+static const struct {
+  const char *name, *value;
+} configure_default_options[] = { { "cpu", "arm926ej-s" }, { "float", "hard" }, { "tls", "gnu" } };

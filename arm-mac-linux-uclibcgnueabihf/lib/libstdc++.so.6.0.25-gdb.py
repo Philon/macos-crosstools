@@ -1,1 +1,0 @@
-../../arm-mac-linux-uclibcgnueabihf/sysroot/lib/libstdc++.so.6.0.25-gdb.py
